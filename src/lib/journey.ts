@@ -64,7 +64,7 @@ export const STATIONS: Station[] = [
     codename: "The Attention Lens",
     tagline: "Every token looks at every other token.",
     hue: 340,
-    status: "soon",
+    status: "live",
   },
   {
     num: "05",

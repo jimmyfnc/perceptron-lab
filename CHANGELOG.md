@@ -14,6 +14,21 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- **Station 04 — Transformers, "The Attention Lens"** (live):
+  - Signature interactive: 144 real GPT-2 small attention heads over six curated
+    sentences (Winograd pronouns, long-range agreement, repeated phrases, counting,
+    and one about diffusion). Hover-token arc diagram with self-attention dot,
+    BPE-subword chips (dashed seams), full T×T matrix showing the causal triangle,
+    layer/head sliders, and data-driven head finders (previous-token head, attention
+    sink, sharpest head) located per sentence by scoring all 144 heads.
+  - Weights extracted offline by `scripts/extract_attention.py` (runs in the ComfyUI
+    venv: torch + transformers) into `public/data/attention.json` (491 KB,
+    lower-triangular, fetched lazily and cached at module level).
+  - Inline figure: Q·K·V sandbox — draggable query/keys/values in 2D with live
+    softmax weight bars, the output point Σ wᵢvᵢ, and a scale dial telling the √d
+    story.
+  - `src/lib/attention.ts` (softmax, scaled dot-product attend, triangular expansion,
+    entropy, head-finder scores) with unit coverage — suite now at 77 tests.
 - **Station 02 — Neural Networks, "The Descent"** (live):
   - Signature interactive: SGD, momentum, and Adam racing down a 3D loss surface
     (three + react-three-fiber, lazy-loaded in its own chunk so the route stays light).

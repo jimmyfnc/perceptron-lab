@@ -1,8 +1,8 @@
 # TODO — Perceptron Lab
 
 Status after 2026-06-11 session: design language locked; stations 01 (Boundary Lab),
-02 (The Descent), the interlude (Two Kinds of Nearest), and 03 (Convolution Bench)
-are live end-to-end. Only 04 (Transformers) and 05 (Diffusion) remain.
+02 (The Descent), the interlude (Two Kinds of Nearest), 03 (Convolution Bench), and
+04 (Attention Lens) are live end-to-end. Only 05 (Diffusion) remains.
 Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Modules to build (in priority order)
@@ -11,11 +11,9 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 - [x] **Interlude — Two Kinds of Nearest** (`/interlude`) — live 2026-06-11
 - [x] **02 Neural Networks — The Descent** (`/neural-networks`) — live 2026-06-11
   - 3D optimizer race (three + r3f, lazy chunk), activation gallery, live MLP trainer.
-- [ ] **04 Transformers — The Attention Lens** (`/transformers`)
-  - Signature: curated sentences with real attention weights; hover-token arcs, head
-    switcher. Pre-step: extract attention from GPT-2/DistilBERT offline (Python,
-    one-off script), ship as static JSON in `public/data/`.
-  - Inline: toy Q·K·V sandbox with draggable 2D vectors → live softmax weights.
+- [x] **04 Transformers — The Attention Lens** (`/transformers`) — live 2026-06-11
+  - Real GPT-2 heads (scripts/extract_attention.py → public/data/attention.json),
+    arc diagram + causal-mask matrix + head finders, Q·K·V sandbox.
 - [ ] **05 Diffusion — The Denoising Deck** (`/diffusion`)
   - Signature: noise→image scrubber over precomputed intermediate steps; seed switcher;
     CFG comparison strip (1/4/7/12); latent-vs-pixel toggle.
