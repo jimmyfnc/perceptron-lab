@@ -1,12 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { STATIONS, stationStyle } from "@/lib/journey";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ML Academy" },
-      { name: "description", content: "Learn machine learning, deep learning, and computer vision." },
-      { property: "og:title", content: "ML Academy" },
-      { property: "og:description", content: "Learn machine learning, deep learning, and computer vision." },
+      { title: "Visionary Labs — an interactive ML field manual" },
+      {
+        name: "description",
+        content:
+          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
+      },
     ],
   }),
   component: Index,
@@ -14,39 +17,67 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
-      {/* Hero / intro section */}
-      <section className="flex flex-1 items-center justify-center px-6">
-        <div className="max-w-2xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground">
-            Machine Learning Academy
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
-            A clean slate for your ML, deep learning, and computer vision curriculum.
-          </p>
+    <div className="grid-paper">
+      <div className="mx-auto w-full max-w-3xl px-6 pb-24 pt-16 md:pt-24">
+        <p className="label-tech animate-rise">An interactive ML field manual</p>
+        <h1 className="animate-rise mt-4 font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+          Learn it by{" "}
+          <span className="text-station" style={stationStyle(305)}>
+            touching
+          </span>{" "}
+          it.
+        </h1>
+        <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
+          Five stations from classical machine learning to diffusion models — the same road I took,
+          rebuilt as instruments you can operate. Every page has one signature interactive: drag the
+          points, slide the kernels, scrub the noise. The math sticks when your hands are on it.
+        </p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/machine-learning"
-              className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Machine Learning
-            </Link>
-            <Link
-              to="/deep-learning"
-              className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Deep Learning
-            </Link>
-            <Link
-              to="/computer-vision"
-              className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Computer Vision
-            </Link>
-          </div>
-        </div>
-      </section>
+        {/* journey list */}
+        <ol className="animate-rise mt-14 [animation-delay:240ms]">
+          {STATIONS.map((s, i) => (
+            <li key={s.path} className="relative pl-8">
+              {/* spine */}
+              {i < STATIONS.length - 1 && (
+                <span aria-hidden className="absolute left-[5px] top-7 h-full w-px bg-border" />
+              )}
+              <span
+                aria-hidden
+                className="led absolute left-0 top-[26px]"
+                style={{
+                  ...stationStyle(s.hue),
+                  opacity: s.status === "live" ? 1 : 0.3,
+                }}
+              />
+              <Link
+                to={s.path}
+                style={stationStyle(s.hue)}
+                className="group mb-3 block border border-transparent px-4 py-4 transition-colors hover:border-border hover:bg-card"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="font-display text-lg font-semibold tracking-tight">
+                    <span className="readout mr-3 text-sm text-station">{s.num}</span>
+                    {s.title}
+                    <span className="ml-2 text-station transition-colors">— {s.codename}</span>
+                  </p>
+                  <span className="label-tech">
+                    {s.status === "live" ? (
+                      <span className="text-station">● live</span>
+                    ) : (
+                      "○ in fabrication"
+                    )}
+                  </span>
+                </div>
+                <p className="mt-1 font-body text-sm text-muted-foreground">{s.tagline}</p>
+              </Link>
+            </li>
+          ))}
+        </ol>
+
+        <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
+          start anywhere — station 03 is on the bench and fully powered
+        </p>
+      </div>
     </div>
   );
 }

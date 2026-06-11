@@ -12,9 +12,12 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/machine-learning", changefreq: "weekly", priority: "0.8" },
-          { path: "/deep-learning", changefreq: "weekly", priority: "0.8" },
-          { path: "/computer-vision", changefreq: "weekly", priority: "0.8" },
+          { path: "/foundations", changefreq: "weekly", priority: "0.8" },
+          { path: "/neural-networks", changefreq: "weekly", priority: "0.8" },
+          { path: "/interlude", changefreq: "weekly", priority: "0.7" },
+          { path: "/computer-vision", changefreq: "weekly", priority: "0.9" },
+          { path: "/transformers", changefreq: "weekly", priority: "0.8" },
+          { path: "/diffusion", changefreq: "weekly", priority: "0.8" },
         ];
 
         const urls = entries.map((e) =>

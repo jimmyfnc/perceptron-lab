@@ -9,25 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TransformersRouteImport } from './routes/transformers'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as MachineLearningRouteImport } from './routes/machine-learning'
-import { Route as DeepLearningRouteImport } from './routes/deep-learning'
+import { Route as NeuralNetworksRouteImport } from './routes/neural-networks'
+import { Route as InterludeRouteImport } from './routes/interlude'
+import { Route as FoundationsRouteImport } from './routes/foundations'
+import { Route as DiffusionRouteImport } from './routes/diffusion'
 import { Route as ComputerVisionRouteImport } from './routes/computer-vision'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TransformersRoute = TransformersRouteImport.update({
+  id: '/transformers',
+  path: '/transformers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MachineLearningRoute = MachineLearningRouteImport.update({
-  id: '/machine-learning',
-  path: '/machine-learning',
+const NeuralNetworksRoute = NeuralNetworksRouteImport.update({
+  id: '/neural-networks',
+  path: '/neural-networks',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeepLearningRoute = DeepLearningRouteImport.update({
-  id: '/deep-learning',
-  path: '/deep-learning',
+const InterludeRoute = InterludeRouteImport.update({
+  id: '/interlude',
+  path: '/interlude',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoundationsRoute = FoundationsRouteImport.update({
+  id: '/foundations',
+  path: '/foundations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiffusionRoute = DiffusionRouteImport.update({
+  id: '/diffusion',
+  path: '/diffusion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComputerVisionRoute = ComputerVisionRouteImport.update({
@@ -44,59 +62,87 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
-  '/deep-learning': typeof DeepLearningRoute
-  '/machine-learning': typeof MachineLearningRoute
+  '/diffusion': typeof DiffusionRoute
+  '/foundations': typeof FoundationsRoute
+  '/interlude': typeof InterludeRoute
+  '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/transformers': typeof TransformersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
-  '/deep-learning': typeof DeepLearningRoute
-  '/machine-learning': typeof MachineLearningRoute
+  '/diffusion': typeof DiffusionRoute
+  '/foundations': typeof FoundationsRoute
+  '/interlude': typeof InterludeRoute
+  '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/transformers': typeof TransformersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
-  '/deep-learning': typeof DeepLearningRoute
-  '/machine-learning': typeof MachineLearningRoute
+  '/diffusion': typeof DiffusionRoute
+  '/foundations': typeof FoundationsRoute
+  '/interlude': typeof InterludeRoute
+  '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/transformers': typeof TransformersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/computer-vision'
-    | '/deep-learning'
-    | '/machine-learning'
+    | '/diffusion'
+    | '/foundations'
+    | '/interlude'
+    | '/neural-networks'
     | '/sitemap.xml'
+    | '/transformers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/computer-vision'
-    | '/deep-learning'
-    | '/machine-learning'
+    | '/diffusion'
+    | '/foundations'
+    | '/interlude'
+    | '/neural-networks'
     | '/sitemap.xml'
+    | '/transformers'
   id:
     | '__root__'
     | '/'
     | '/computer-vision'
-    | '/deep-learning'
-    | '/machine-learning'
+    | '/diffusion'
+    | '/foundations'
+    | '/interlude'
+    | '/neural-networks'
     | '/sitemap.xml'
+    | '/transformers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComputerVisionRoute: typeof ComputerVisionRoute
-  DeepLearningRoute: typeof DeepLearningRoute
-  MachineLearningRoute: typeof MachineLearningRoute
+  DiffusionRoute: typeof DiffusionRoute
+  FoundationsRoute: typeof FoundationsRoute
+  InterludeRoute: typeof InterludeRoute
+  NeuralNetworksRoute: typeof NeuralNetworksRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TransformersRoute: typeof TransformersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/transformers': {
+      id: '/transformers'
+      path: '/transformers'
+      fullPath: '/transformers'
+      preLoaderRoute: typeof TransformersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -104,18 +150,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/machine-learning': {
-      id: '/machine-learning'
-      path: '/machine-learning'
-      fullPath: '/machine-learning'
-      preLoaderRoute: typeof MachineLearningRouteImport
+    '/neural-networks': {
+      id: '/neural-networks'
+      path: '/neural-networks'
+      fullPath: '/neural-networks'
+      preLoaderRoute: typeof NeuralNetworksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/deep-learning': {
-      id: '/deep-learning'
-      path: '/deep-learning'
-      fullPath: '/deep-learning'
-      preLoaderRoute: typeof DeepLearningRouteImport
+    '/interlude': {
+      id: '/interlude'
+      path: '/interlude'
+      fullPath: '/interlude'
+      preLoaderRoute: typeof InterludeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/foundations': {
+      id: '/foundations'
+      path: '/foundations'
+      fullPath: '/foundations'
+      preLoaderRoute: typeof FoundationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diffusion': {
+      id: '/diffusion'
+      path: '/diffusion'
+      fullPath: '/diffusion'
+      preLoaderRoute: typeof DiffusionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/computer-vision': {
@@ -138,9 +198,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComputerVisionRoute: ComputerVisionRoute,
-  DeepLearningRoute: DeepLearningRoute,
-  MachineLearningRoute: MachineLearningRoute,
+  DiffusionRoute: DiffusionRoute,
+  FoundationsRoute: FoundationsRoute,
+  InterludeRoute: InterludeRoute,
+  NeuralNetworksRoute: NeuralNetworksRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TransformersRoute: TransformersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
