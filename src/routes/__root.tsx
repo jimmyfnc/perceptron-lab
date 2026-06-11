@@ -12,6 +12,48 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const navItems = [
+  { to: "/", label: "Home" },
+  { to: "/machine-learning", label: "Machine Learning" },
+  { to: "/deep-learning", label: "Deep Learning" },
+  { to: "/computer-vision", label: "Computer Vision" },
+];
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+        <Link to="/" className="text-lg font-semibold tracking-tight text-foreground">
+          ML Academy
+        </Link>
+        <nav className="hidden gap-4 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground font-medium" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
+      <div className="mx-auto max-w-5xl px-6">
+        ML Academy &mdash; Built with Lovable
+      </div>
+    </footer>
+  );
+}
+
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,14 +119,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "ML Academy" },
+      { name: "description", content: "Learn machine learning, deep learning, and computer vision." },
+      { name: "author", content: "ML Academy" },
+      { property: "og:title", content: "ML Academy" },
+      { property: "og:description", content: "Learn machine learning, deep learning, and computer vision." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@MLAcademy" },
     ],
     links: [
       {
@@ -118,8 +160,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }
