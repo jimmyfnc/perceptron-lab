@@ -36,7 +36,7 @@ export const STATIONS: Station[] = [
     codename: "The Descent",
     tagline: "Watch optimizers race down a loss surface.",
     hue: 240,
-    status: "soon",
+    status: "live",
   },
   {
     num: "··",

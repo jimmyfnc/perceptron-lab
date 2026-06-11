@@ -1,19 +1,16 @@
 # TODO — Perceptron Lab
 
 Status after 2026-06-11 session: design language locked; stations 01 (Boundary Lab),
-the interlude (Two Kinds of Nearest), and 03 (Convolution Bench) are live end-to-end.
+02 (The Descent), the interlude (Two Kinds of Nearest), and 03 (Convolution Bench)
+are live end-to-end. Only 04 (Transformers) and 05 (Diffusion) remain.
 Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Modules to build (in priority order)
 
 - [x] **01 Foundations — The Boundary Lab** (`/foundations`) — live 2026-06-11
 - [x] **Interlude — Two Kinds of Nearest** (`/interlude`) — live 2026-06-11
-- [ ] **02 Neural Networks — The Descent** (`/neural-networks`)
-  - Signature: 3D loss surface, SGD vs momentum vs Adam racing, adjustable LRs,
-    selectable surfaces (bowl/saddle/ravine/multi-minima).
-  - Needs dep: `bun add three @react-three/fiber` — lazy-load on this route only.
-  - Inline: tiny MLP training live on 2D points; activation gallery (dead ReLU,
-    vanishing sigmoid).
+- [x] **02 Neural Networks — The Descent** (`/neural-networks`) — live 2026-06-11
+  - 3D optimizer race (three + r3f, lazy chunk), activation gallery, live MLP trainer.
 - [ ] **04 Transformers — The Attention Lens** (`/transformers`)
   - Signature: curated sentences with real attention weights; hover-token arcs, head
     switcher. Pre-step: extract attention from GPT-2/DistilBERT offline (Python,

@@ -14,6 +14,21 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- **Station 02 — Neural Networks, "The Descent"** (live):
+  - Signature interactive: SGD, momentum, and Adam racing down a 3D loss surface
+    (three + react-three-fiber, lazy-loaded in its own chunk so the route stays light).
+    Four surfaces (ravine / bowl / saddle / egg crate), shared LR dial with live
+    divergence readout, drag-to-orbit camera, click-to-re-drop, banded-contour
+    coloring with draped graph paper.
+  - Inline figures: activation gallery (f and f′ plots plus a log-scale
+    "gradient survival through 8 layers" meter — drag the input negative to kill a
+    ReLU live) and a 2→H→1 MLP training full-batch in the browser on the station 01
+    datasets, with live decision field, loss sparkline, and dead-neuron re-roll.
+  - New math libs with unit coverage: `src/lib/descent.ts` (surfaces with analytic
+    gradients, SGD/momentum/Adam steppers) and `src/lib/mlp.ts` (hand-written
+    backprop, activation zoo, vanishing-gradient chain) — suite now at 65 tests.
+  - Home-page "fully powered" footer now derives from the journey registry instead
+    of a hardcoded station list.
 - **Station 01 — Classical ML, "The Boundary Lab"** (live):
   - Signature interactive: paintable/draggable two-class KNN arena with live decision
     regions, k + noise dials, held-out test reveal with misclassification markers, and

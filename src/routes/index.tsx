@@ -75,7 +75,8 @@ function Index() {
         </ol>
 
         <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
-          start anywhere — stations 01, the interlude, and 03 are fully powered
+          start anywhere — {STATIONS.filter((s) => s.status === "live").length} of {STATIONS.length}{" "}
+          instruments are fully powered
         </p>
       </div>
     </div>
