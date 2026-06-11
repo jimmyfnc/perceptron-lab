@@ -75,7 +75,7 @@ function Index() {
         </ol>
 
         <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
-          start anywhere — station 03 is on the bench and fully powered
+          start anywhere — stations 01, the interlude, and 03 are fully powered
         </p>
       </div>
     </div>

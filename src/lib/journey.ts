@@ -27,7 +27,7 @@ export const STATIONS: Station[] = [
     codename: "The Boundary Lab",
     tagline: "Bias, variance, and why k changes everything.",
     hue: 195,
-    status: "soon",
+    status: "live",
   },
   {
     num: "02",
@@ -45,7 +45,7 @@ export const STATIONS: Station[] = [
     codename: "Interlude",
     tagline: "Nearest-neighbor scaling is not K-nearest-neighbors.",
     hue: 160,
-    status: "soon",
+    status: "live",
     interlude: true,
   },
   {

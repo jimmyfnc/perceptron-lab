@@ -1,25 +1,19 @@
 # TODO — Visionary Labs
 
-Status after 2026-06-11 session: design language locked, CNN module (station 03) live
-end-to-end. Reference implementation for all future modules: `src/routes/computer-vision.tsx`.
+Status after 2026-06-11 session: design language locked; stations 01 (Boundary Lab),
+the interlude (Two Kinds of Nearest), and 03 (Convolution Bench) are live end-to-end.
+Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Modules to build (in priority order)
 
-- [ ] **01 Foundations — The Boundary Lab** (`/foundations`)
-  - Signature: paintable/draggable 2-class point cloud; k-slider redraws KNN decision
-    boundary live; train/test error readout traces the bias-variance curve; noise dial.
-  - Inline: step-through k-means; polynomial fit with degree + λ sliders; gradient
-    descent on 2D contours.
+- [x] **01 Foundations — The Boundary Lab** (`/foundations`) — live 2026-06-11
+- [x] **Interlude — Two Kinds of Nearest** (`/interlude`) — live 2026-06-11
 - [ ] **02 Neural Networks — The Descent** (`/neural-networks`)
   - Signature: 3D loss surface, SGD vs momentum vs Adam racing, adjustable LRs,
     selectable surfaces (bowl/saddle/ravine/multi-minima).
   - Needs dep: `bun add three @react-three/fiber` — lazy-load on this route only.
   - Inline: tiny MLP training live on 2D points; activation gallery (dead ReLU,
     vanishing sigmoid).
-- [ ] **Interlude — Two Kinds of Nearest** (`/interlude`)
-  - Signature: pixel-art scaling comparison — nearest vs bilinear vs bicubic, with
-    zoom loupe. The site's origin story (see ml-refresher.md "the one that prompted
-    this doc").
 - [ ] **04 Transformers — The Attention Lens** (`/transformers`)
   - Signature: curated sentences with real attention weights; hover-token arcs, head
     switcher. Pre-step: extract attention from GPT-2/DistilBERT offline (Python,

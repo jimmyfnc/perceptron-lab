@@ -8,6 +8,25 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- **Station 01 — Classical ML, "The Boundary Lab"** (live):
+  - Signature interactive: paintable/draggable two-class KNN arena with live decision
+    regions, k + noise dials, held-out test reveal with misclassification markers, and
+    a clickable error-vs-k chart that traces the bias-variance U-curve in real time.
+  - Inline figures: polynomial ridge fit (degree + λ sliders), step-through k-means
+    with centroid trails and inertia readout, gradient descent on contour-banded
+    surfaces (ravine/bowl/twin pits) with a divergence-prone LR slider.
+- **Interlude — "Two Kinds of Nearest"** (live): hand-implemented
+  nearest/bilinear/bicubic resampling bench on a pixel-art mushroom vs a smooth
+  gradient; prose untangling NN-interpolation from KNN.
+- New math libs with full unit coverage: `src/lib/ml.ts` (seeded datasets, KNN,
+  k-means, polynomial ridge regression, gradient descent) and `src/lib/resample.ts`
+  (nearest/bilinear/bicubic over RGBA buffers) — suite now at 45 tests.
+
+### Fixed
+
+- SSR crash on `/foundations` (`ImageData is not defined`): decision-field colors are
+  now built inside the canvas effect instead of render-time memo.
+
 - **Design system ("precision instrument")** — dark graphite theme, per-station oklch
   accent hues, Chakra Petch / Newsreader / Spline Sans Mono type system, instrument
   utility classes (`.panel`, `.label-tech`, `.readout`, `.btn-tech`, `.grid-paper`).
