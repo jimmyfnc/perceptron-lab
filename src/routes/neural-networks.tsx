@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { DescentRace } from "@/components/interactives/DescentRace";
@@ -7,16 +8,12 @@ import { ActivationGallery } from "@/components/interactives/ActivationGallery";
 import { MLPTrainer } from "@/components/interactives/MLPTrainer";
 
 export const Route = createFileRoute("/neural-networks")({
-  head: () => ({
-    meta: [
-      { title: "Neural Networks — The Descent | Perceptron Lab" },
-      {
-        name: "description",
-        content:
-          "Perceptron to MLP, activations, backprop, and loss landscapes — with SGD, momentum, and Adam racing down a 3D loss surface you can steer.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/neural-networks",
+      "Neural Networks — The Descent | Perceptron Lab",
+      "Perceptron to MLP, activations, backprop, and loss landscapes — with SGD, momentum, and Adam racing down a 3D loss surface you can steer.",
+    ),
   component: NeuralNetworksPage,
 });
 

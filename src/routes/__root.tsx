@@ -12,12 +12,10 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { STATIONS, stationStyle } from "../lib/journey";
+import { OG_IMAGE, SITE_NAME } from "../lib/site";
 
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap";
-
-const OG_IMAGE =
-  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/725a8d4a-dc56-4730-af95-b2d790c723b9/id-preview-726564cb--cfd30a5a-d955-4d18-90f9-8b7feb88efc0.lovable.app-1781201327999.png";
 
 function Header() {
   return (
@@ -127,6 +125,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
       },
       { name: "author", content: "James Caldwell" },
+      { name: "theme-color", content: "#15161c" },
       { property: "og:title", content: "Perceptron Lab — an interactive ML field manual" },
       {
         property: "og:description",
@@ -134,7 +133,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
       { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Perceptron Lab — an interactive ML field manual" },
       {
@@ -145,6 +147,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: FONTS_HREF },

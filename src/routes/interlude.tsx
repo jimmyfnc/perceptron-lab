@@ -1,20 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { ScalingComparison } from "@/components/interactives/ScalingComparison";
 
 export const Route = createFileRoute("/interlude")({
-  head: () => ({
-    meta: [
-      { title: "Two Kinds of Nearest — Interlude | Perceptron Lab" },
-      {
-        name: "description",
-        content:
-          "Nearest-neighbor interpolation is not K-nearest-neighbors. A short detour through pixel-art scaling to tell them apart for good.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/interlude",
+      "Two Kinds of Nearest — Interlude | Perceptron Lab",
+      "Nearest-neighbor interpolation is not K-nearest-neighbors. A short detour through pixel-art scaling to tell them apart for good.",
+    ),
   component: InterludePage,
 });
 

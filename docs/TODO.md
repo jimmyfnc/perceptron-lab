@@ -35,6 +35,8 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 - [ ] Bolt/heart sprite pixel art could be cleaner (hand-tune `SPRITES` in conv.ts).
 - [ ] `prefers-reduced-motion` handling for sweep/rise animations.
 - [ ] Mobile pass on the Convolution Bench (panels overflow below ~380px width).
-- [ ] OG image (generate a precision-instrument card).
+- [x] OG image — `public/og.png` (home-hero capture), self-hosted, wired into og/twitter tags 2026-06-11.
+- [x] Favicon — perceptron mark (`favicon.svg` + ico + apple-touch-icon via `scripts/make_icons.py`) 2026-06-11.
+- [x] SEO — per-route canonical/og via `src/lib/site.ts`, `sitemap.xml`, robots.txt (domain: perceptronlab.com) 2026-06-11.
 - [ ] Self-host fonts if Lovable CSP or perf complains about Google Fonts.
-- [ ] Favicon + manifest still template defaults (`public/`).
+- [ ] Regenerate `public/og.png` once station 05 ships (home page will show 5/6 live).

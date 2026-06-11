@@ -1,17 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { STATIONS, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Perceptron Lab — an interactive ML field manual" },
-      {
-        name: "description",
-        content:
-          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/",
+      "Perceptron Lab — an interactive ML field manual",
+      "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
+    ),
   component: Index,
 });
 

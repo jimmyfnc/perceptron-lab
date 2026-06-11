@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { BoundaryLab } from "@/components/interactives/BoundaryLab";
@@ -8,16 +9,12 @@ import { KMeansStepper } from "@/components/interactives/KMeansStepper";
 import { DescentContours } from "@/components/interactives/DescentContours";
 
 export const Route = createFileRoute("/foundations")({
-  head: () => ({
-    meta: [
-      { title: "Classical ML — The Boundary Lab | Perceptron Lab" },
-      {
-        name: "description",
-        content:
-          "Bias, variance, overfitting, KNN, k-means, and gradient descent — taught through a draggable decision-boundary playground with live error curves.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/foundations",
+      "Classical ML — The Boundary Lab | Perceptron Lab",
+      "Bias, variance, overfitting, KNN, k-means, and gradient descent — taught through a draggable decision-boundary playground with live error curves.",
+    ),
   component: FoundationsPage,
 });
 

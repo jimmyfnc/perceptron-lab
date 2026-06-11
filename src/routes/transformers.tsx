@@ -1,21 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { AttentionLens } from "@/components/interactives/AttentionLens";
 import { QKVSandbox } from "@/components/interactives/QKVSandbox";
 
 export const Route = createFileRoute("/transformers")({
-  head: () => ({
-    meta: [
-      { title: "Transformers — The Attention Lens | Perceptron Lab" },
-      {
-        name: "description",
-        content:
-          "Explore real GPT-2 attention heads over curated sentences — hover-token arcs, a head switcher, and a draggable Q·K·V sandbox that makes softmax attention tangible.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/transformers",
+      "Transformers — The Attention Lens | Perceptron Lab",
+      "Explore real GPT-2 attention heads over curated sentences — hover-token arcs, a head switcher, and a draggable Q·K·V sandbox that makes softmax attention tangible.",
+    ),
   component: TransformersPage,
 });
 

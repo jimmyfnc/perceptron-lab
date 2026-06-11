@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
+import { pageHead } from "@/lib/site";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { ConvolutionBench } from "@/components/interactives/ConvolutionBench";
@@ -8,16 +9,12 @@ import { PoolingInspector } from "@/components/interactives/PoolingInspector";
 import { ReceptiveFieldTracer } from "@/components/interactives/ReceptiveFieldTracer";
 
 export const Route = createFileRoute("/computer-vision")({
-  head: () => ({
-    meta: [
-      { title: "CNNs & Computer Vision — The Convolution Bench | Perceptron Lab" },
-      {
-        name: "description",
-        content:
-          "Paint pixels, slide kernels, and watch feature maps build cell by cell. An interactive walkthrough of convolution, pooling, and feature hierarchies.",
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      "/computer-vision",
+      "CNNs & Computer Vision — The Convolution Bench | Perceptron Lab",
+      "Paint pixels, slide kernels, and watch feature maps build cell by cell. An interactive walkthrough of convolution, pooling, and feature hierarchies.",
+    ),
   component: ComputerVisionPage,
 });
 
