@@ -4,7 +4,7 @@ import { STATIONS, stationStyle } from "@/lib/journey";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visionary Labs — an interactive ML field manual" },
+      { title: "Perceptron Lab — an interactive ML field manual" },
       {
         name: "description",
         content:

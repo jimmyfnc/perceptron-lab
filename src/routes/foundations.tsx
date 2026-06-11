@@ -10,7 +10,7 @@ import { DescentContours } from "@/components/interactives/DescentContours";
 export const Route = createFileRoute("/foundations")({
   head: () => ({
     meta: [
-      { title: "Classical ML — The Boundary Lab | Visionary Labs" },
+      { title: "Classical ML — The Boundary Lab | Perceptron Lab" },
       {
         name: "description",
         content:

@@ -7,7 +7,7 @@ import { ScalingComparison } from "@/components/interactives/ScalingComparison";
 export const Route = createFileRoute("/interlude")({
   head: () => ({
     meta: [
-      { title: "Two Kinds of Nearest — Interlude | Visionary Labs" },
+      { title: "Two Kinds of Nearest — Interlude | Perceptron Lab" },
       {
         name: "description",
         content:

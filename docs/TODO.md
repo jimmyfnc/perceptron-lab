@@ -1,4 +1,4 @@
-# TODO — Visionary Labs
+# TODO — Perceptron Lab
 
 Status after 2026-06-11 session: design language locked; stations 01 (Boundary Lab),
 the interlude (Two Kinds of Nearest), and 03 (Convolution Bench) are live end-to-end.

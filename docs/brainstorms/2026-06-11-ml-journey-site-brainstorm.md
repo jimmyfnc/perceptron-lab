@@ -3,7 +3,10 @@ date: 2026-06-11
 topic: ml-journey-site
 ---
 
-# Visionary Labs — Interactive ML Education Site
+# Perceptron Lab — Interactive ML Education Site
+
+> Renamed 2026-06-11: originally brainstormed as "Visionary Labs"; rebranded to
+> Perceptron Lab (visionary-labs was taken / crowded).
 
 ## What We're Building
 

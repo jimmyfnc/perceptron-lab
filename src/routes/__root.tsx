@@ -22,7 +22,7 @@ function Header() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-6">
         <Link to="/" className="flex items-baseline gap-2 whitespace-nowrap">
           <span className="font-display text-sm font-bold uppercase tracking-[0.22em]">
-            Visionary&nbsp;Labs
+            Perceptron&nbsp;Lab
           </span>
           <span className="label-tech hidden xl:inline">/ ml field manual</span>
         </Link>
@@ -50,7 +50,7 @@ function Footer() {
   return (
     <footer className="border-t border-border py-8">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6">
-        <span className="label-tech">Visionary Labs — an interactive ML field manual</span>
+        <span className="label-tech">Perceptron Lab — an interactive ML field manual</span>
         <span className="readout text-[11px] text-muted-foreground">
           built by hand · canvas + svg · no chart libraries
         </span>
@@ -117,14 +117,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Visionary Labs — an interactive ML field manual" },
+      { title: "Perceptron Lab — an interactive ML field manual" },
       {
         name: "description",
         content:
           "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
       },
       { name: "author", content: "James Caldwell" },
-      { property: "og:title", content: "Visionary Labs — an interactive ML field manual" },
+      { property: "og:title", content: "Perceptron Lab — an interactive ML field manual" },
       {
         property: "og:description",
         content:

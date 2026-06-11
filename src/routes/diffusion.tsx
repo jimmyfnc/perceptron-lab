@@ -5,7 +5,7 @@ import { StationStub } from "@/components/site/StationStub";
 export const Route = createFileRoute("/diffusion")({
   head: () => ({
     meta: [
-      { title: "Diffusion — The Denoising Deck | Visionary Labs" },
+      { title: "Diffusion — The Denoising Deck | Perceptron Lab" },
       {
         name: "description",
         content:

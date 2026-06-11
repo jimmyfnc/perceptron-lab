@@ -1,10 +1,16 @@
 # Changelog
 
-All notable changes to Visionary Labs are documented here.
+All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
 ## 2026-06-11
+
+### Changed
+
+- **Rebrand: Visionary Labs → Perceptron Lab** ("visionary labs" was taken and the
+  space is crowded). Wordmark, page titles, OG/meta tags, footer, package.json name,
+  docs, and the GitHub repo/folder all renamed. Design system unchanged.
 
 ### Added
 

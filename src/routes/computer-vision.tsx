@@ -10,7 +10,7 @@ import { ReceptiveFieldTracer } from "@/components/interactives/ReceptiveFieldTr
 export const Route = createFileRoute("/computer-vision")({
   head: () => ({
     meta: [
-      { title: "CNNs & Computer Vision — The Convolution Bench | Visionary Labs" },
+      { title: "CNNs & Computer Vision — The Convolution Bench | Perceptron Lab" },
       {
         name: "description",
         content:

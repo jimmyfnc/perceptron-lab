@@ -5,7 +5,7 @@ import { StationStub } from "@/components/site/StationStub";
 export const Route = createFileRoute("/transformers")({
   head: () => ({
     meta: [
-      { title: "Transformers — The Attention Lens | Visionary Labs" },
+      { title: "Transformers — The Attention Lens | Perceptron Lab" },
       {
         name: "description",
         content:

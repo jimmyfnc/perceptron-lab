@@ -5,7 +5,7 @@ import { StationStub } from "@/components/site/StationStub";
 export const Route = createFileRoute("/neural-networks")({
   head: () => ({
     meta: [
-      { title: "Neural Networks — The Descent | Visionary Labs" },
+      { title: "Neural Networks — The Descent | Perceptron Lab" },
       {
         name: "description",
         content:

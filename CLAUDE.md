@@ -1,4 +1,4 @@
-# Visionary Labs — Interactive ML Field Manual
+# Perceptron Lab — Interactive ML Field Manual
 
 A portfolio-grade educational site teaching ML → deep learning → CNNs → transformers →
 diffusion through hand-built interactive visualizations. Hosted on **Lovable** (do not
