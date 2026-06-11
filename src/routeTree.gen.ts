@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MachineLearningRouteImport } from './routes/machine-learning'
 import { Route as DeepLearningRouteImport } from './routes/deep-learning'
 import { Route as ComputerVisionRouteImport } from './routes/computer-vision'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MachineLearningRoute = MachineLearningRouteImport.update({
   id: '/machine-learning',
   path: '/machine-learning',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/computer-vision': typeof ComputerVisionRoute
   '/deep-learning': typeof DeepLearningRoute
   '/machine-learning': typeof MachineLearningRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
   '/deep-learning': typeof DeepLearningRoute
   '/machine-learning': typeof MachineLearningRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,18 +61,30 @@ export interface FileRoutesById {
   '/computer-vision': typeof ComputerVisionRoute
   '/deep-learning': typeof DeepLearningRoute
   '/machine-learning': typeof MachineLearningRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/computer-vision' | '/deep-learning' | '/machine-learning'
+  fullPaths:
+    | '/'
+    | '/computer-vision'
+    | '/deep-learning'
+    | '/machine-learning'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/computer-vision' | '/deep-learning' | '/machine-learning'
+  to:
+    | '/'
+    | '/computer-vision'
+    | '/deep-learning'
+    | '/machine-learning'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
     | '/computer-vision'
     | '/deep-learning'
     | '/machine-learning'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -72,10 +92,18 @@ export interface RootRouteChildren {
   ComputerVisionRoute: typeof ComputerVisionRoute
   DeepLearningRoute: typeof DeepLearningRoute
   MachineLearningRoute: typeof MachineLearningRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/machine-learning': {
       id: '/machine-learning'
       path: '/machine-learning'
@@ -112,7 +140,18 @@ const rootRouteChildren: RootRouteChildren = {
   ComputerVisionRoute: ComputerVisionRoute,
   DeepLearningRoute: DeepLearningRoute,
   MachineLearningRoute: MachineLearningRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
