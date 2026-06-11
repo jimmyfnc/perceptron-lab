@@ -14,6 +14,20 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- **Station 05 — Diffusion, "The Denoising Deck"** (live — the journey is complete):
+  - Signature interactive: a real Stable Diffusion 1.5 run (the ComfyUI checkpoint,
+    sampled locally on the 4090 by `scripts/generate_diffusion_frames.py` with an
+    isolated diffusers install), all 21 DDIM states kept. Three views per state:
+    the canvas (decoded x_t), the guess (x̂₀ — the model's running prediction of the
+    finished image, recovered exactly from consecutive DDIM states), and the raw
+    64×64 latent. Three seeds, filmstrip, autoplay.
+  - Inline figures: live forward-process corruption on a procedural seascape with
+    the ᾱ schedule curve (`src/lib/diffusion.ts`); CFG strip (same noise at
+    guidance 1/4/7.5/12); latent walk (nine full runs over slerped noise); LoRA
+    rank lab (16×16 ΔW rebuilt from top-r singular directions via a hand-written
+    Jacobi SVD in `src/lib/svd.ts`).
+  - Closing "all five instruments live" outro replaces the bridge on the last page.
+  - Suite now at 100 tests.
 - **Site identity + SEO pass** (canonical domain: perceptronlab.com):
   - Favicon set in the precision-instrument language — a perceptron mark (three
     ivory inputs feeding a blue neuron): hand-written `favicon.svg`, plus

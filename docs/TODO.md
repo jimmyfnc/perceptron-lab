@@ -1,8 +1,9 @@
 # TODO — Perceptron Lab
 
-Status after 2026-06-11 session: design language locked; stations 01 (Boundary Lab),
-02 (The Descent), the interlude (Two Kinds of Nearest), 03 (Convolution Bench), and
-04 (Attention Lens) are live end-to-end. Only 05 (Diffusion) remains.
+Status after 2026-06-11 session: **all six stops live end-to-end** — 01 (Boundary
+Lab), 02 (The Descent), interlude (Two Kinds of Nearest), 03 (Convolution Bench),
+04 (Attention Lens), 05 (Denoising Deck). The journey is complete; remaining work
+is polish + possible new content tracks (see brainstorms).
 Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Modules to build (in priority order)
@@ -14,12 +15,12 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 - [x] **04 Transformers — The Attention Lens** (`/transformers`) — live 2026-06-11
   - Real GPT-2 heads (scripts/extract_attention.py → public/data/attention.json),
     arc diagram + causal-mask matrix + head finders, Q·K·V sandbox.
-- [ ] **05 Diffusion — The Denoising Deck** (`/diffusion`)
-  - Signature: noise→image scrubber over precomputed intermediate steps; seed switcher;
-    CFG comparison strip (1/4/7/12); latent-vs-pixel toggle.
-  - **Decision (2026-06-11): start with placeholder/public assets.** Later swap in
-    James's own ComfyUI exports (save every KSampler step as a frame).
-  - Inline: LoRA ΔW = A·B low-rank visual; latent interpolation walk.
+- [x] **05 Diffusion — The Denoising Deck** (`/diffusion`) — live 2026-06-11
+  - Went one better than placeholders: real SD1.5 frames generated locally from the
+    ComfyUI checkpoint (scripts/generate_diffusion_frames.py). 21-state scrubber with
+    canvas/guess/latent views, CFG strip, latent walk, LoRA rank lab (Jacobi SVD).
+  - To refresh assets (new prompt/seeds): edit the script constants and rerun with
+    PYTHONPATH=C:/Users/caldw/AppData/Local/Temp/diffusers-pkg (isolated diffusers).
 
 ## Per-module launch checklist
 
@@ -39,4 +40,4 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 - [x] Favicon — perceptron mark (`favicon.svg` + ico + apple-touch-icon via `scripts/make_icons.py`) 2026-06-11.
 - [x] SEO — per-route canonical/og via `src/lib/site.ts`, `sitemap.xml`, robots.txt (domain: perceptronlab.com) 2026-06-11.
 - [ ] Self-host fonts if Lovable CSP or perf complains about Google Fonts.
-- [ ] Regenerate `public/og.png` once station 05 ships (home page will show 5/6 live).
+- [x] Regenerate `public/og.png` with all stations live 2026-06-11.

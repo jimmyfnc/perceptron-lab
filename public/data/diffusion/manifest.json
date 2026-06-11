@@ -1,0 +1,9 @@
+{
+  "model": "sd-1.5 (v1-5-pruned-emaonly-fp16)",
+  "prompt": "a lighthouse on a rocky cliff at dusk, dramatic golden clouds, crashing waves, oil painting, warm light, highly detailed",
+  "steps": 21,
+  "seeds": 3,
+  "cfgs": [1.0, 4.0, 7.5, 12.0],
+  "walk": 9,
+  "size": 256
+}

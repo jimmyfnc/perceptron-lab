@@ -73,7 +73,7 @@ export const STATIONS: Station[] = [
     codename: "The Denoising Deck",
     tagline: "From pure noise to an image, one step at a time.",
     hue: 75,
-    status: "soon",
+    status: "live",
   },
 ];
 
