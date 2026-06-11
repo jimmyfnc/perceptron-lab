@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MachineLearningRouteImport } from './routes/machine-learning'
+import { Route as DeepLearningRouteImport } from './routes/deep-learning'
+import { Route as ComputerVisionRouteImport } from './routes/computer-vision'
 import { Route as IndexRouteImport } from './routes/index'
 
+const MachineLearningRoute = MachineLearningRouteImport.update({
+  id: '/machine-learning',
+  path: '/machine-learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeepLearningRoute = DeepLearningRouteImport.update({
+  id: '/deep-learning',
+  path: '/deep-learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComputerVisionRoute = ComputerVisionRouteImport.update({
+  id: '/computer-vision',
+  path: '/computer-vision',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,66 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/computer-vision': typeof ComputerVisionRoute
+  '/deep-learning': typeof DeepLearningRoute
+  '/machine-learning': typeof MachineLearningRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/computer-vision': typeof ComputerVisionRoute
+  '/deep-learning': typeof DeepLearningRoute
+  '/machine-learning': typeof MachineLearningRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/computer-vision': typeof ComputerVisionRoute
+  '/deep-learning': typeof DeepLearningRoute
+  '/machine-learning': typeof MachineLearningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/computer-vision' | '/deep-learning' | '/machine-learning'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/computer-vision' | '/deep-learning' | '/machine-learning'
+  id:
+    | '__root__'
+    | '/'
+    | '/computer-vision'
+    | '/deep-learning'
+    | '/machine-learning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComputerVisionRoute: typeof ComputerVisionRoute
+  DeepLearningRoute: typeof DeepLearningRoute
+  MachineLearningRoute: typeof MachineLearningRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/machine-learning': {
+      id: '/machine-learning'
+      path: '/machine-learning'
+      fullPath: '/machine-learning'
+      preLoaderRoute: typeof MachineLearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/deep-learning': {
+      id: '/deep-learning'
+      path: '/deep-learning'
+      fullPath: '/deep-learning'
+      preLoaderRoute: typeof DeepLearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/computer-vision': {
+      id: '/computer-vision'
+      path: '/computer-vision'
+      fullPath: '/computer-vision'
+      preLoaderRoute: typeof ComputerVisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +109,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComputerVisionRoute: ComputerVisionRoute,
+  DeepLearningRoute: DeepLearningRoute,
+  MachineLearningRoute: MachineLearningRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
