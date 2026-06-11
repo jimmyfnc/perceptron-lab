@@ -12,6 +12,48 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const navItems = [
+  { to: "/", label: "Home" },
+  { to: "/machine-learning", label: "Machine Learning" },
+  { to: "/deep-learning", label: "Deep Learning" },
+  { to: "/computer-vision", label: "Computer Vision" },
+];
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+        <Link to="/" className="text-lg font-semibold tracking-tight text-foreground">
+          ML Academy
+        </Link>
+        <nav className="hidden gap-4 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground font-medium" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
+      <div className="mx-auto max-w-5xl px-6">
+        ML Academy &mdash; Built with Lovable
+      </div>
+    </footer>
+  );
+}
+
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
