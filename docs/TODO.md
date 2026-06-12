@@ -29,6 +29,13 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 3. Flip the station's `status` to `"live"` in `src/lib/journey.ts`.
 4. `bun run format && bun run lint && bun run build`, then verify in browser.
 
+## Track II — The Operator's Manual (proposed)
+
+- [ ] **O1 — Prompt vs Loop, "The Feedback Bench"** — see
+      `docs/brainstorms/2026-06-12-generative-ai-track-brainstorm.md`
+      (loop player on real local-LLM transcripts, GPT-2 token sampler,
+      prompt anatomy grid, toy loop simulator).
+
 ## Site-wide polish (later)
 
 - [ ] Home page: upgrade the journey list to an animated journey _map_ (one continuous
