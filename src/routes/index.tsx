@@ -13,6 +13,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  // the interlude is a stop on the journey, not an instrument station
+  const instruments = STATIONS.filter((s) => !s.interlude);
+  const liveCount = instruments.filter((s) => s.status === "live").length;
   return (
     <div className="grid-paper">
       <div className="mx-auto w-full max-w-3xl px-6 pb-24 pt-16 md:pt-24">
@@ -72,8 +75,7 @@ function Index() {
         </ol>
 
         <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
-          start anywhere — {STATIONS.filter((s) => s.status === "live").length} of {STATIONS.length}{" "}
-          instruments are fully powered
+          start anywhere — {liveCount} of {instruments.length} instruments are fully powered
         </p>
       </div>
     </div>

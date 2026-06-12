@@ -130,14 +130,16 @@ export interface Run3 {
   diverged: boolean;
 }
 
-/** Run one optimizer for `steps` updates (stops early on divergence). */
+/** Run one optimizer for `steps` updates (stops early on divergence).
+    `bail` is small on purpose: the last pushed point is part of the drawn
+    trail, so it must stay within shouting distance of the plot window. */
 export function runOpt(
   key: OptimizerKey,
   s: Surface3,
   start: [number, number],
   lr: number,
   steps: number,
-  bail = 50,
+  bail = 12,
 ): Run3 {
   let st = initOpt(start);
   const path: [number, number, number][] = [[st.x, st.y, s.f(st.x, st.y)]];

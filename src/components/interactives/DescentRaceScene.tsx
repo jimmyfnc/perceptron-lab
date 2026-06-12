@@ -33,7 +33,8 @@ function buildMapping(s: Surface3): Mapping {
       if (v > fmax) fmax = v;
     }
   }
-  const hAt = (f: number) => ((f - fmin) / (fmax - fmin)) * HEIGHT;
+  const range = fmax - fmin || 1; // a flat surface must not divide by zero
+  const hAt = (f: number) => ((f - fmin) / range) * HEIGHT;
   return {
     hAt,
     toWorld: (x, y, f) => [((x - cx) / span) * SPAN, hAt(f), ((y - cy) / span) * SPAN],
@@ -67,29 +68,21 @@ function SurfaceMesh({
     const n = GRID_N;
     const pos = new Float32Array((n + 1) * (n + 1) * 3);
     const col = new Float32Array((n + 1) * (n + 1) * 3);
-    let fmax = -Infinity;
-    let fmin = Infinity;
-    const fs = new Float32Array((n + 1) * (n + 1));
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         const x = x0 + ((x1 - x0) * j) / n;
         const y = y0 + ((y1 - y0) * i) / n;
-        const f = s.f(x, y);
-        fs[i * (n + 1) + j] = f;
-        if (f > fmax) fmax = f;
-        if (f < fmin) fmin = f;
-        const [wx, wy, wz] = map.toWorld(x, y, f);
+        const [wx, wy, wz] = map.toWorld(x, y, s.f(x, y));
         const k = (i * (n + 1) + j) * 3;
         pos[k] = wx;
         pos[k + 1] = wy;
         pos[k + 2] = wz;
+        // bands share the mapping's normalization: t = height / HEIGHT
+        const [r, g, b] = bandColor(Math.max(0, Math.min(1, wy / HEIGHT)));
+        col[k] = r;
+        col[k + 1] = g;
+        col[k + 2] = b;
       }
-    }
-    for (let k = 0; k < fs.length; k++) {
-      const [r, g, b] = bandColor((fs[k] - fmin) / (fmax - fmin));
-      col[k * 3] = r;
-      col[k * 3 + 1] = g;
-      col[k * 3 + 2] = b;
     }
     const idx: number[] = [];
     for (let i = 0; i < n; i++) {
@@ -196,6 +189,9 @@ function Racers({
         });
         const g = new THREE.BufferGeometry();
         g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+        // start fully hidden — the drawRange effect reveals it; without this
+        // a freshly built trail paints its whole trajectory for one frame
+        g.setDrawRange(0, 1);
         const line = new THREE.Line(
           g,
           new THREE.LineBasicMaterial({ color: o.color, transparent: true, opacity: 0.85 }),

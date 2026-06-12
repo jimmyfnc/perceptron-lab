@@ -19,23 +19,37 @@ import { InstrumentPanel } from "@/components/site/InstrumentPanel";
 /* module-level cache so route revisits don't refetch 491 KB */
 let cached: AttnData | null = null;
 
-function useAttnData(): AttnData | null {
+function useAttnData(): { data: AttnData | null; failed: boolean; retry: () => void } {
   const [data, setData] = useState<AttnData | null>(cached);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     if (cached) return;
     let live = true;
     fetch("/data/attention.json")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
       .then((d: AttnData) => {
         cached = d;
         if (live) setData(d);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (live) setFailed(true);
+      });
     return () => {
       live = false;
     };
-  }, []);
-  return data;
+  }, [attempt]);
+  return {
+    data,
+    failed,
+    retry: () => {
+      setFailed(false);
+      setAttempt((n) => n + 1);
+    },
+  };
 }
 
 /* ---- token strip geometry (computed, not measured — mono font) ---- */
@@ -72,7 +86,7 @@ const FINDERS = [
 ];
 
 export function AttentionLens() {
-  const data = useAttnData();
+  const { data, failed, retry } = useAttnData();
   const [sentId, setSentId] = useState("trophy");
   const [layer, setLayer] = useState(5);
   const [head, setHead] = useState(1);
@@ -90,12 +104,26 @@ export function AttentionLens() {
 
   if (!data || !sent || !matrix) {
     return (
-      <InstrumentPanel label="The attention lens — real GPT-2 weights" readout="loading…">
-        <div className="flex h-[320px] items-center justify-center">
+      <InstrumentPanel
+        label="The attention lens — real GPT-2 weights"
+        readout={failed ? "signal lost" : "loading…"}
+      >
+        <div className="flex h-[320px] flex-col items-center justify-center gap-4">
           <p className="label-tech">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            loading 144 attention heads…
+            {failed ? (
+              "couldn't fetch the attention weights"
+            ) : (
+              <>
+                <span className="led led-pulse mr-2 inline-block align-middle" />
+                loading 144 attention heads…
+              </>
+            )}
           </p>
+          {failed && (
+            <button className="btn-tech" onClick={retry}>
+              retry
+            </button>
+          )}
         </div>
       </InstrumentPanel>
     );

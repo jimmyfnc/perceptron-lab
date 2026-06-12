@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { AttentionLens } from "@/components/interactives/AttentionLens";
@@ -21,25 +22,17 @@ const station = stationByPath("/transformers")!;
 function TransformersPage() {
   return (
     <div style={stationStyle(station.hue)}>
-      {/* hero */}
-      <section className="grid-paper">
-        <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
-          <p className="label-tech animate-rise">Station {station.num} · transformers</p>
-          <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+      <StationHero
+        station={station}
+        kicker="transformers"
+        title={
+          <>
             The Attention <span className="text-station">Lens</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-            A convolution gathers context a neighborhood at a time. Attention skips the wait: every
-            token gets to ask one question of every token before it, and decide for itself what
-            matters. The weights below aren&rsquo;t a diagram of that idea — they&rsquo;re pulled
-            from a real GPT-2, head by head.
-          </p>
-          <p className="label-tech animate-rise mt-8 [animation-delay:240ms]">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            instrument live — hover the tokens · switch heads · try the finders
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lede="A convolution gathers context a neighborhood at a time. Attention skips the wait: every token gets to ask one question of every token before it, and decide for itself what matters. The weights below aren't a diagram of that idea — they're pulled from a real GPT-2, head by head."
+        status="instrument live — hover the tokens · switch heads · try the finders"
+      />
 
       {/* signature interactive */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">

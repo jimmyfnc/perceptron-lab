@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { alphaBars, betaSchedule, gaussianField, noisyMix, snr } from "./diffusion";
+import { alphaBars, betaSchedule, gaussianField, noisyMix } from "./diffusion";
 
 describe("schedule", () => {
   it("betas rise linearly from 1e-4 to 0.02", () => {
@@ -14,11 +14,6 @@ describe("schedule", () => {
     expect(a[0]).toBeCloseTo(1 - 1e-4, 6);
     for (let t = 1; t < 1000; t++) expect(a[t]).toBeLessThan(a[t - 1]);
     expect(a[999]).toBeLessThan(0.001); // nearly pure noise at the end
-  });
-
-  it("snr is signal over noise", () => {
-    expect(snr(0.5)).toBeCloseTo(1, 10);
-    expect(snr(0.9)).toBeGreaterThan(snr(0.1));
   });
 });
 

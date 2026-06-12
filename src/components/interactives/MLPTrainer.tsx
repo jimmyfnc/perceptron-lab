@@ -37,12 +37,14 @@ export function MLPTrainer() {
 
   const mlp = useRef<MLP | null>(null);
   const epoch = useRef(0);
+  const pauseAt = useRef(AUTO_PAUSE_AT);
   const lossHist = useRef<number[]>([]);
 
   // (re)wire the network whenever an architecture dial moves
   useEffect(() => {
     mlp.current = initMLP(hidden, act, seed * 7 + hidden);
     epoch.current = 0;
+    pauseAt.current = AUTO_PAUSE_AT;
     lossHist.current = [];
     setRunning(true);
     setTick((t) => t + 1);
@@ -61,7 +63,7 @@ export function MLPTrainer() {
       lossHist.current.push(loss);
       if (lossHist.current.length > 220) lossHist.current.shift();
       setTick((t) => t + 1);
-      if (epoch.current >= AUTO_PAUSE_AT) {
+      if (epoch.current >= pauseAt.current) {
         setRunning(false);
         return;
       }
@@ -73,20 +75,30 @@ export function MLPTrainer() {
 
   /* ---- arena canvas: probability field + points ---- */
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // scratch buffers reused every frame — this effect runs per training tick
+  const scratch = useRef<{ img: ImageData; off: HTMLCanvasElement } | null>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     const m = mlp.current;
     if (!canvas || !m) return;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = SIZE * dpr;
-    canvas.height = SIZE * dpr;
+    if (canvas.width !== SIZE * dpr) {
+      canvas.width = SIZE * dpr;
+      canvas.height = SIZE * dpr;
+    }
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, SIZE, SIZE);
 
+    if (!scratch.current) {
+      const off = document.createElement("canvas");
+      off.width = FIELD;
+      off.height = FIELD;
+      scratch.current = { img: new ImageData(FIELD, FIELD), off };
+    }
     // alpha tracks confidence, so the decision boundary shows as a dark seam
-    const img = new ImageData(FIELD, FIELD);
+    const { img, off } = scratch.current;
     for (let gy = 0; gy < FIELD; gy++) {
       for (let gx = 0; gx < FIELD; gx++) {
         const p = mlpProb(m, (gx + 0.5) / FIELD, (gy + 0.5) / FIELD);
@@ -98,9 +110,6 @@ export function MLPTrainer() {
         img.data[i * 4 + 3] = Math.round(Math.abs(p - 0.5) * 2 * 88);
       }
     }
-    const off = document.createElement("canvas");
-    off.width = FIELD;
-    off.height = FIELD;
     off.getContext("2d")!.putImageData(img, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.drawImage(off, 0, 0, SIZE, SIZE);
@@ -211,8 +220,9 @@ export function MLPTrainer() {
             <button
               className="btn-tech"
               onClick={() => {
-                if (!running && epoch.current >= AUTO_PAUSE_AT) {
-                  epoch.current = 0; // give a finished run another lap
+                if (!running && epoch.current >= pauseAt.current) {
+                  // another lap — keep the true epoch count honest
+                  pauseAt.current = epoch.current + AUTO_PAUSE_AT;
                 }
                 setRunning((r) => !r);
               }}

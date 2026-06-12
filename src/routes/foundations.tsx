@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { BoundaryLab } from "@/components/interactives/BoundaryLab";
@@ -23,27 +24,17 @@ const station = stationByPath("/foundations")!;
 function FoundationsPage() {
   return (
     <div style={stationStyle(station.hue)}>
-      {/* hero */}
-      <section className="grid-paper">
-        <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
-          <p className="label-tech animate-rise">
-            Station {station.num} · classical machine learning
-          </p>
-          <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+      <StationHero
+        station={station}
+        kicker="classical machine learning"
+        title={
+          <>
             The Boundary <span className="text-station">Lab</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-            Every classifier draws a line between classes — the whole game is how wiggly to let that
-            line get. Below, the line belongs to k-nearest-neighbors and the wiggle dial is k. Drag
-            points, add your own, and watch the bias–variance tradeoff stop being an equation and
-            start being a feeling.
-          </p>
-          <p className="label-tech animate-rise mt-8 [animation-delay:240ms]">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            instrument live — drag points · sweep k · click the error chart
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lede="Every classifier draws a line between classes — the whole game is how wiggly to let that line get. Below, the line belongs to k-nearest-neighbors and the wiggle dial is k. Drag points, add your own, and watch the bias–variance tradeoff stop being an equation and start being a feeling."
+        status="instrument live — drag points · sweep k · click the error chart"
+      />
 
       {/* signature interactive */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">

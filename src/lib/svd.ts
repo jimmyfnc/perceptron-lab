@@ -39,7 +39,10 @@ export function svd(A: number[][]): SVD {
         off = Math.max(off, Math.abs(c) / Math.sqrt(Math.max(a * b, 1e-30)));
         if (Math.abs(c) < 1e-12) continue;
         const zeta = (b - a) / (2 * c);
-        const t = Math.sign(zeta) / (Math.abs(zeta) + Math.sqrt(1 + zeta * zeta));
+        // sign(0) would skip the rotation entirely — equal-norm correlated
+        // columns must still be rotated, so treat a tie as positive
+        const sz = zeta >= 0 ? 1 : -1;
+        const t = sz / (Math.abs(zeta) + Math.sqrt(1 + zeta * zeta));
         const cs = 1 / Math.sqrt(1 + t * t);
         const sn = cs * t;
         for (let i = 0; i < m; i++) {

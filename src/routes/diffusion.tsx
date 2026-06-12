@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { DenoisingDeck } from "@/components/interactives/DenoisingDeck";
 import { NoiseSchedule } from "@/components/interactives/NoiseSchedule";
@@ -23,25 +24,17 @@ const station = stationByPath("/diffusion")!;
 function DiffusionPage() {
   return (
     <div style={stationStyle(station.hue)}>
-      {/* hero */}
-      <section className="grid-paper">
-        <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
-          <p className="label-tech animate-rise">Station {station.num} · diffusion</p>
-          <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+      <StationHero
+        station={station}
+        kicker="diffusion"
+        title={
+          <>
             The Denoising <span className="text-station">Deck</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-            Every image a diffusion model has ever made started as pure static. The deck below is a
-            real Stable Diffusion 1.5 run — sampled on this site&rsquo;s own GPU, every intermediate
-            state kept — so you can scrub the moment an image condenses out of noise, and catch the
-            model guessing the ending long before it gets there.
-          </p>
-          <p className="label-tech animate-rise mt-8 [animation-delay:240ms]">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            instrument live — scrub the run · switch views · compare seeds
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lede="Every image a diffusion model has ever made started as pure static. The deck below is a real Stable Diffusion 1.5 run — sampled on this site's own GPU, every intermediate state kept — so you can scrub the moment an image condenses out of noise, and catch the model guessing the ending long before it gets there."
+        status="instrument live — scrub the run · switch views · compare seeds"
+      />
 
       {/* signature interactive */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">

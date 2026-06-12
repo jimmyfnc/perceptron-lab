@@ -12,6 +12,35 @@ does not version-number releases — entries are dated.
   space is crowded). Wordmark, page titles, OG/meta tags, footer, package.json name,
   docs, and the GitHub repo/folder all renamed. Design system unchanged.
 
+### Fixed
+
+- **Code-review pass over stations 02/04/05** (multi-agent review, 21 candidates,
+  14 confirmed and fixed):
+  - `svd.ts`: Jacobi rotation silently skipped on exact column-norm ties
+    (`Math.sign(0) === 0`) — wrong singular values for tied matrices; regression
+    test added.
+  - Attention lens: failed weight fetch now shows "signal lost" + retry instead of
+    loading forever.
+  - Denoising deck: autoplay no longer calls `setPlaying` inside a state updater;
+    dead `playRef` removed; per-seed frame preload now happens once per seed.
+  - MLP trainer: resuming after auto-pause keeps the true epoch count (was reset
+    to 0 with trained weights intact); offscreen canvas + ImageData hoisted out of
+    the per-frame render path.
+  - Optimizer race: fresh trails start hidden (no one-frame full-trajectory
+    flash); contour bands now share the height mapping's normalization (one
+    extrema scan, no disagreement); flat-surface divide-by-zero guarded; diverged
+    runs bail at |coord| > 12 so the last trail point stays near the window;
+    step readout denominator now matches the actual run length.
+  - LoRA lab: ‖W‖ derived from singular values instead of building a zero matrix
+    every render.
+  - Home footer now counts instruments excluding the interlude ("5 of 5") —
+    consistent with the diffusion outro's "all five instruments".
+
+### Changed
+
+- New `StationHero` site primitive replaces the hero block copy-pasted across all
+  five station routes (~70 lines deleted; interlude keeps its bespoke hero).
+
 ### Added
 
 - **Station 05 — Diffusion, "The Denoising Deck"** (live — the journey is complete):

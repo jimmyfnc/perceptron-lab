@@ -43,6 +43,17 @@ describe("svd", () => {
     }
   });
 
+  it("handles equal-norm correlated columns (the sign(0) Jacobi tie)", () => {
+    const A = [
+      [1, 1, 0],
+      [1, 1, 1],
+      [0, 0, 1],
+    ];
+    const d = svd(A);
+    expect(frob(lowRank(d, 3), A)).toBeLessThan(1e-8);
+    expect(d.S[2]).toBeLessThan(1e-8); // true rank is 2
+  });
+
   it("U and V columns are orthonormal", () => {
     const d = svd(randomMatrix(9, 5, 4));
     for (let a = 0; a < 5; a++) {

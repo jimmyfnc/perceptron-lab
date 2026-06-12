@@ -41,17 +41,11 @@ export function LoraRankLab() {
   const dec = useMemo(() => svd(W), [W]);
   const approx = useMemo(() => lowRank(dec, rank), [dec, rank]);
 
+  // ‖W‖ is constant — singular values already carry it: ‖W‖² = Σ sᵢ²
+  const wNorm = useMemo(() => Math.hypot(...dec.S), [dec]);
   const fullParams = N * N;
   const loraParams = rank * (N + N);
-  const err =
-    frob(approx, W) /
-    Math.max(
-      frob(
-        W,
-        W.map((r) => r.map(() => 0)),
-      ),
-      1e-9,
-    );
+  const err = frob(approx, W) / Math.max(wNorm, 1e-9);
 
   /* singular value bars */
   const BW = 170;

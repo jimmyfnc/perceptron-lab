@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { ConvolutionBench } from "@/components/interactives/ConvolutionBench";
@@ -23,27 +24,17 @@ const station = stationByPath("/computer-vision")!;
 function ComputerVisionPage() {
   return (
     <div style={stationStyle(station.hue)}>
-      {/* hero */}
-      <section className="grid-paper">
-        <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
-          <p className="label-tech animate-rise">
-            Station {station.num} · CNNs &amp; computer vision
-          </p>
-          <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+      <StationHero
+        station={station}
+        kicker="CNNs & computer vision"
+        title={
+          <>
             The Convolution <span className="text-station">Bench</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-            A convolutional network is built on one small idea: slide a tiny grid of weights across
-            an image and write down how strongly each spot answers. Everything else — pooling,
-            depth, feature hierarchies — is that idea, repeated. Paint something below and watch it
-            happen.
-          </p>
-          <p className="label-tech animate-rise mt-8 [animation-delay:240ms]">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            instrument live — drag to paint · hover the map · press sweep
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lede="A convolutional network is built on one small idea: slide a tiny grid of weights across an image and write down how strongly each spot answers. Everything else — pooling, depth, feature hierarchies — is that idea, repeated. Paint something below and watch it happen."
+        status="instrument live — drag to paint · hover the map · press sweep"
+      />
 
       {/* signature interactive */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">

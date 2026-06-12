@@ -43,8 +43,3 @@ export function gaussianField(n: number, seed: number): Float64Array {
   }
   return out;
 }
-
-/** Signal-to-noise ratio at ᾱ — the y-axis story of the schedule figure. */
-export function snr(abar: number): number {
-  return abar / Math.max(1 - abar, 1e-12);
-}

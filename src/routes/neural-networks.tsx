@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { DescentRace } from "@/components/interactives/DescentRace";
@@ -22,25 +23,17 @@ const station = stationByPath("/neural-networks")!;
 function NeuralNetworksPage() {
   return (
     <div style={stationStyle(station.hue)}>
-      {/* hero */}
-      <section className="grid-paper">
-        <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
-          <p className="label-tech animate-rise">Station {station.num} · neural networks</p>
-          <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
+      <StationHero
+        station={station}
+        kicker="neural networks"
+        title={
+          <>
             The <span className="text-station">Descent</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-            Training a network is not a search for the right answer — it&rsquo;s a walk downhill.
-            The loss is a landscape, the weights are your position, and every optimizer ever
-            invented is just a different way of taking the next step. Below, three of them race down
-            the same hill.
-          </p>
-          <p className="label-tech animate-rise mt-8 [animation-delay:240ms]">
-            <span className="led led-pulse mr-2 inline-block align-middle" />
-            instrument live — drag to orbit · click the surface to re-drop
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lede="Training a network is not a search for the right answer — it's a walk downhill. The loss is a landscape, the weights are your position, and every optimizer ever invented is just a different way of taking the next step. Below, three of them race down the same hill."
+        status="instrument live — drag to orbit · click the surface to re-drop"
+      />
 
       {/* signature interactive */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-20">

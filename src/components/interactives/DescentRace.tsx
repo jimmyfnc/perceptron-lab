@@ -77,7 +77,7 @@ export function DescentRace() {
     <InstrumentPanel
       label="Optimizer race — three solvers, one landscape"
       live={racing}
-      readout={`step ${Math.min(step, maxLen - 1)} / ${STEPS}`}
+      readout={`step ${Math.min(step, maxLen - 1)} / ${maxLen - 1}`}
     >
       {mounted ? (
         <Suspense fallback={<ScenePlaceholder />}>
