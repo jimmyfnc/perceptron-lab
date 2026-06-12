@@ -10,8 +10,8 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 28; // must match .grid-paper's background-size
 const BASE_ALPHA = 0.05; // must match .grid-paper's line alpha
-const RADIUS = 220; // pointer influence radius (px)
-const DENT = 14; // peak px displacement of the dent at the cursor
+const RADIUS = 300; // pointer influence radius (px)
+const DENT = 15; // peak px displacement of the dent at the cursor
 const FOLLOW = 0.09; // how eagerly nodes chase the dent shape
 const SPRING = 0.02; // pull back toward rest (low = lazy, slow settle)
 const COUPLE = 0.028; // neighbor coupling — wave propagation speed
@@ -158,8 +158,10 @@ export function ReactiveGrid() {
           const d = Math.hypot(dx, dy) || 1;
           if (d > RADIUS) continue;
           const fall = 1 - d / RADIUS;
-          // steer each node toward a radial "dent" shape around the cursor
-          const want = (DENT * fall * fall) / d;
+          // smoothstep falloff: a wide shoulder, so the bend reads across
+          // many cells instead of pinching at the cursor
+          const shape = fall * fall * (3 - 2 * fall);
+          const want = (DENT * shape) / d;
           vx[i] += (dx * want - ox[i]) * FOLLOW;
           vy[i] += (dy * want - oy[i]) * FOLLOW;
         }
