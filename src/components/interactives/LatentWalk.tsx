@@ -23,7 +23,7 @@ export function LatentWalk() {
       <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
         <img
           src={`/data/diffusion/walk/${i}.webp`}
-          alt={`latent walk position ${i}`}
+          alt={`lighthouse scene at position ${i} of ${N - 1} along the latent walk between two seeds`}
           width={280}
           height={280}
           className="block border border-border"
@@ -52,7 +52,7 @@ export function LatentWalk() {
               >
                 <img
                   src={`/data/diffusion/walk/${k}.webp`}
-                  alt={`position ${k}`}
+                  alt={`thumbnail of latent-walk position ${k}`}
                   width={24}
                   height={24}
                   className="block"

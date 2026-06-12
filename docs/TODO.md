@@ -36,6 +36,15 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
       (loop player on real local-LLM transcripts, GPT-2 token sampler,
       prompt anatomy grid, toy loop simulator).
 
+## Content ideas (parked)
+
+- [ ] **Decision trees & random forests station** (Semrush/Lovable suggestion:
+      tree-based-model explainers are high-volume search targets, and it's the
+      one big classical-ML family the journey skips). Could slot beside station
+      01 as "01b — The Forest": interactive tree growing split-by-split on the
+      Boundary Lab datasets, then bagging N noisy trees into a smooth forest
+      boundary. Strong fit with existing lib/ml.ts datasets.
+
 ## Site-wide polish (later)
 
 - [ ] Home page: upgrade the journey list to an animated journey _map_ (one continuous

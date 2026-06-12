@@ -10,13 +10,14 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 28; // must match .grid-paper's background-size
 const BASE_ALPHA = 0.05; // must match .grid-paper's line alpha
-const RADIUS = 130; // pointer influence radius (px)
-const PUSH = 0.16; // impulse scale from pointer speed
-const SPRING = 0.045; // pull back toward rest
-const COUPLE = 0.055; // neighbor coupling — this is what makes waves
-const DAMP = 0.915;
-const MAX_OFF = 13; // displacement clamp (px)
-const REST_EPS = 0.04; // below this total energy, go to sleep
+const RADIUS = 220; // pointer influence radius (px)
+const DENT = 14; // peak px displacement of the dent at the cursor
+const FOLLOW = 0.09; // how eagerly nodes chase the dent shape
+const SPRING = 0.02; // pull back toward rest (low = lazy, slow settle)
+const COUPLE = 0.028; // neighbor coupling — wave propagation speed
+const DAMP = 0.93; // high = ripples linger and travel further
+const MAX_OFF = 16; // displacement clamp (px)
+const REST_EPS = 0.04; // below this mean energy, go to sleep
 
 export function ReactiveGrid() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -114,7 +115,7 @@ export function ReactiveGrid() {
         }
       }
       if (glowing) {
-        ctx.globalAlpha = 0.1;
+        ctx.globalAlpha = 0.14;
         ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -137,8 +138,36 @@ export function ReactiveGrid() {
     /* ---- simulation ---- */
     let raf = 0;
     let running = false;
+    // pointer state — the force is applied every frame while it's over the
+    // grid, so the effect is steady and visible, not speed-dependent
+    let px = 0;
+    let py = 0;
+    let inside = false;
+
+    const applyPointerDent = () => {
+      if (!inside) return;
+      const c0 = Math.max(0, Math.floor((px - RADIUS) / SPACING));
+      const c1 = Math.min(cols - 1, Math.ceil((px + RADIUS) / SPACING));
+      const r0 = Math.max(0, Math.floor((py - RADIUS) / SPACING));
+      const r1 = Math.min(rows - 1, Math.ceil((py + RADIUS) / SPACING));
+      for (let r = r0; r <= r1; r++) {
+        for (let c = c0; c <= c1; c++) {
+          const i = r * cols + c;
+          const dx = c * SPACING - px;
+          const dy = r * SPACING - py;
+          const d = Math.hypot(dx, dy) || 1;
+          if (d > RADIUS) continue;
+          const fall = 1 - d / RADIUS;
+          // steer each node toward a radial "dent" shape around the cursor
+          const want = (DENT * fall * fall) / d;
+          vx[i] += (dx * want - ox[i]) * FOLLOW;
+          vy[i] += (dy * want - oy[i]) * FOLLOW;
+        }
+      }
+    };
 
     const step = () => {
+      applyPointerDent();
       let energy = 0;
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -179,7 +208,7 @@ export function ReactiveGrid() {
         energy += Math.abs(ox[i]) + Math.abs(oy[i]) + Math.abs(vx[i]) + Math.abs(vy[i]);
       }
       draw();
-      if (energy / ox.length > REST_EPS) {
+      if (inside || energy / ox.length > REST_EPS) {
         raf = requestAnimationFrame(step);
       } else {
         // settle completely and sleep
@@ -199,49 +228,22 @@ export function ReactiveGrid() {
       }
     };
 
-    let lastX = -1;
-    let lastY = -1;
     const onMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const px = e.clientX - rect.left;
-      const py = e.clientY - rect.top;
-      if (lastX < 0) {
-        lastX = px;
-        lastY = py;
-        return;
-      }
-      const mvx = px - lastX;
-      const mvy = py - lastY;
-      lastX = px;
-      lastY = py;
-      const speed = Math.hypot(mvx, mvy);
-      if (speed < 0.5) return;
-
-      const c0 = Math.max(0, Math.floor((px - RADIUS) / SPACING));
-      const c1 = Math.min(cols - 1, Math.ceil((px + RADIUS) / SPACING));
-      const r0 = Math.max(0, Math.floor((py - RADIUS) / SPACING));
-      const r1 = Math.min(rows - 1, Math.ceil((py + RADIUS) / SPACING));
-      for (let r = r0; r <= r1; r++) {
-        for (let c = c0; c <= c1; c++) {
-          const i = r * cols + c;
-          const dx = c * SPACING - px;
-          const dy = r * SPACING - py;
-          const d = Math.hypot(dx, dy);
-          if (d > RADIUS) continue;
-          const fall = 1 - d / RADIUS;
-          // push outward from the cursor, scaled by how fast it's moving
-          const f = (PUSH * Math.min(speed, 40) * fall * fall) / Math.max(d, 12);
-          vx[i] += dx * f;
-          vy[i] += dy * f;
-        }
-      }
-      wake();
+      px = e.clientX - rect.left;
+      py = e.clientY - rect.top;
+      inside = py >= 0 && py <= rect.height && px >= 0 && px <= rect.width;
+      if (inside) wake();
+    };
+    const onLeave = () => {
+      inside = false;
     };
 
     const ro = new ResizeObserver(setup);
     ro.observe(host);
     setup();
     host.addEventListener("pointermove", onMove);
+    host.addEventListener("pointerleave", onLeave);
 
     return () => {
       host.removeEventListener("pointermove", onMove);

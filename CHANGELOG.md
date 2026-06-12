@@ -23,6 +23,22 @@ does not version-number releases — entries are dated.
   overflowed and clipped "05 Diffusion".
 - Decoder-term underlines are more visible (was easy to scroll past the
   glossary entirely).
+- Reactive grid reworked from speed-based impulses (only fast flicks registered
+  — read as random) to a continuous dent that follows the cursor every frame,
+  shedding slower, longer-lived waves; influence radius 130→220px.
+
+### SEO round 2 (Lovable review triage)
+
+- Local Lighthouse baseline: 100/100 SEO, accessibility, best practices.
+- "Home page 404" and "duplicated meta/social tags": stale crawl of the
+  pre-SEO-pass deploy — production returns 200 and SSR emits exactly one
+  og/twitter tag per page (verified).
+- Fixed for real: CV page title shortened under 60 chars; descriptive alt text
+  on the denoising/CFG/latent-walk imagery; JSON-LD structured data on every
+  route (WebSite on home, LearningResource per station) via `pageHead`.
+- Parked in TODO: decision trees / random forests station ("01b — The Forest")
+  — the one classical-ML family the journey skips, and a high-volume search
+  target per Semrush.
 
 - **Desktop nav no longer clips "05 Diffusion"**: the interlude's full title was
   overflowing the rail (with the scrollbar hidden, the last items silently

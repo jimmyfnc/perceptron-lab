@@ -67,7 +67,7 @@ export function DenoisingDeck() {
         <div>
           <img
             src={frameSrc(seed, step, view)}
-            alt={`sampling state ${step} of seed ${seed} (${view} view)`}
+            alt={`Stable Diffusion denoising, state ${step} of ${STEPS - 1}: a lighthouse oil painting emerging from noise (seed ${String.fromCharCode(65 + seed)}, ${VIEWS.find((v) => v.key === view)!.name} view)`}
             width={352}
             height={352}
             className="block h-auto max-w-full border border-border"
@@ -110,7 +110,7 @@ export function DenoisingDeck() {
               >
                 <img
                   src={frameSrc(seed, i, view)}
-                  alt={`state ${i}`}
+                  alt={`thumbnail of denoising state ${i} of ${STEPS - 1}`}
                   width={38}
                   height={38}
                   className="block"

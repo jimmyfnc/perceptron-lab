@@ -14,7 +14,7 @@ export const Route = createFileRoute("/computer-vision")({
   head: () =>
     pageHead(
       "/computer-vision",
-      "CNNs & Computer Vision — The Convolution Bench | Perceptron Lab",
+      "CNNs & Vision — The Convolution Bench | Perceptron Lab",
       "Paint pixels, slide kernels, and watch feature maps build cell by cell. An interactive walkthrough of convolution, pooling, and feature hierarchies.",
     ),
   component: ComputerVisionPage,

@@ -29,7 +29,7 @@ export function CFGStrip() {
           >
             <img
               src={`/data/diffusion/cfg/cfg${c.g}.webp`}
-              alt={`cfg ${c.g}`}
+              alt={`lighthouse render at guidance scale ${c.g} — ${c.note}`}
               width={150}
               height={150}
               className="block"
