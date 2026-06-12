@@ -42,7 +42,7 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
       path/spine with stations, scroll-reactive).
 - [ ] Bolt/heart sprite pixel art could be cleaner (hand-tune `SPRITES` in conv.ts).
 - [ ] `prefers-reduced-motion` handling for sweep/rise animations.
-- [ ] Mobile pass on the Convolution Bench (panels overflow below ~380px width).
+- [x] Mobile pass — responsive canvases/SVGs + scaled pointer math across all interactives, all routes audited at 390px 2026-06-12.
 - [x] OG image — `public/og.png` (home-hero capture), self-hosted, wired into og/twitter tags 2026-06-11.
 - [x] Favicon — perceptron mark (`favicon.svg` + ico + apple-touch-icon via `scripts/make_icons.py`) 2026-06-11.
 - [x] SEO — per-route canonical/og via `src/lib/site.ts`, `sitemap.xml`, robots.txt (domain: perceptronlab.com) 2026-06-11.

@@ -156,7 +156,11 @@ export function MLPTrainer() {
       }
     >
       <div className="flex flex-wrap items-start justify-center gap-4">
-        <canvas ref={canvasRef} style={{ width: SIZE, height: SIZE }} className="block" />
+        <canvas
+          ref={canvasRef}
+          style={{ width: SIZE, maxWidth: "100%", height: "auto", aspectRatio: "1 / 1" }}
+          className="block"
+        />
         <div className="flex w-[296px] max-w-full flex-col gap-3">
           <div>
             <p className="label-tech mb-1.5">dataset</p>

@@ -70,7 +70,7 @@ export function DenoisingDeck() {
             alt={`sampling state ${step} of seed ${seed} (${view} view)`}
             width={352}
             height={352}
-            className="block border border-border"
+            className="block h-auto max-w-full border border-border"
             style={view === "latent" ? { imageRendering: "pixelated" } : undefined}
             draggable={false}
           />

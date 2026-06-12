@@ -53,7 +53,12 @@ export function PolyFit() {
       label="Polynomial fit — capacity vs restraint"
       readout={`deg ${degree} · λ ${lambda === 0 ? "0" : `1e${lamExp}`} · train ${trainMse.toFixed(3)} · test ${testMse.toFixed(3)}`}
     >
-      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="mx-auto block max-w-full">
+      <svg
+        width={W}
+        height={H}
+        viewBox={`0 0 ${W} ${H}`}
+        className="mx-auto block h-auto max-w-full"
+      >
         <path
           d={curve(truth)}
           fill="none"

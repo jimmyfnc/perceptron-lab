@@ -79,7 +79,7 @@ export function QKVSandbox() {
           width={S}
           height={S}
           viewBox={`0 0 ${S} ${S}`}
-          className="block max-w-full touch-none select-none border border-border bg-background/40"
+          className="block h-auto max-w-full touch-none select-none border border-border bg-background/40"
           onPointerMove={move}
           onPointerUp={() => (drag.current = null)}
           onPointerCancel={() => (drag.current = null)}

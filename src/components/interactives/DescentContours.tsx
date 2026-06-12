@@ -93,18 +93,23 @@ export function DescentContours() {
       <div className="relative mx-auto w-fit">
         <canvas
           ref={bgRef}
-          style={{ width: W, height: H }}
+          style={{ width: W, maxWidth: "100%", height: "auto", aspectRatio: `${W} / ${H}` }}
           className="block cursor-crosshair"
           onPointerDown={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
-            setStart(fromPx(surf, e.clientX - rect.left, e.clientY - rect.top));
+            // map from the (possibly shrunk) rendered size back to W x H space
+            setStart(
+              fromPx(
+                surf,
+                ((e.clientX - rect.left) * W) / rect.width,
+                ((e.clientY - rect.top) * H) / rect.height,
+              ),
+            );
           }}
         />
         <svg
-          width={W}
-          height={H}
           viewBox={`0 0 ${W} ${H}`}
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 h-full w-full"
         >
           <polyline
             points={path.map(([x, y]) => toPx(surf, x, y).join(",")).join(" ")}

@@ -25,7 +25,7 @@ function Header() {
           <span className="font-display text-sm font-bold uppercase tracking-[0.22em]">
             Perceptron&nbsp;Lab
           </span>
-          <span className="label-tech hidden xl:inline">/ ml field manual</span>
+          <span className="label-tech hidden 2xl:inline">/ ml field manual</span>
         </Link>
         <nav className="no-scrollbar flex items-center gap-1 overflow-x-auto">
           {STATIONS.map((s) => (
@@ -34,11 +34,14 @@ function Header() {
               to={s.path}
               style={stationStyle(s.hue)}
               title={`${s.title} — ${s.codename}`}
-              className="group flex items-center gap-1.5 whitespace-nowrap px-2.5 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
+              className="group flex items-center gap-1.5 whitespace-nowrap px-2 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "!text-station" }}
             >
               <span className="text-station/80">{s.num}</span>
-              <span className="hidden uppercase lg:inline">{s.title}</span>
+              {/* the interlude's full title is what used to push 05 out of the rail */}
+              <span className="hidden uppercase lg:inline">
+                {s.interlude ? "Interlude" : s.title}
+              </span>
             </Link>
           ))}
         </nav>

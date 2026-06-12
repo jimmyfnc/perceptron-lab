@@ -63,7 +63,12 @@ export function KMeansStepper() {
       label="k-means — assign, average, repeat"
       readout={score != null ? `inertia ${score.toFixed(3)}` : `iteration 0`}
     >
-      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="mx-auto block max-w-full">
+      <svg
+        width={W}
+        height={H}
+        viewBox={`0 0 ${W} ${H}`}
+        className="mx-auto block h-auto max-w-full"
+      >
         {/* assignment links while updating */}
         {assign &&
           points.map((p, i) => (

@@ -25,7 +25,11 @@ const STATION_HUE = 305;
 
 type CellRC = { y: number; x: number };
 
-function useGridCanvas(draw: (ctx: CanvasRenderingContext2D, cssW: number, cssH: number) => void) {
+function useGridCanvas(
+  draw: (ctx: CanvasRenderingContext2D, cssW: number, cssH: number) => void,
+  logicalW?: number,
+  logicalH?: number,
+) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = ref.current;
@@ -39,8 +43,11 @@ function useGridCanvas(draw: (ctx: CanvasRenderingContext2D, cssW: number, cssH:
     }
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    draw(ctx, cssW, cssH);
+    // draw in logical coordinates even when the canvas is shrunk responsively
+    const lw = logicalW ?? cssW;
+    const lh = logicalH ?? cssH;
+    ctx.setTransform((dpr * cssW) / lw, 0, 0, (dpr * cssH) / lh, 0, 0);
+    draw(ctx, lw, lh);
   });
   return ref;
 }
@@ -51,8 +58,10 @@ function cellFromEvent(
   side: number,
 ): CellRC | null {
   const rect = e.currentTarget.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / cell);
-  const y = Math.floor((e.clientY - rect.top) / cell);
+  // normalize by the rendered size — the canvas may be shrunk on small screens
+  const scale = (cell * side) / rect.width;
+  const x = Math.floor(((e.clientX - rect.left) * scale) / cell);
+  const y = Math.floor(((e.clientY - rect.top) * scale) / cell);
   if (x < 0 || y < 0 || x >= side || y >= side) return null;
   return { y, x };
 }
@@ -136,53 +145,61 @@ export function ConvolutionBench() {
   );
 
   /* ---- canvases ---- */
-  const inputRef = useGridCanvas((ctx, w, h) => {
-    ctx.clearRect(0, 0, w, h);
-    for (let y = 0; y < IN; y++) {
-      for (let x = 0; x < IN; x++) {
-        ctx.fillStyle = inkColor(input[y][x]);
-        ctx.fillRect(x * CELL_IN + 1, y * CELL_IN + 1, CELL_IN - 2, CELL_IN - 2);
-      }
-    }
-    if (activeCell) {
-      ctx.strokeStyle = `oklch(0.74 0.165 ${STATION_HUE})`;
-      ctx.lineWidth = 2;
-      ctx.strokeRect(
-        activeCell.x * CELL_IN + 0.5,
-        activeCell.y * CELL_IN + 0.5,
-        K * CELL_IN - 1,
-        K * CELL_IN - 1,
-      );
-    }
-  });
-
-  const outputRef = useGridCanvas((ctx, w, h) => {
-    ctx.clearRect(0, 0, w, h);
-    for (let y = 0; y < OUT; y++) {
-      for (let x = 0; x < OUT; x++) {
-        const i = y * OUT + x;
-        if (i < revealed) {
-          ctx.fillStyle = divergingColor(output[y][x], outMax, STATION_HUE);
-          ctx.fillRect(x * CELL_OUT + 1, y * CELL_OUT + 1, CELL_OUT - 2, CELL_OUT - 2);
-        } else {
-          ctx.fillStyle = "oklch(0.17 0.005 265)";
-          ctx.fillRect(x * CELL_OUT + 1, y * CELL_OUT + 1, CELL_OUT - 2, CELL_OUT - 2);
-          ctx.fillStyle = "oklch(0.26 0.005 265)";
-          ctx.fillRect(x * CELL_OUT + CELL_OUT / 2 - 1, y * CELL_OUT + CELL_OUT / 2 - 1, 2, 2);
+  const inputRef = useGridCanvas(
+    (ctx, w, h) => {
+      ctx.clearRect(0, 0, w, h);
+      for (let y = 0; y < IN; y++) {
+        for (let x = 0; x < IN; x++) {
+          ctx.fillStyle = inkColor(input[y][x]);
+          ctx.fillRect(x * CELL_IN + 1, y * CELL_IN + 1, CELL_IN - 2, CELL_IN - 2);
         }
       }
-    }
-    if (activeCell) {
-      ctx.strokeStyle = `oklch(0.74 0.165 ${STATION_HUE})`;
-      ctx.lineWidth = 2;
-      ctx.strokeRect(
-        activeCell.x * CELL_OUT + 0.5,
-        activeCell.y * CELL_OUT + 0.5,
-        CELL_OUT - 1,
-        CELL_OUT - 1,
-      );
-    }
-  });
+      if (activeCell) {
+        ctx.strokeStyle = `oklch(0.74 0.165 ${STATION_HUE})`;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(
+          activeCell.x * CELL_IN + 0.5,
+          activeCell.y * CELL_IN + 0.5,
+          K * CELL_IN - 1,
+          K * CELL_IN - 1,
+        );
+      }
+    },
+    IN * CELL_IN,
+    IN * CELL_IN,
+  );
+
+  const outputRef = useGridCanvas(
+    (ctx, w, h) => {
+      ctx.clearRect(0, 0, w, h);
+      for (let y = 0; y < OUT; y++) {
+        for (let x = 0; x < OUT; x++) {
+          const i = y * OUT + x;
+          if (i < revealed) {
+            ctx.fillStyle = divergingColor(output[y][x], outMax, STATION_HUE);
+            ctx.fillRect(x * CELL_OUT + 1, y * CELL_OUT + 1, CELL_OUT - 2, CELL_OUT - 2);
+          } else {
+            ctx.fillStyle = "oklch(0.17 0.005 265)";
+            ctx.fillRect(x * CELL_OUT + 1, y * CELL_OUT + 1, CELL_OUT - 2, CELL_OUT - 2);
+            ctx.fillStyle = "oklch(0.26 0.005 265)";
+            ctx.fillRect(x * CELL_OUT + CELL_OUT / 2 - 1, y * CELL_OUT + CELL_OUT / 2 - 1, 2, 2);
+          }
+        }
+      }
+      if (activeCell) {
+        ctx.strokeStyle = `oklch(0.74 0.165 ${STATION_HUE})`;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(
+          activeCell.x * CELL_OUT + 0.5,
+          activeCell.y * CELL_OUT + 0.5,
+          CELL_OUT - 1,
+          CELL_OUT - 1,
+        );
+      }
+    },
+    OUT * CELL_OUT,
+    OUT * CELL_OUT,
+  );
 
   const reluRef = useGridCanvas((ctx, w, h) => {
     ctx.clearRect(0, 0, w, h);
@@ -229,7 +246,13 @@ export function ConvolutionBench() {
         >
           <canvas
             ref={inputRef}
-            style={{ width: IN * CELL_IN, height: IN * CELL_IN, touchAction: "none" }}
+            style={{
+              width: IN * CELL_IN,
+              maxWidth: "100%",
+              height: "auto",
+              aspectRatio: "1 / 1",
+              touchAction: "none",
+            }}
             className="cursor-crosshair"
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
@@ -355,7 +378,12 @@ export function ConvolutionBench() {
         >
           <canvas
             ref={outputRef}
-            style={{ width: OUT * CELL_OUT, height: OUT * CELL_OUT }}
+            style={{
+              width: OUT * CELL_OUT,
+              maxWidth: "100%",
+              height: "auto",
+              aspectRatio: "1 / 1",
+            }}
             className="cursor-crosshair"
             onPointerMove={(e) => setHoverOut(cellFromEvent(e, CELL_OUT, OUT))}
             onPointerLeave={() => setHoverOut(null)}

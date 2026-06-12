@@ -192,7 +192,13 @@ export function BoundaryLab() {
       >
         <canvas
           ref={canvasRef}
-          style={{ width: SIZE, height: SIZE, touchAction: "none" }}
+          style={{
+            width: SIZE,
+            maxWidth: "100%",
+            height: "auto",
+            aspectRatio: "1 / 1",
+            touchAction: "none",
+          }}
           className="cursor-crosshair"
           onPointerDown={onDown}
           onPointerMove={onMove}

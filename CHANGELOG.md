@@ -6,6 +6,19 @@ does not version-number releases — entries are dated.
 
 ## 2026-06-12
 
+### Fixed
+
+- **Desktop nav no longer clips "05 Diffusion"**: the interlude's full title was
+  overflowing the rail (with the scrollbar hidden, the last items silently
+  vanished) — the nav now labels it "Interlude" and the "/ ml field manual" tag
+  waits for 2xl screens.
+- **Responsive pass over every interactive** (phones, ~390px): fixed-width
+  canvases/SVGs now shrink with the viewport (max-width + preserved aspect
+  ratio), pointer math normalizes by the rendered size (Boundary Lab painting,
+  Convolution Bench painting/hover, descent click-to-drop), and the Convolution
+  Bench's canvas hook gained logical-coordinate scaling. All seven routes audited
+  at 390px: zero horizontal overflow. Closes the "mobile pass" TODO item.
+
 ### Added
 
 - **The decoder ring** — plain-words help for readers without ML vocabulary:

@@ -62,7 +62,12 @@ export function ActivationGallery() {
       <div className="flex flex-wrap items-end justify-center gap-x-8 gap-y-4">
         {/* function + derivative plot */}
         <div>
-          <svg width={PW} height={PH} viewBox={`0 0 ${PW} ${PH}`} className="block max-w-full">
+          <svg
+            width={PW}
+            height={PH}
+            viewBox={`0 0 ${PW} ${PH}`}
+            className="block h-auto max-w-full"
+          >
             <line x1={px(-XR)} y1={py(0)} x2={px(XR)} y2={py(0)} stroke="var(--color-border)" />
             <line x1={px(0)} y1={PAD} x2={px(0)} y2={PH - PAD} stroke="var(--color-border)" />
             {/* input marker */}
