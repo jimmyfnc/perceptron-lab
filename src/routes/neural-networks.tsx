@@ -3,6 +3,7 @@ import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
+import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
 import { DescentRace } from "@/components/interactives/DescentRace";
 import { ActivationGallery } from "@/components/interactives/ActivationGallery";
@@ -46,10 +47,10 @@ function NeuralNetworksPage() {
       <div className="flex flex-col gap-20 pb-24">
         <Section index="§1" title="A neuron is a line; a network is a bend">
           <p>
-            Strip the mystique and a neuron is the smallest model from station 01: weigh each input,
-            add a bias, output the sum. One neuron over two inputs draws one straight line — which
-            is exactly why the checker dataset embarrassed it for twenty years. XOR has no
-            straight-line answer, and{" "}
+            Strip the mystique and a <Term k="neuron">neuron</Term> is the smallest{" "}
+            <Term k="model">model</Term> from station 01: weigh each input, add a bias, output the
+            sum. One neuron over two inputs draws one straight line — which is exactly why the
+            checker dataset embarrassed it for twenty years. XOR has no straight-line answer, and{" "}
             <strong>
               stacking linear layers doesn&rsquo;t help: a chain of linear maps collapses into a
               single linear map
@@ -60,8 +61,8 @@ function NeuralNetworksPage() {
             The fix costs one line of code: after each weighted sum, push the result through a small
             nonlinear function before handing it to the next layer. That bend is the entire trick.
             With it, two layers of a few neurons can carve curved regions no single line could — and
-            with enough of them, an MLP can approximate <em>any</em> reasonable function. Everything
-            else in deep learning is making that possibility cheap to find.
+            with enough of them, an <Term k="MLP">MLP</Term> can approximate <em>any</em> reasonable
+            function. Everything else in deep learning is making that possibility cheap to find.
           </p>
         </Section>
 
@@ -76,8 +77,9 @@ function NeuralNetworksPage() {
             whether gradients survive the trip backwards through it. The sigmoid looks harmless
             until you read its derivative: never more than 0.25. Chain eight sigmoid layers and{" "}
             <strong>the training signal shrinks by a factor of four at every layer</strong> — by
-            layer eight, effectively nothing arrives. That&rsquo;s the vanishing gradient, and
-            it&rsquo;s why early deep nets simply refused to get deep.
+            layer eight, effectively nothing arrives. That&rsquo;s the{" "}
+            <Term k="vanishing gradient">vanishing gradient</Term>, and it&rsquo;s why early deep
+            nets simply refused to get deep.
           </p>
           <p>
             ReLU&rsquo;s answer is blunt: slope exactly 1 when active, so gradients pass through
@@ -97,8 +99,10 @@ function NeuralNetworksPage() {
           figureLabel="fig. 03 — a 2→H→1 network learning live, full-batch, in your browser"
         >
           <p>
-            To walk downhill you need the slope — the gradient of the loss with respect to every
-            weight. Backpropagation computes all of them in one backwards sweep:{" "}
+            To walk downhill you need the slope — the <Term k="gradient">gradient</Term> of the{" "}
+            <Term k="loss">loss</Term> with respect to every weight.{" "}
+            <Term k="backpropagation">Backpropagation</Term> computes all of them in one backwards
+            sweep:{" "}
             <strong>
               each layer asks &ldquo;how much did my output matter?&rdquo; and multiplies in how
               much it, in turn, depended on each of its weights
@@ -118,8 +122,9 @@ function NeuralNetworksPage() {
         <Section index="§4" title="Why everyone uses Adam">
           <p>
             Plain SGD has one move — step straight downhill — and the race above shows both ways it
-            goes wrong. On the ravine it zigzags: the walls are steep, the floor is shallow, and one
-            learning rate can&rsquo;t serve both. On the saddle it crawls, because{" "}
+            goes wrong. On the ravine it zigzags: the walls are steep, the floor is shallow, and one{" "}
+            <Term k="learning rate">learning rate</Term> can&rsquo;t serve both. On the saddle it
+            crawls, because{" "}
             <strong>
               almost-flat is almost-stopped when your step is proportional to the slope
             </strong>

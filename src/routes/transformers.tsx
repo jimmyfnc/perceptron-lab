@@ -3,6 +3,7 @@ import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
+import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
 import { AttentionLens } from "@/components/interactives/AttentionLens";
 import { QKVSandbox } from "@/components/interactives/QKVSandbox";
@@ -50,15 +51,17 @@ function TransformersPage() {
           figureLabel="fig. 02 — softmax(q·k / √d) · v, with your hands on all three"
         >
           <p>
-            Every head you flipped through above is the same five symbols:{" "}
-            <code>softmax(QKᵀ/√d)·V</code>. Each token publishes three small vectors —{" "}
+            Every <Term k="attention head">head</Term> you flipped through above is the same five
+            symbols: <code>softmax(QKᵀ/√d)·V</code>. Each <Term k="token">token</Term> publishes
+            three small vectors —{" "}
             <strong>
               a query (&ldquo;what am I looking for?&rdquo;), a key (&ldquo;what do I
               advertise?&rdquo;), and a value (&ldquo;what do I hand over if you pick me&rdquo;)
             </strong>
-            . A token&rsquo;s query is dotted against every key; softmax turns the scores into
-            weights that sum to one; the output is the weighted mix of values. That mix — not the
-            original token — is what the next layer reads.
+            . A token&rsquo;s query is <Term k="dot product">dotted</Term> against every key;{" "}
+            <Term k="softmax">softmax</Term> turns the scores into weights that sum to one; the
+            output is the weighted mix of values. That mix — not the original token — is what the
+            next layer reads.
           </p>
           <p>
             The sandbox strips it to three tokens in two dimensions. Rotate the query toward a key
@@ -127,13 +130,13 @@ function TransformersPage() {
           </p>
           <p>
             This same lens is already in your image pipeline. The prompt you type into ComfyUI goes
-            through CLIP&rsquo;s text transformer — these exact mechanics — before it steers a
-            single pixel, and{" "}
-            <strong>
-              cross-attention is where a diffusion model&rsquo;s denoiser looks at your words
-            </strong>{" "}
-            while deciding what the noise should become. Which is exactly where this journey ends
-            next.
+            through <Term k="CLIP">CLIP</Term>&rsquo;s text transformer — these exact mechanics —
+            before it steers a single pixel, and{" "}
+            <Term k="cross-attention">
+              <strong>cross-attention</strong>
+            </Term>{" "}
+            <strong>is where a diffusion model&rsquo;s denoiser looks at your words</strong> while
+            deciding what the noise should become. Which is exactly where this journey ends next.
           </p>
         </Section>
 

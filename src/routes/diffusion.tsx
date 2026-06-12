@@ -3,6 +3,7 @@ import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
+import { Term } from "@/components/site/Term";
 import { DenoisingDeck } from "@/components/interactives/DenoisingDeck";
 import { NoiseSchedule } from "@/components/interactives/NoiseSchedule";
 import { CFGStrip } from "@/components/interactives/CFGStrip";
@@ -70,9 +71,9 @@ function DiffusionPage() {
         <Section index="§2" title="Sampling runs the film backwards">
           <p>
             Generation is the inverse loop: start from pure noise, and twenty-odd times in a row,
-            predict the noise and remove a scheduled slice of it. That&rsquo;s the loop your ComfyUI
-            KSampler runs, and it&rsquo;s what the deck&rsquo;s <em>canvas</em> view shows: the
-            actual state, still snowy until surprisingly late.
+            predict the noise and remove a scheduled slice of it. That&rsquo;s the loop your ComfyUI{" "}
+            <Term k="sampler">KSampler</Term> runs, and it&rsquo;s what the deck&rsquo;s{" "}
+            <em>canvas</em> view shows: the actual state, still snowy until surprisingly late.
           </p>
           <p>
             The deck&rsquo;s <em>guess</em> view is the revealing one. Because the model predicts
@@ -96,8 +97,8 @@ function DiffusionPage() {
         >
           <p>
             Station 04 showed where the prompt enters: cross-attention, the denoiser reading your
-            words through CLIP. Classifier-free guidance decides how loudly. Each step the model
-            predicts twice — once with your prompt, once with an empty one — and{" "}
+            words through CLIP. <Term k="CFG">Classifier-free guidance</Term> decides how loudly.
+            Each step the model predicts twice — once with your prompt, once with an empty one — and{" "}
             <strong>
               CFG extrapolates past the unconditioned guess in the direction your prompt pulls
             </strong>
@@ -119,15 +120,16 @@ function DiffusionPage() {
           figureLabel="fig. 04 — nine full runs, starting noises slerped between two seeds"
         >
           <p>
-            None of this happens on pixels. A VAE compresses each 512×512 image into the 64×64×4
-            tensor you saw in the deck&rsquo;s <em>raw latent</em> view — 48× smaller — and the
-            U-Net denoises there; only the final latent gets decoded back to pixels.{" "}
+            None of this happens on pixels. A <Term k="VAE">VAE</Term> compresses each 512×512 image
+            into the 64×64×4 <Term k="tensor">tensor</Term> you saw in the deck&rsquo;s{" "}
+            <em>raw latent</em> view — 48× smaller — and the <Term k="U-Net">U-Net</Term> denoises
+            there; only the final <Term k="latent">latent</Term> gets decoded back to pixels.{" "}
             <strong>That compression is why this runs on a desktop GPU at all</strong>, and
             it&rsquo;s the &ldquo;latent&rdquo; in latent diffusion.
           </p>
           <p>
-            The walk shows the deeper property: interpolate between two seeds&rsquo; starting noise
-            and sample each point fully, and{" "}
+            The walk shows the deeper property: interpolate between two{" "}
+            <Term k="seed">seeds&rsquo;</Term> starting noise and sample each point fully, and{" "}
             <strong>every stop along the path is a coherent scene</strong> — the lighthouse
             relocates, the clouds renegotiate, nothing ever tears. Generative latent spaces
             aren&rsquo;t lookup tables of memorized images; they&rsquo;re smooth maps where
@@ -144,11 +146,13 @@ function DiffusionPage() {
         >
           <p>
             Teaching a checkpoint a new style shouldn&rsquo;t require rewriting all 860 million
-            weights, and LoRA&rsquo;s bet is that it doesn&rsquo;t:{" "}
-            <strong>the change a fine-tune needs is low-rank</strong> — a coordinated nudge along a
-            few directions, not 860M independent edits. So instead of learning ΔW directly, a LoRA
-            learns two skinny matrices A and B whose product <em>is</em> the update, at a tiny
-            fraction of the parameters.
+            weights, and <Term k="LoRA">LoRA</Term>&rsquo;s bet is that it doesn&rsquo;t:{" "}
+            <strong>
+              the change a fine-tune needs is <Term k="rank">low-rank</Term>
+            </strong>{" "}
+            — a coordinated nudge along a few directions, not 860M independent edits. So instead of
+            learning ΔW directly, a LoRA learns two skinny matrices A and B whose product{" "}
+            <em>is</em> the update, at a tiny fraction of the parameters.
           </p>
           <p>
             The lab makes that bet visceral with a 16×16 &ldquo;update&rdquo;: slide the rank and

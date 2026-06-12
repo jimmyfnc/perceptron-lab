@@ -4,6 +4,21 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-06-12
+
+### Added
+
+- **The decoder ring** — plain-words help for readers without ML vocabulary:
+  `src/lib/glossary.ts` (45+ one-sentence, jargon-free definitions, with tests),
+  a `<Term>` site primitive (dotted underline; hover/keyboard-focus popover with
+  a mono "decoder" label), and first-occurrence terms threaded through all five
+  station pages. Opt-in by design — the prose still teaches; the decoder is a
+  lifeline, not a lecture.
+- **Home-page lab note** ("why this site exists"): the founding
+  nearest-neighbor-vs-nearest-neighbors anecdote now appears up front, tinted in
+  the interlude's hue and linking to it — the interlude itself stays in its
+  pedagogically-correct slot between stations 02 and 03.
+
 ## 2026-06-11
 
 ### Changed

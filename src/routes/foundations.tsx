@@ -3,6 +3,7 @@ import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
+import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
 import { BoundaryLab } from "@/components/interactives/BoundaryLab";
 import { PolyFit } from "@/components/interactives/PolyFit";
@@ -58,9 +59,9 @@ function FoundationsPage() {
             The error chart makes the tradeoff visible. Train error (dashed) only climbs as k grows
             — but test error is a <strong>U-curve</strong>: it falls while smoothing kills variance,
             then rises when smoothing starts killing signal. The gap between the two lines{" "}
-            <em>is</em> overfitting, and the sweet spot at the bottom of the U moves when you turn
-            the noise dial. Noisier data wants a bigger k. That&rsquo;s the whole bias–variance
-            tradeoff, operated by hand.
+            <em>is</em> <Term k="overfitting">overfitting</Term>, and the sweet spot at the bottom
+            of the U moves when you turn the noise dial. Noisier data wants a bigger k. That&rsquo;s
+            the whole <Term k="bias–variance">bias–variance</Term> tradeoff, operated by hand.
           </p>
         </Section>
 
@@ -77,8 +78,11 @@ function FoundationsPage() {
           </p>
           <p>
             But instead of capping capacity, there&rsquo;s a second cure:{" "}
-            <strong>regularization</strong>. The λ slider adds an L2 (ridge) penalty on the weights,
-            so the model pays for every unit of wiggle and spends its capacity only where the data
+            <Term k="regularization">
+              <strong>regularization</strong>
+            </Term>
+            . The λ slider adds an L2 (ridge) penalty on the <Term k="weights">weights</Term>, so
+            the model pays for every unit of wiggle and spends its capacity only where the data
             insists. Slide λ up and watch the degree-15 polynomial calm down without changing its
             degree at all. L1 (lasso) goes further and zeroes weights out entirely;{" "}
             <strong>dropout</strong> is the same instinct transplanted into neural networks.
@@ -115,17 +119,21 @@ function FoundationsPage() {
         >
           <p>
             KNN stores its data and k-means alternates two moves — but almost everything else, from
-            ridge regression to every neural network, learns the same way: define a loss, compute
-            its gradient, and take a small step downhill. Repeat. That&rsquo;s{" "}
-            <strong>gradient descent</strong>, and the contour map below is the honest picture: the
-            ball only ever feels the local slope.
+            ridge regression to every neural network, learns the same way: define a{" "}
+            <Term k="loss">loss</Term>, compute its <Term k="gradient">gradient</Term>, and take a
+            small step downhill. Repeat. That&rsquo;s <strong>gradient descent</strong>, and the
+            contour map below is the honest picture: the ball only ever feels the local slope.
           </p>
           <p>
-            The step size is the <strong>learning rate</strong>, and it is still the hyperparameter
-            that matters most. Try the ravine: too small and the ball crawls; nudge it higher and it
-            bounces wall-to-wall across the steep axis while inching along the shallow one; a touch
-            more and it <em>diverges entirely</em>. That tension — steep directions limit the step
-            that shallow directions need — is the problem momentum and Adam were invented to solve.
+            The step size is the{" "}
+            <Term k="learning rate">
+              <strong>learning rate</strong>
+            </Term>
+            , and it is still the <Term k="hyperparameter">hyperparameter</Term> that matters most.
+            Try the ravine: too small and the ball crawls; nudge it higher and it bounces
+            wall-to-wall across the steep axis while inching along the shallow one; a touch more and
+            it <em>diverges entirely</em>. That tension — steep directions limit the step that
+            shallow directions need — is the problem momentum and Adam were invented to solve.
             They&rsquo;re waiting at the next station.
           </p>
         </Section>

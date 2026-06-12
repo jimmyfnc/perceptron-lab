@@ -33,6 +33,25 @@ function Index() {
           points, slide the kernels, scrub the noise. The math sticks when your hands are on it.
         </p>
 
+        {/* the founding anecdote — the interlude tells it in full */}
+        <div
+          className="panel animate-rise mt-8 max-w-2xl px-5 py-4 [animation-delay:200ms]"
+          style={stationStyle(160)}
+        >
+          <p className="label-tech">lab note · why this site exists</p>
+          <p className="prose-lab mt-2 text-sm">
+            It started with one confusing afternoon: a pixel-art workflow said{" "}
+            <em>nearest-neighbor</em>, an ML course said <em>nearest neighbors</em>, and they turned
+            out to be completely different ideas wearing the same name. Untangling that collision is
+            the site&rsquo;s founding story — it&rsquo;s told in full at{" "}
+            <Link to="/interlude" className="text-station underline decoration-dotted">
+              the interlude
+            </Link>
+            , in its rightful place on the journey. No experience required anywhere here: jargon
+            wears a dotted underline you can hover for a plain-words translation.
+          </p>
+        </div>
+
         {/* journey list */}
         <ol className="animate-rise mt-14 [animation-delay:240ms]">
           {STATIONS.map((s, i) => (

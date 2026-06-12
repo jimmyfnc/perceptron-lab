@@ -3,6 +3,7 @@ import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
+import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
 import { ConvolutionBench } from "@/components/interactives/ConvolutionBench";
 import { KernelGallery } from "@/components/interactives/KernelGallery";
@@ -49,18 +50,24 @@ function ComputerVisionPage() {
           <p>
             A fully-connected network treats every pixel as its own independent input — move the
             subject two pixels left and, as far as the math is concerned, it&rsquo;s a brand-new
-            image. Convolution makes the opposite bet:{" "}
+            image. <Term k="convolution">Convolution</Term> makes the opposite bet:{" "}
             <strong>a pattern worth detecting is worth detecting anywhere</strong>. So instead of
             learning one weight per pixel, you learn a tiny 3×3 window of weights — a{" "}
-            <em>kernel</em> — and reuse it at every position.
+            <Term k="kernel">
+              <em>kernel</em>
+            </Term>{" "}
+            — and reuse it at every position.
           </p>
           <p>
             At each stop, the kernel does one multiply–accumulate: nine weights times nine pixels,
             summed to a single number. That number is the answer to one question —{" "}
             <em>how much does this patch look like my pattern?</em> — and the grid of answers is the{" "}
-            <strong>feature map</strong> you watched build in the bench above. Weight sharing is
-            also why CNNs are cheap: the bench&rsquo;s 16×16 input would need 256 weights per neuron
-            in an MLP; the kernel gets by with nine, total.
+            <Term k="feature map">
+              <strong>feature map</strong>
+            </Term>{" "}
+            you watched build in the bench above. Weight sharing is also why CNNs are cheap: the
+            bench&rsquo;s 16×16 input would need 256 weights per neuron in an MLP; the kernel gets
+            by with nine, total.
           </p>
         </Section>
 
@@ -93,7 +100,10 @@ function ComputerVisionPage() {
         >
           <p>
             Feature maps are wasteful. If a vertical edge fired strongly at one spot, it also fired
-            weakly at the neighbors — you don&rsquo;t need all of that. <strong>Max pooling</strong>{" "}
+            weakly at the neighbors — you don&rsquo;t need all of that.{" "}
+            <Term k="pooling">
+              <strong>Max pooling</strong>
+            </Term>{" "}
             slides a 2×2 window and keeps only the strongest response, shrinking the map to a
             quarter of the pixels while preserving <em>that the feature was found</em>, just not
             exactly where.
