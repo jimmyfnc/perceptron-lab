@@ -47,8 +47,8 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Site-wide polish (later)
 
-- [ ] Home page: upgrade the journey list to an animated journey _map_ (one continuous
-      path/spine with stations, scroll-reactive).
+- [x] Home page journey map — continuous station-hue gradient spine, drawn in by
+      scroll, LEDs ignite as reached (reduced-motion: fully drawn) 2026-06-12.
 - [ ] Bolt/heart sprite pixel art could be cleaner (hand-tune `SPRITES` in conv.ts).
 - [x] `prefers-reduced-motion` — rise/LED stilled, reactive grid declines to mount 2026-06-12.
 - [x] Mobile pass — responsive canvases/SVGs + scaled pointer math across all interactives, all routes audited at 390px 2026-06-12.

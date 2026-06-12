@@ -256,6 +256,18 @@
     content: none;
   }
 
+  /* Journey map: station LEDs ignite as the scroll-drawn spine reaches them */
+  .journey-stop .led {
+    transition:
+      box-shadow 0.5s ease,
+      transform 0.5s ease;
+  }
+
+  .journey-stop[data-reached="true"] .led {
+    box-shadow: 0 0 10px var(--station);
+    transform: scale(1.25);
+  }
+
   /* Hide scrollbars on horizontally scrollable rails */
   .no-scrollbar {
     scrollbar-width: none;

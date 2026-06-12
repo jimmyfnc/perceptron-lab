@@ -21,11 +21,12 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-6">
+        {/* no tagline up here — at 2xl it used to shove "05" out of the rail;
+            the footer carries the subtitle instead */}
         <Link to="/" className="flex items-baseline gap-2 whitespace-nowrap">
           <span className="font-display text-sm font-bold uppercase tracking-[0.22em]">
             Perceptron&nbsp;Lab
           </span>
-          <span className="label-tech hidden 2xl:inline">/ ml field manual</span>
         </Link>
         <nav className="no-scrollbar flex items-center gap-1 overflow-x-auto">
           {STATIONS.map((s) => (

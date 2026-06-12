@@ -17,8 +17,19 @@ does not version-number releases — entries are dated.
   rise/LED animations), and reproduces the original fade mask. Wired into the
   station heroes, the home page, and the interlude.
 
+### Added (later in the day)
+
+- **Home-page journey map**: the station list's spine is now one continuous
+  line through every stop, tinted with the full journey gradient (cool → warm
+  station hues) and drawn in by scroll — each station's LED ignites as the
+  line reaches it. Reduced-motion gets the fully-drawn spine.
+
 ### Fixed
 
+- The REAL cause of the clipped "05" nav item at large desktops: the
+  "/ ml field manual" tagline reappeared at 2xl (1536px+) and shoved the rail
+  past its container. The header tagline is gone (the footer keeps it);
+  verified 390 / 1100 / 1280 / 1440 / 1920.
 - Nav station titles now wait for xl screens — at 1024–1280px the rail still
   overflowed and clipped "05 Diffusion".
 - Decoder-term underlines are more visible (was easy to scroll past the
