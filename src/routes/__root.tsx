@@ -38,8 +38,9 @@ function Header() {
               activeProps={{ className: "!text-station" }}
             >
               <span className="text-station/80">{s.num}</span>
-              {/* the interlude's full title is what used to push 05 out of the rail */}
-              <span className="hidden uppercase lg:inline">
+              {/* titles only when there's truly room — at lg widths the rail
+                  still overflowed and silently clipped 05 (no-scrollbar) */}
+              <span className="hidden uppercase xl:inline">
                 {s.interlude ? "Interlude" : s.title}
               </span>
             </Link>

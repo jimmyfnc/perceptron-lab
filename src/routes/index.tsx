@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { STATIONS, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { ReactiveGrid } from "@/components/site/ReactiveGrid";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -18,6 +19,7 @@ function Index() {
   const liveCount = instruments.filter((s) => s.status === "live").length;
   return (
     <div className="grid-paper">
+      <ReactiveGrid />
       <div className="mx-auto w-full max-w-3xl px-6 pb-24 pt-16 md:pt-24">
         <p className="label-tech animate-rise">An interactive ML field manual</p>
         <h1 className="animate-rise mt-4 font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">

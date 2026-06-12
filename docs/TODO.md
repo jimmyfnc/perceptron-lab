@@ -41,7 +41,7 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 - [ ] Home page: upgrade the journey list to an animated journey _map_ (one continuous
       path/spine with stations, scroll-reactive).
 - [ ] Bolt/heart sprite pixel art could be cleaner (hand-tune `SPRITES` in conv.ts).
-- [ ] `prefers-reduced-motion` handling for sweep/rise animations.
+- [x] `prefers-reduced-motion` — rise/LED stilled, reactive grid declines to mount 2026-06-12.
 - [x] Mobile pass — responsive canvases/SVGs + scaled pointer math across all interactives, all routes audited at 390px 2026-06-12.
 - [x] OG image — `public/og.png` (home-hero capture), self-hosted, wired into og/twitter tags 2026-06-11.
 - [x] Favicon — perceptron mark (`favicon.svg` + ico + apple-touch-icon via `scripts/make_icons.py`) 2026-06-11.

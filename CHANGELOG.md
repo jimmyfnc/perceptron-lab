@@ -6,7 +6,23 @@ does not version-number releases — entries are dated.
 
 ## 2026-06-12
 
+### Added
+
+- **Reactive grid paper** — the hero lattice is now a live spring-mass simulation
+  (Geometry Wars, tuned to instrument subtlety): grid intersections ripple away
+  from the pointer with neighbor-coupled wave propagation, glow faintly in the
+  station hue while disturbed, and settle back. Canvas replaces the static CSS
+  grid only while mounted; the simulation sleeps at rest (zero idle cost),
+  declines to run under `prefers-reduced-motion` (which now also stills the
+  rise/LED animations), and reproduces the original fade mask. Wired into the
+  station heroes, the home page, and the interlude.
+
 ### Fixed
+
+- Nav station titles now wait for xl screens — at 1024–1280px the rail still
+  overflowed and clipped "05 Diffusion".
+- Decoder-term underlines are more visible (was easy to scroll past the
+  glossary entirely).
 
 - **Desktop nav no longer clips "05 Diffusion"**: the interlude's full title was
   overflowing the rail (with the scrollbar hidden, the last items silently

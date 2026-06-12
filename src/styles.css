@@ -145,7 +145,8 @@
      Opt-in vocabulary help — invisible to readers who don't need it. */
   .term {
     position: relative;
-    border-bottom: 1px dotted color-mix(in oklch, var(--station) 55%, transparent);
+    border-bottom: 1.5px dotted color-mix(in oklch, var(--station) 80%, transparent);
+    padding-bottom: 1px;
     cursor: help;
     outline: none;
   }
@@ -250,6 +251,11 @@
     mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, black 30%, transparent 78%);
   }
 
+  /* When the ReactiveGrid canvas is live it replaces the static lattice */
+  .grid-paper[data-reactive]::before {
+    content: none;
+  }
+
   /* Hide scrollbars on horizontally scrollable rails */
   .no-scrollbar {
     scrollbar-width: none;
@@ -347,6 +353,15 @@
 @layer utilities {
   .animate-rise {
     animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Honor reduced-motion: no entrance animation, no pulsing, static grid
+   (ReactiveGrid also checks this and declines to mount). */
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .led-pulse {
+    animation: none;
   }
 }
 

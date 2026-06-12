@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
+import { ReactiveGrid } from "@/components/site/ReactiveGrid";
 import { Section } from "@/components/site/Section";
 import { Bridge } from "@/components/site/Bridge";
 import { ScalingComparison } from "@/components/interactives/ScalingComparison";
@@ -22,6 +23,7 @@ function InterludePage() {
     <div style={stationStyle(station.hue)}>
       {/* hero */}
       <section className="grid-paper">
+        <ReactiveGrid />
         <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
           <p className="label-tech animate-rise">Interlude · a short detour</p>
           <h1 className="animate-rise mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">

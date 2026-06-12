@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Station } from "@/lib/journey";
+import { ReactiveGrid } from "@/components/site/ReactiveGrid";
 
 /**
  * The grid-paper hero every station page opens with: kicker, display
@@ -24,6 +25,7 @@ export function StationHero({
 }) {
   return (
     <section className="grid-paper">
+      <ReactiveGrid />
       <div className="mx-auto w-full max-w-6xl px-6 pb-10 pt-16 md:pt-24">
         <p className="label-tech animate-rise">
           Station {station.num} · {kicker}
