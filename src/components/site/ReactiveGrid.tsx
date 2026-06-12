@@ -10,12 +10,13 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 28; // must match .grid-paper's background-size
 const BASE_ALPHA = 0.05; // must match .grid-paper's line alpha
-const RADIUS = 300; // pointer influence radius (px)
+const RADIUS = 200; // pointer influence radius (px)
+const CORE = 0.45; // fraction of the radius at full dent strength (the plateau)
 const DENT = 15; // peak px displacement of the dent at the cursor
-const FOLLOW = 0.09; // how eagerly nodes chase the dent shape
-const SPRING = 0.02; // pull back toward rest (low = lazy, slow settle)
-const COUPLE = 0.028; // neighbor coupling — wave propagation speed
-const DAMP = 0.93; // high = ripples linger and travel further
+const FOLLOW = 0.15; // how eagerly nodes chase the dent shape (snappy = no smearing)
+const SPRING = 0.05; // pull back toward rest
+const COUPLE = 0.035; // neighbor coupling — wave propagation speed
+const DAMP = 0.87; // lower = ripples die quickly instead of leaving trails
 const MAX_OFF = 16; // displacement clamp (px)
 const REST_EPS = 0.04; // below this mean energy, go to sleep
 
@@ -143,8 +144,11 @@ export function ReactiveGrid() {
     let px = 0;
     let py = 0;
     let inside = false;
+    let lastMoveAt = 0;
+    const IDLE_RELEASE_MS = 2800; // a parked cursor shouldn't hold a dent forever
 
     const applyPointerDent = () => {
+      if (inside && performance.now() - lastMoveAt > IDLE_RELEASE_MS) inside = false;
       if (!inside) return;
       const c0 = Math.max(0, Math.floor((px - RADIUS) / SPACING));
       const c1 = Math.min(cols - 1, Math.ceil((px + RADIUS) / SPACING));
@@ -157,10 +161,10 @@ export function ReactiveGrid() {
           const dy = r * SPACING - py;
           const d = Math.hypot(dx, dy) || 1;
           if (d > RADIUS) continue;
-          const fall = 1 - d / RADIUS;
-          // smoothstep falloff: a wide shoulder, so the bend reads across
-          // many cells instead of pinching at the cursor
-          const shape = fall * fall * (3 - 2 * fall);
+          // plateau falloff: full strength across the inner core, then a
+          // smoothstep down to zero at the (tight) outer edge
+          const t = Math.max(0, Math.min(1, (d / RADIUS - CORE) / (1 - CORE)));
+          const shape = 1 - t * t * (3 - 2 * t);
           const want = (DENT * shape) / d;
           vx[i] += (dx * want - ox[i]) * FOLLOW;
           vy[i] += (dy * want - oy[i]) * FOLLOW;
@@ -230,25 +234,30 @@ export function ReactiveGrid() {
       }
     };
 
+    // window-level so leaving the section is never missed (pointerleave on
+    // the host alone proved unreliable — a stuck flag = a permanent dent)
     const onMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       px = e.clientX - rect.left;
       py = e.clientY - rect.top;
+      const now = inside;
       inside = py >= 0 && py <= rect.height && px >= 0 && px <= rect.width;
-      if (inside) wake();
+      lastMoveAt = performance.now();
+      if (inside || now) wake();
     };
-    const onLeave = () => {
+    const onLeaveDoc = () => {
       inside = false;
     };
 
     const ro = new ResizeObserver(setup);
     ro.observe(host);
     setup();
-    host.addEventListener("pointermove", onMove);
-    host.addEventListener("pointerleave", onLeave);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("pointerleave", onLeaveDoc);
 
     return () => {
-      host.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerleave", onLeaveDoc);
       ro.disconnect();
       cancelAnimationFrame(raf);
       delete host.dataset.reactive;
