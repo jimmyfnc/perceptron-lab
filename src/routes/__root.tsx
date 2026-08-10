@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { OPERATOR_STATIONS, STATIONS, stationStyle } from "../lib/journey";
+import { NavDrawer } from "../components/site/NavDrawer";
 import { OG_IMAGE, SITE_NAME } from "../lib/site";
 
 const FONTS_HREF =
@@ -45,7 +46,9 @@ function Header() {
             Perceptron&nbsp;Lab
           </span>
         </Link>
-        <nav className="no-scrollbar flex items-center gap-1 overflow-x-auto">
+        {/* full rail only where titles genuinely fit; below xl the pop-out
+            journey map takes over (the bare-number rail taught nobody) */}
+        <nav className="no-scrollbar hidden items-center gap-1 overflow-x-auto xl:flex">
           {STATIONS.map((s) => (
             <NavStation key={s.path} s={s} />
           ))}
@@ -55,6 +58,7 @@ function Header() {
             <NavStation key={s.path} s={s} />
           ))}
         </nav>
+        <NavDrawer />
       </div>
     </header>
   );

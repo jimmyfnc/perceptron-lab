@@ -6,6 +6,20 @@ does not version-number releases — entries are dated.
 
 ## 2026-08-10
 
+### Added (later in the day)
+
+- **Pop-out journey map (mobile/tablet nav)**: below xl the header's
+  bare-number rail is replaced by a "≡ map" button that unfolds a grid-paper
+  drawer under the header — both tracks grouped and labeled, every station
+  with its num, full title, codename, hue, and live LED, active station
+  outlined. Backdrop tap / Escape / navigation all fold it; body scroll locks
+  while open; opens with focus on the first station. The xl+ rail is
+  unchanged; when a third track outgrows it, drop the rail and let the drawer
+  serve every width (`src/components/site/NavDrawer.tsx`).
+- Mobile audit re-run at a true emulated 390px (prior checks bottomed out at
+  the desktop window's minimum width): all eight routes, zero horizontal
+  overflow.
+
 ### Added
 
 - **Track II — The Operator's Manual, station O1: The Feedback Bench**
