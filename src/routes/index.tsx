@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { STATIONS, stationStyle } from "@/lib/journey";
+import { OPERATOR_STATIONS, STATIONS, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { ReactiveGrid } from "@/components/site/ReactiveGrid";
 
@@ -144,6 +144,44 @@ function Index() {
         <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
           start anywhere — {liveCount} of {instruments.length} instruments are fully powered
         </p>
+
+        {/* Track II — same site, different question: not how models work,
+            but how to operate them */}
+        <div className="animate-rise mt-20 [animation-delay:360ms]">
+          <p className="label-tech">Track II · The Operator&rsquo;s Manual</p>
+          <p className="prose-lab mt-3 max-w-2xl text-sm">
+            The journey above opens the machines. This track is about <em>driving</em> them —
+            prompting, sampling, and the feedback loops that turn a language model into a coworker.
+            New instruments land here as they leave fabrication.
+          </p>
+          <ol className="mt-6">
+            {OPERATOR_STATIONS.map((s) => (
+              <li key={s.path} className="relative">
+                <Link
+                  to={s.path}
+                  style={stationStyle(s.hue)}
+                  className="group mb-3 block border border-transparent px-4 py-4 transition-colors hover:border-border hover:bg-card"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="font-display text-lg font-semibold tracking-tight">
+                      <span className="readout mr-3 text-sm text-station">{s.num}</span>
+                      {s.title}
+                      <span className="ml-2 text-station transition-colors">— {s.codename}</span>
+                    </p>
+                    <span className="label-tech">
+                      {s.status === "live" ? (
+                        <span className="text-station">● live</span>
+                      ) : (
+                        "○ in fabrication"
+                      )}
+                    </span>
+                  </div>
+                  <p className="mt-1 font-body text-sm text-muted-foreground">{s.tagline}</p>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </div>
   );

@@ -85,6 +85,16 @@ export const GLOSSARY: Record<string, string> = {
     "How much weight a matrix puts on each of its independent patterns, sorted strongest first.",
   tensor: "Just a grid of numbers — possibly with more than two dimensions.",
   GPU: "The graphics card: thousands of tiny calculators working at once, which is exactly what all this math wants.",
+  temperature:
+    "A knob that reshapes the model's word-choice odds — low keeps only safe favorites, high lets long-shot words into the draw.",
+  "top-p":
+    "A sampling rule that keeps just enough of the likeliest words to cover a set share of the odds, and drops the rest.",
+  "system prompt":
+    "Standing instructions given to a model before the conversation starts — who to be, what rules to follow.",
+  agent:
+    "A model given tools and a goal, allowed to act, observe what happened, and decide its own next step.",
+  "context window":
+    "The fixed amount of text a model can hold in mind at once — everything it knows about your task must fit inside.",
 };
 
 export type GlossaryKey = keyof typeof GLOSSARY;

@@ -11,11 +11,28 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { STATIONS, stationStyle } from "../lib/journey";
+import { OPERATOR_STATIONS, STATIONS, stationStyle } from "../lib/journey";
 import { OG_IMAGE, SITE_NAME } from "../lib/site";
 
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap";
+
+function NavStation({ s }: { s: (typeof STATIONS)[number] }) {
+  return (
+    <Link
+      to={s.path}
+      style={stationStyle(s.hue)}
+      title={`${s.title} — ${s.codename}`}
+      className="group flex items-center gap-1.5 whitespace-nowrap px-2 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
+      activeProps={{ className: "!text-station" }}
+    >
+      <span className="text-station/80">{s.num}</span>
+      {/* titles only when there's truly room — at lg widths the rail
+          still overflowed and silently clipped 05 (no-scrollbar) */}
+      <span className="hidden uppercase xl:inline">{s.navLabel ?? s.title}</span>
+    </Link>
+  );
+}
 
 function Header() {
   return (
@@ -30,21 +47,12 @@ function Header() {
         </Link>
         <nav className="no-scrollbar flex items-center gap-1 overflow-x-auto">
           {STATIONS.map((s) => (
-            <Link
-              key={s.path}
-              to={s.path}
-              style={stationStyle(s.hue)}
-              title={`${s.title} — ${s.codename}`}
-              className="group flex items-center gap-1.5 whitespace-nowrap px-2 py-1.5 font-mono text-[11px] tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "!text-station" }}
-            >
-              <span className="text-station/80">{s.num}</span>
-              {/* titles only when there's truly room — at lg widths the rail
-                  still overflowed and silently clipped 05 (no-scrollbar) */}
-              <span className="hidden uppercase xl:inline">
-                {s.interlude ? "Interlude" : s.title}
-              </span>
-            </Link>
+            <NavStation key={s.path} s={s} />
+          ))}
+          {/* thin divider: the mechanics journey ends, the operator track begins */}
+          <span aria-hidden className="mx-1 h-4 w-px shrink-0 bg-border" />
+          {OPERATOR_STATIONS.map((s) => (
+            <NavStation key={s.path} s={s} />
           ))}
         </nav>
       </div>

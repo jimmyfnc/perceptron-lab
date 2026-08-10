@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as NeuralNetworksRouteImport } from './routes/neural-networks'
 import { Route as InterludeRouteImport } from './routes/interlude'
 import { Route as FoundationsRouteImport } from './routes/foundations'
+import { Route as FeedbackBenchRouteImport } from './routes/feedback-bench'
 import { Route as DiffusionRouteImport } from './routes/diffusion'
 import { Route as ComputerVisionRouteImport } from './routes/computer-vision'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const FoundationsRoute = FoundationsRouteImport.update({
   path: '/foundations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeedbackBenchRoute = FeedbackBenchRouteImport.update({
+  id: '/feedback-bench',
+  path: '/feedback-bench',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiffusionRoute = DiffusionRouteImport.update({
   id: '/diffusion',
   path: '/diffusion',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
   '/diffusion': typeof DiffusionRoute
+  '/feedback-bench': typeof FeedbackBenchRoute
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
   '/diffusion': typeof DiffusionRoute
+  '/feedback-bench': typeof FeedbackBenchRoute
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/computer-vision': typeof ComputerVisionRoute
   '/diffusion': typeof DiffusionRoute
+  '/feedback-bench': typeof FeedbackBenchRoute
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/computer-vision'
     | '/diffusion'
+    | '/feedback-bench'
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/computer-vision'
     | '/diffusion'
+    | '/feedback-bench'
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/computer-vision'
     | '/diffusion'
+    | '/feedback-bench'
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComputerVisionRoute: typeof ComputerVisionRoute
   DiffusionRoute: typeof DiffusionRoute
+  FeedbackBenchRoute: typeof FeedbackBenchRoute
   FoundationsRoute: typeof FoundationsRoute
   InterludeRoute: typeof InterludeRoute
   NeuralNetworksRoute: typeof NeuralNetworksRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FoundationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/feedback-bench': {
+      id: '/feedback-bench'
+      path: '/feedback-bench'
+      fullPath: '/feedback-bench'
+      preLoaderRoute: typeof FeedbackBenchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diffusion': {
       id: '/diffusion'
       path: '/diffusion'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComputerVisionRoute: ComputerVisionRoute,
   DiffusionRoute: DiffusionRoute,
+  FeedbackBenchRoute: FeedbackBenchRoute,
   FoundationsRoute: FoundationsRoute,
   InterludeRoute: InterludeRoute,
   NeuralNetworksRoute: NeuralNetworksRoute,

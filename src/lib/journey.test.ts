@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { STATIONS, nextStation, stationByPath, stationStyle } from "./journey";
+import { OPERATOR_STATIONS, STATIONS, nextStation, stationByPath, stationStyle } from "./journey";
 
 describe("journey registry", () => {
   it("has six stations with unique paths", () => {
@@ -12,8 +12,9 @@ describe("journey registry", () => {
     expect(STATIONS.at(-1)!.path).toBe("/diffusion");
   });
 
-  it("stationByPath resolves every nav path", () => {
+  it("stationByPath resolves every nav path, both tracks", () => {
     for (const s of STATIONS) expect(stationByPath(s.path)).toBe(s);
+    for (const s of OPERATOR_STATIONS) expect(stationByPath(s.path)).toBe(s);
     expect(stationByPath("/nope")).toBeUndefined();
   });
 
@@ -23,12 +24,21 @@ describe("journey registry", () => {
     expect(nextStation("/nope")).toBeUndefined();
   });
 
+  it("track II stays off the journey walk and off its paths", () => {
+    expect(nextStation("/feedback-bench")).toBeUndefined();
+    const journeyPaths = new Set(STATIONS.map((s) => s.path));
+    for (const s of OPERATOR_STATIONS) {
+      expect(journeyPaths.has(s.path)).toBe(false);
+      expect(s.num.startsWith("O")).toBe(true);
+    }
+  });
+
   it("stationStyle emits the --station-hue custom property", () => {
     expect(stationStyle(305)).toEqual({ "--station-hue": "305" });
   });
 
   it("every station has the fields the UI renders", () => {
-    for (const s of STATIONS) {
+    for (const s of [...STATIONS, ...OPERATOR_STATIONS]) {
       expect(s.title).toBeTruthy();
       expect(s.codename).toBeTruthy();
       expect(s.tagline).toBeTruthy();

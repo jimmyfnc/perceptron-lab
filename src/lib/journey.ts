@@ -17,6 +17,8 @@ export interface Station {
   hue: number;
   status: "live" | "soon";
   interlude?: boolean;
+  /** Short label for the header rail when `title` would risk clipping it */
+  navLabel?: string;
 }
 
 export const STATIONS: Station[] = [
@@ -47,6 +49,7 @@ export const STATIONS: Station[] = [
     hue: 160,
     status: "live",
     interlude: true,
+    navLabel: "Interlude",
   },
   {
     num: "03",
@@ -77,10 +80,31 @@ export const STATIONS: Station[] = [
   },
 ];
 
+/**
+ * Track II — the operator's manual. A parallel track teaching how to
+ * *operate* models (prompting, sampling, loops, agency) rather than how
+ * they work inside. Its own numbering ("O1"…) and its own hue family
+ * (instrument green) so the two arcs read as mechanics vs. practice.
+ */
+export const OPERATOR_STATIONS: Station[] = [
+  {
+    num: "O1",
+    path: "/feedback-bench",
+    title: "Prompt · Loop · Agent",
+    codename: "The Feedback Bench",
+    tagline: "One question separates them: who closes the loop?",
+    hue: 145,
+    status: "live",
+    // one word — "Feedback Bench" re-clipped the xl rail (the recurring bug)
+    navLabel: "Bench",
+  },
+];
+
 export function stationByPath(path: string): Station | undefined {
-  return STATIONS.find((s) => s.path === path);
+  return STATIONS.find((s) => s.path === path) ?? OPERATOR_STATIONS.find((s) => s.path === path);
 }
 
+/** Walks the mechanics journey only — Track II ends stations by hand. */
 export function nextStation(path: string): Station | undefined {
   const i = STATIONS.findIndex((s) => s.path === path);
   return i >= 0 ? STATIONS[i + 1] : undefined;

@@ -63,7 +63,37 @@ Launch with ONE station to validate the register:
   not asserted.
 - Naming: "The Operator's Manual" vs "Field Notes" vs "Annex".
 
+## Update 2026-08-10 — three rungs, one axis
+
+The station's frame widens from "prompt vs loop" to **prompt vs loop vs
+agentic**, unified as one question: **who closes the loop?**
+
+- Prompt engineering — nobody does; one shot, all intelligence in the input.
+- Loop engineering — _you_ do; critique-and-revise with an external judge.
+- Agentic engineering — _the model_ does; goal + tools, it picks its own
+  steps and decides when it's done.
+
+This completes the thematic spine: loop = descent where you are the loss
+function; agentic = **the model becomes its own loss function** — and agent
+failure modes (bad self-evaluation, premature stops, runaway loops) are
+exactly bad-loss failure modes.
+
+Impact on the sketch:
+
+- Loop player → **three-way** transcript comparison (one-shot / scripted
+  loop / agent with tools), same offline-JSON recipe.
+- Task question settled: a small coding task with tests — the agent rung
+  needs a tool (run the tests), and "passes N of M" makes convergence
+  visible in every column.
+- Loop simulator gains a third mode: the toy agent estimates its own score
+  (noisily) instead of receiving it — early stops and oscillation emerge.
+- Token sampler + prompt anatomy grid unchanged (prompt rung).
+- Scope guard: O1 teaches the _ladder_; tools/MCP/multi-agent depth is a
+  future O2 if the register validates.
+
 ## Next Steps
 
-→ pick the loop-player task + model, then plan O1 with the station-04/05
-playbook (offline script → JSON → interactives → page).
+→ ~~pick the transcript model, then plan O1 with the station-04/05
+playbook~~ **Done — O1 shipped 2026-08-10** (qwen3.6:27b via Ollama; see
+`docs/plans/2026-08-10-feedback-bench-plan.md`). Next: let the register
+settle, then consider O2 (tools/MCP depth, context & RAG, or evals).

@@ -4,7 +4,36 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
-## 2026-06-12
+## 2026-08-10
+
+### Added
+
+- **Track II — The Operator's Manual, station O1: The Feedback Bench**
+  (`/feedback-bench`): the site's first practice-track station, teaching
+  prompt vs loop vs agentic engineering as one axis — _who closes the loop?_
+  - **Loop player** (signature): one real task (`parse_duration`, six
+    hidden-requirement acceptance tests) given to qwen3.6:27b three ways —
+    one-shot, critique-and-revise loop, agent with a test-runner tool —
+    with the actual transcripts scrubbable side by side
+    (`scripts/generate_feedback_transcripts.py`, Ollama, seed 1145). The
+    honest result shipped as-is: one-shot 4/6; the loop _found_ the spec's
+    bare-number ambiguity, reasoned about it, and still chose wrong (4/6);
+    the agent measured its way to 6/6 in two tool calls.
+  - **Prompt anatomy grid**: role/context/constraints/example toggles over
+    16 precomputed real outputs, same model + seed
+    (`scripts/generate_prompt_anatomy.py`).
+  - **Token sampler**: real GPT-2 top-200 next-token logits
+    (`scripts/extract_logits.py`); temperature / top-k / top-p reshaping
+    computed live in the browser (`lib/sampling.ts`, unit-tested).
+  - **Loop simulator**: no-LLM toy where revisions are identical and only
+    the stop signal differs (external judge vs noisy self-estimate) —
+    early-stops below the quality bar emerge from estimate noise alone
+    (`lib/loopsim.ts`, seeded PRNG, unit-tested).
+  - Registry: `journey.ts` gains `OPERATOR_STATIONS` + `navLabel`; nav rail
+    gets a divider + "O1 Bench" (one word — "Feedback Bench" re-clipped the
+    xl rail); home page gains the Track II section; sitemap + JSON-LD wired.
+  - Decoder ring: temperature, top-p, system prompt, agent, context window.
+  - Verified at 390/1280/1920 — no overflow, no console errors, 110 tests.
 
 ### Added
 

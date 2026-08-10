@@ -29,12 +29,16 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 3. Flip the station's `status` to `"live"` in `src/lib/journey.ts`.
 4. `bun run format && bun run lint && bun run build`, then verify in browser.
 
-## Track II — The Operator's Manual (proposed)
+## Track II — The Operator's Manual
 
-- [ ] **O1 — Prompt vs Loop, "The Feedback Bench"** — see
-      `docs/brainstorms/2026-06-12-generative-ai-track-brainstorm.md`
-      (loop player on real local-LLM transcripts, GPT-2 token sampler,
-      prompt anatomy grid, toy loop simulator).
+- [x] **O1 — Prompt · Loop · Agent, "The Feedback Bench"** (`/feedback-bench`)
+      — live 2026-08-10. Real qwen3.6:27b transcripts (Ollama, local),
+      GPT-2 token sampler, prompt anatomy grid, toy loop simulator. Plan:
+      `docs/plans/2026-08-10-feedback-bench-plan.md`. To regenerate
+      transcripts: `python scripts/generate_feedback_transcripts.py --seed N`
+      (needs `ollama serve` + qwen3.6:27b pulled).
+- [ ] **O2 (future, if the register validates)** — tools/MCP/multi-agent
+      depth, context windows & RAG, evals, or ComfyUI workflow design.
 
 ## Content ideas (parked)
 
