@@ -29,7 +29,8 @@ function Raster({ img, size }: { img: Rgba; size: number }) {
     canvas.width = img.width;
     canvas.height = img.height;
     const ctx = canvas.getContext("2d")!;
-    ctx.putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
+    const pixels = new Uint8ClampedArray(img.data);
+    ctx.putImageData(new ImageData(pixels, img.width, img.height), 0, 0);
   }, [img]);
   // crisp CSS upscale so what we computed is exactly what's shown
   return (

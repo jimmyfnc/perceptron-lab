@@ -13,7 +13,7 @@ export const Route = createFileRoute("/transformers")({
     pageHead(
       "/transformers",
       "Transformers — The Attention Lens | Perceptron Lab",
-      "Explore real GPT-2 attention heads over curated sentences — hover-token arcs, a head switcher, and a draggable Q·K·V sandbox that makes softmax attention tangible.",
+      "Explore real GPT-2 attention heads: hover-token arcs, a head switcher, and a draggable Q·K·V sandbox that makes softmax attention tangible.",
     ),
   component: TransformersPage,
 });

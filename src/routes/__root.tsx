@@ -139,32 +139,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Perceptron Lab — an interactive ML field manual" },
-      {
-        name: "description",
-        content:
-          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
-      },
       { name: "author", content: "James Caldwell" },
       { name: "theme-color", content: "#15161c" },
-      { property: "og:title", content: "Perceptron Lab — an interactive ML field manual" },
-      {
-        property: "og:description",
-        content:
-          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
-      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: SITE_NAME },
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Perceptron Lab — an interactive ML field manual" },
-      {
-        name: "twitter:description",
-        content:
-          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
-      },
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
