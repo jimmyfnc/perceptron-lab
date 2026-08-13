@@ -147,12 +147,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Perceptron Lab — an interactive ML field manual" },
-      {
-        name: "twitter:description",
-        content:
-          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
-      },
       { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
