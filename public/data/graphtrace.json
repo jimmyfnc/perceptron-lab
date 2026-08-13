@@ -1,0 +1,215 @@
+{
+  "model": "qwen3.6:27b (4-bit quant, ollama, seed 2145, temp 0.7)",
+  "tasks": [
+    {
+      "id": "ipv4-regex",
+      "kind": "regex",
+      "prompt": "Write a regular expression that matches an IPv4 address: four numbers 0-255 separated by dots, no leading zeros (so '192.168.0.1' matches but '192.168.01.1' and '256.1.1.1' do not). Give the pattern.",
+      "check": "fullmatch on 4 valid addresses, reject 6 invalid"
+    },
+    {
+      "id": "hex-regex",
+      "kind": "regex",
+      "prompt": "Write a regular expression that matches CSS hex colors: '#' followed by exactly 3 or exactly 6 hex digits, like '#a3f' or '#A1B2C3'. Give the pattern.",
+      "check": "fullmatch on 4 valid colors, reject 6 invalid"
+    },
+    {
+      "id": "gpu-farm",
+      "kind": "math",
+      "prompt": "A render farm has 4 racks of 6 GPUs. A third of its GPUs are busy on a job that keeps running. You install 2 more racks, but 5 of the newly delivered GPUs are dead on arrival. How many working GPUs are idle now?",
+      "check": "final integer equals 23"
+    },
+    {
+      "id": "tickets",
+      "kind": "math",
+      "prompt": "Tickets cost $12 each. You buy 7, a 25% group discount applies to the tickets only, and there is a $3 booking fee per order. You pay with a $50 bill and a $20 bill. How many dollars of change do you get?",
+      "check": "final integer equals 4"
+    },
+    {
+      "id": "meeting",
+      "kind": "extract",
+      "prompt": "From this note, extract the person's name and the currently valid date as JSON with keys \"name\" and \"date\" (date in ISO YYYY-MM-DD): \"Heads up - Dana's review, originally 9/3, got moved to the 14th of September 2026, room 4B.\"",
+      "check": "JSON equals {\"name\": \"Dana\", \"date\": \"2026-09-14\"}"
+    },
+    {
+      "id": "invoice",
+      "kind": "extract",
+      "prompt": "From this note, extract the company name and the currently valid date as JSON with keys \"name\" and \"date\" (date in ISO YYYY-MM-DD): \"Fwd: URGENT - Okafor Ltd invoice #778 (was due 11/30, extended two weeks to 12/14/2026).\"",
+      "check": "JSON equals {\"name\": \"Okafor Ltd\", \"date\": \"2026-12-14\"}"
+    }
+  ],
+  "orgs": [
+    {
+      "id": "generalist",
+      "title": "the generalist",
+      "runs": [
+        {
+          "task": "ipv4-regex",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "To construct a regular expression for a valid IPv4 address with no leading zeros, we need to break down the requirements:\n\n1.  **Four octets**: Each number ranges from 0 to 255.\n2.  **No leading zeros**: `0` is allowed, but `01`, `007`, etc., are not. So valid numbers look like:\n    *   `0`\n    *   `1-9`\n    *   `10-99`\n    *   `100-199`\n    *   `200-249`\n    *   `250-255`\n3.  **Separated by dots**: Exactly three dots between the four octets.\n\n### Step-by-step construction of one octet pattern\n\nLet's define a regex group for a single valid octet (0\u2013255, no leading zeros):\n\n*   `25[0-5]` matches 250\u2013255\n*   `2[0-4][0-9]` matches 200\u2013249\n*   `1[0-9]{2}` matches 100\u2013199\n*   `[1-9][0-9]?` matches 1\u201399 (single digit 1\u20139, or two digits where the first is 1\u20139)\n*   `0` matches just zero\n\nCombining these with alternation (`|`):\n```regex\n(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\n```\n\n### Full IPv4 Pattern\n\nWe repeat this octet pattern four times, separated by literal dots (`\\.`). We should also anchor the pattern with `^` and `$` to ensure the entire string matches exactly one IP address.\n\n```regex\n^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)$\n```\n\n### Final Answer\n\nHere is the regular expression pattern:\n\n```regex\n^(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d?|0)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d?|0)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d?|0)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d?|0)$\n```\n\n*(Note: `\\d` is equivalent to `[0-9]`. The pattern above uses `\\d` for brevity, but you can use `[0-9]` if needed.)*",
+              "tokens": 759
+            }
+          ],
+          "pass": true,
+          "shown": "^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?|0)$"
+        },
+        {
+          "task": "hex-regex",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "```regex\n#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\n```",
+              "tokens": 29
+            }
+          ],
+          "pass": true,
+          "shown": "#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})"
+        },
+        {
+          "task": "gpu-farm",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "Here is the step-by-step calculation to determine the number of idle working GPUs:\n\n**1. Calculate the initial number of GPUs:**\n*   There are 4 racks with 6 GPUs each.\n*   Total initial GPUs = $4 \\times 6 = 24$ GPUs.\n\n**2. Determine how many initial GPUs are busy and idle:**\n*   A third of the GPUs are busy.\n*   Busy GPUs = $\\frac{1}{3} \\times 24 = 8$ GPUs.\n*   Since these jobs keep running, these 8 GPUs remain occupied.\n\n**3. Calculate the number of newly added working GPUs:**\n*   You install 2 more racks with 6 GPUs each.\n*   Total new GPUs delivered = $2 \\times 6 = 12$ GPUs.\n*   However, 5 are dead on arrival.\n*   Working new GPUs = $12 - 5 = 7$ GPUs.\n\n**4. Calculate the total number of idle working GPUs:**\n*   The original system had $24 - 8 = 16$ idle working GPUs.\n*   All 7 newly added working GPUs are available (idle) because no new jobs were assigned to them in the problem description.\n*   Total idle working GPUs = $16 + 7 = 23$.\n\n**Answer:**\nThere are **23** working GPUs that are idle now.",
+              "tokens": 307
+            }
+          ],
+          "pass": true,
+          "shown": "23"
+        },
+        {
+          "task": "tickets",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "Here is the step-by-step calculation to determine the amount of change received:\n\n**1. Calculate the total cost of the tickets before discount:**\n$$7 \\text{ tickets} \\times \\$12/\\text{ticket} = \\$84$$\n\n**2. Apply the 25% group discount:**\nThe discount applies only to the tickets, not the booking fee.\n$$\\text{Discount Amount} = \\$84 \\times 0.25 = \\$21$$\n$$\\text{Discounted Ticket Cost} = \\$84 - \\$21 = \\$63$$\n\n**3. Add the booking fee:**\nThere is a flat \\$3 booking fee per order.\n$$\\text{Total Cost} = \\$63 (\\text{tickets}) + \\$3 (\\text{fee}) = \\$66$$\n\n**4. Calculate the total amount paid:**\nYou pay with a \\$50 bill and a \\$20 bill.\n$$\\$50 + \\$20 = \\$70$$\n\n**5. Calculate the change:**\n$$\\text{Change} = \\text{Total Paid} - \\text{Total Cost}$$\n$$\\text{Change} = \\$70 - \\$66 = \\$4$$\n\n**Answer:**\nYou get **$4** in change.",
+              "tokens": 281
+            }
+          ],
+          "pass": true,
+          "shown": "4"
+        },
+        {
+          "task": "meeting",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "```json\n{\n  \"name\": \"Dana\",\n  \"date\": \"2026-09-14\"\n}\n```",
+              "tokens": 35
+            }
+          ],
+          "pass": true,
+          "shown": "{\n  \"name\": \"Dana\",\n  \"date\": \"2026-09-14\"\n}"
+        },
+        {
+          "task": "invoice",
+          "steps": [
+            {
+              "node": "generalist",
+              "text": "```json\n{\n  \"name\": \"Okafor Ltd\",\n  \"date\": \"2026-12-14\"\n}\n```",
+              "tokens": 37
+            }
+          ],
+          "pass": true,
+          "shown": "{\n  \"name\": \"Okafor Ltd\",\n  \"date\": \"2026-12-14\"\n}"
+        }
+      ]
+    },
+    {
+      "id": "routed",
+      "title": "router + specialists",
+      "runs": [
+        {
+          "task": "ipv4-regex",
+          "steps": [
+            { "node": "router", "text": "regex", "tokens": 2, "decision": "regex" },
+            {
+              "node": "regex-specialist",
+              "text": "```regex\n^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])$\n```",
+              "tokens": 92
+            }
+          ],
+          "pass": true,
+          "shown": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])$",
+          "misroute": false
+        },
+        {
+          "task": "hex-regex",
+          "steps": [
+            { "node": "router", "text": "regex", "tokens": 2, "decision": "regex" },
+            {
+              "node": "regex-specialist",
+              "text": "```regex\n#(?:[0-9a-fA-F]{3}){1,2}\\b\n```",
+              "tokens": 25
+            }
+          ],
+          "pass": true,
+          "shown": "#(?:[0-9a-fA-F]{3}){1,2}\\b",
+          "misroute": false
+        },
+        {
+          "task": "gpu-farm",
+          "steps": [
+            { "node": "router", "text": "math", "tokens": 2, "decision": "math" },
+            {
+              "node": "math-specialist",
+              "text": "Here is the step-by-step calculation to determine the number of idle working GPUs:\n\n1.  **Calculate the initial number of GPUs:**\n    The farm starts with 4 racks, and each rack has 6 GPUs.\n    $$4 \\text{ racks} \\times 6 \\text{ GPUs/rack} = 24 \\text{ GPUs}$$\n\n2.  **Determine the number of busy GPUs:**\n    A third of the initial GPUs are busy.\n    $$24 \\text{ GPUs} / 3 = 8 \\text{ busy GPUs}$$\n\n3.  **Calculate the initial number of idle working GPUs:**\n    Subtract the busy GPUs from the total initial GPUs.\n    $$24 \\text{ total GPUs} - 8 \\text{ busy GPUs} = 16 \\text{ idle working GPUs}$$\n\n4.  **Calculate the number of new GPUs added:**\n    2 more racks are installed, each with 6 GPUs.\n    $$2 \\text{ racks} \\times 6 \\text{ GPUs/rack} = 12 \\text{ new GPUs}$$\n\n5.  **Account for defective (dead) GPUs:**\n    5 of the newly delivered GPUs are dead on arrival and cannot be used.\n    $$12 \\text{ new GPUs} - 5 \\text{ dead GPUs} = 7 \\text{ working new GPUs}$$\n\n6.  **Calculate the total number of idle working GPUs:**\n    The problem states the job \"keeps running,\" implying the original busy GPUs remain busy and the original idle GPUs remain idle (unless specified otherwise, we assume the new working GPUs are added to the pool of available/idle resources). The new working GPUs are not assigned to a job in this scenario.\n    \n    Total Idle Working GPUs = (Initial Idle Working GPUs) + (New Working GPUs)\n    $$16 \\text{ initial idle} + 7 \\text{ new working} = 23 \\text{ idle working GPUs}$$\n\n23",
+              "tokens": 434
+            }
+          ],
+          "pass": true,
+          "shown": "23",
+          "misroute": false
+        },
+        {
+          "task": "tickets",
+          "steps": [
+            { "node": "router", "text": "math", "tokens": 2, "decision": "math" },
+            {
+              "node": "math-specialist",
+              "text": "Here is the step-by-step calculation to determine the change received:\n\n1.  **Calculate the total cost of the tickets before discount:**\n    There are 7 tickets at $12 each.\n    $$7 \\times 12 = 84$$\n    The subtotal for tickets is $84.\n\n2.  **Apply the 25% group discount to the tickets:**\n    A 25% discount means you pay 75% of the original price, or we can calculate the discount amount and subtract it.\n    Discount amount: $$84 \\times 0.25 = 21$$\n    Discounted ticket price: $$84 - 21 = 63$$\n    The cost for the tickets after discount is $63.\n\n3.  **Add the booking fee:**\n    There is a $3 booking fee per order. This fee is added to the discounted ticket price.\n    Total cost: $$63 + 3 = 66$$\n    The total amount due is $66.\n\n4.  **Calculate the total amount paid:**\n    You pay with a $50 bill and a $20 bill.\n    Total cash handed over: $$50 + 20 = 70$$\n    You provided $70.\n\n5.  **Calculate the change:**\n    Subtract the total cost from the total amount paid.\n    Change: $$70 - 66 = 4$$\n\nThe change received is $4.\n\n4",
+              "tokens": 328
+            }
+          ],
+          "pass": true,
+          "shown": "4",
+          "misroute": false
+        },
+        {
+          "task": "meeting",
+          "steps": [
+            { "node": "router", "text": "extract", "tokens": 2, "decision": "extract" },
+            {
+              "node": "extract-specialist",
+              "text": "{\n  \"name\": \"Dana\",\n  \"date\": \"2026-09-14\"\n}",
+              "tokens": 30
+            }
+          ],
+          "pass": true,
+          "shown": "{\n  \"name\": \"Dana\",\n  \"date\": \"2026-09-14\"\n}",
+          "misroute": false
+        },
+        {
+          "task": "invoice",
+          "steps": [
+            { "node": "router", "text": "extract", "tokens": 2, "decision": "extract" },
+            {
+              "node": "extract-specialist",
+              "text": "{\n  \"name\": \"Okafor Ltd\",\n  \"date\": \"2026-12-14\"\n}",
+              "tokens": 32
+            }
+          ],
+          "pass": true,
+          "shown": "{\n  \"name\": \"Okafor Ltd\",\n  \"date\": \"2026-12-14\"\n}",
+          "misroute": false
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "generalist": { "passed": 6, "tokens": 1448 },
+    "routed": { "passed": 6, "tokens": 953 }
+  }
+}

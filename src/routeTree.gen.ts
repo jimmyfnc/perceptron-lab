@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WiringLoomRouteImport } from './routes/wiring-loom'
 import { Route as TransformersRouteImport } from './routes/transformers'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as NeuralNetworksRouteImport } from './routes/neural-networks'
@@ -19,6 +20,11 @@ import { Route as DiffusionRouteImport } from './routes/diffusion'
 import { Route as ComputerVisionRouteImport } from './routes/computer-vision'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WiringLoomRoute = WiringLoomRouteImport.update({
+  id: '/wiring-loom',
+  path: '/wiring-loom',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TransformersRoute = TransformersRouteImport.update({
   id: '/transformers',
   path: '/transformers',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
+  '/wiring-loom': typeof WiringLoomRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
+  '/wiring-loom': typeof WiringLoomRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/neural-networks': typeof NeuralNetworksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
+  '/wiring-loom': typeof WiringLoomRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/neural-networks'
     | '/sitemap.xml'
     | '/transformers'
+    | '/wiring-loom'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/neural-networks'
     | '/sitemap.xml'
     | '/transformers'
+    | '/wiring-loom'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/neural-networks'
     | '/sitemap.xml'
     | '/transformers'
+    | '/wiring-loom'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,10 +157,18 @@ export interface RootRouteChildren {
   NeuralNetworksRoute: typeof NeuralNetworksRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TransformersRoute: typeof TransformersRoute
+  WiringLoomRoute: typeof WiringLoomRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wiring-loom': {
+      id: '/wiring-loom'
+      path: '/wiring-loom'
+      fullPath: '/wiring-loom'
+      preLoaderRoute: typeof WiringLoomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transformers': {
       id: '/transformers'
       path: '/transformers'
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   NeuralNetworksRoute: NeuralNetworksRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TransformersRoute: TransformersRoute,
+  WiringLoomRoute: WiringLoomRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

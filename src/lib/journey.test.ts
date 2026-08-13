@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { OPERATOR_STATIONS, STATIONS, nextStation, stationByPath, stationStyle } from "./journey";
+import {
+  OPERATOR_STATIONS,
+  STATIONS,
+  nextOperatorStation,
+  nextStation,
+  stationByPath,
+  stationStyle,
+} from "./journey";
 
 describe("journey registry", () => {
   it("has six stations with unique paths", () => {
@@ -31,6 +38,12 @@ describe("journey registry", () => {
       expect(journeyPaths.has(s.path)).toBe(false);
       expect(s.num.startsWith("O")).toBe(true);
     }
+  });
+
+  it("nextOperatorStation walks track II and ends after the last station", () => {
+    expect(nextOperatorStation("/feedback-bench")?.path).toBe("/wiring-loom");
+    expect(nextOperatorStation(OPERATOR_STATIONS.at(-1)!.path)).toBeUndefined();
+    expect(nextOperatorStation("/foundations")).toBeUndefined();
   });
 
   it("stationStyle emits the --station-hue custom property", () => {

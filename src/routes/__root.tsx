@@ -38,7 +38,10 @@ function NavStation({ s }: { s: (typeof STATIONS)[number] }) {
 function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-sm">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-6">
+      {/* the rail needs ~970px; max-w-6xl caps its slot at ~916 no matter the
+          screen, so the header (alone) widens to 7xl where the rail shows.
+          if O3 tips it past ~1040, retire the rail and go drawer-everywhere */}
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-6 2xl:max-w-7xl">
         {/* no tagline up here — at 2xl it used to shove "05" out of the rail;
             the footer carries the subtitle instead */}
         <Link to="/" className="flex items-baseline gap-2 whitespace-nowrap">
@@ -46,9 +49,10 @@ function Header() {
             Perceptron&nbsp;Lab
           </span>
         </Link>
-        {/* full rail only where titles genuinely fit; below xl the pop-out
-            journey map takes over (the bare-number rail taught nobody) */}
-        <nav className="no-scrollbar hidden items-center gap-1 overflow-x-auto xl:flex">
+        {/* full rail only where titles genuinely fit — O2 pushed that from
+            xl to 2xl (measured ~20px headroom at 1280); below 2xl the
+            pop-out journey map takes over */}
+        <nav className="no-scrollbar hidden items-center gap-1 overflow-x-auto 2xl:flex">
           {STATIONS.map((s) => (
             <NavStation key={s.path} s={s} />
           ))}

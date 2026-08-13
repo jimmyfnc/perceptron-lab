@@ -98,7 +98,23 @@ export const OPERATOR_STATIONS: Station[] = [
     // one word — "Feedback Bench" re-clipped the xl rail (the recurring bug)
     navLabel: "Bench",
   },
+  {
+    num: "O2",
+    path: "/wiring-loom",
+    title: "Graph Engineering",
+    codename: "The Wiring Loom",
+    tagline: "Loops compose into systems — topology is the new hyperparameter.",
+    hue: 115,
+    status: "live",
+    navLabel: "Loom",
+  },
 ];
+
+/** Walks Track II in order; undefined after the last operator station. */
+export function nextOperatorStation(path: string): Station | undefined {
+  const i = OPERATOR_STATIONS.findIndex((s) => s.path === path);
+  return i >= 0 ? OPERATOR_STATIONS[i + 1] : undefined;
+}
 
 export function stationByPath(path: string): Station | undefined {
   return STATIONS.find((s) => s.path === path) ?? OPERATOR_STATIONS.find((s) => s.path === path);

@@ -63,7 +63,7 @@ export function NavDrawer() {
   const close = () => setOpen(false);
 
   return (
-    <div className="xl:hidden">
+    <div className="2xl:hidden">
       <button
         ref={buttonRef}
         className="btn-tech"

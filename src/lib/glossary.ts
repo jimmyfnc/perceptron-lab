@@ -95,6 +95,14 @@ export const GLOSSARY: Record<string, string> = {
     "A model given tools and a goal, allowed to act, observe what happened, and decide its own next step.",
   "context window":
     "The fixed amount of text a model can hold in mind at once — everything it knows about your task must fit inside.",
+  node: "One worker in an agent system: a single job — call a model, run a tool, ask a human — with a defined input and output.",
+  edge: "A wire between workers in an agent system: it decides, from the current state, whose turn is next.",
+  "shared state":
+    "The living record of the work so far that every worker in an agent system reads from and writes to.",
+  router:
+    "A worker whose whole job is choosing a lane: it reads the task and decides which specialist should handle it.",
+  checkpoint:
+    "A deliberate pause in an agent system where a human inspects the work before it continues.",
 };
 
 export type GlossaryKey = keyof typeof GLOSSARY;

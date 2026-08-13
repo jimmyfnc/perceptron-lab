@@ -4,6 +4,36 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-08-13
+
+### Added
+
+- **Track II station O2: The Wiring Loom** (`/wiring-loom`) — graph
+  engineering, taught as the structure under the churning term: state,
+  nodes, edges; topology as a hyperparameter; every edge closes somebody's
+  loop; the human re-enters as a checkpoint node.
+  - **Graph trace** (signature): six machine-checked mini-tasks (regex /
+    arithmetic / strict-JSON extraction) through two REAL orgs on
+    qwen3.6:27b — a lone generalist vs router → specialists — with routing
+    decisions, token bills, and harness verdicts side by side
+    (`scripts/generate_graph_trace.py`, strict identical scoring for both
+    orgs, honest results shipped as-is). The honest result: both orgs went
+    6/6 — the difference showed up on the bill (generalist 1448 tokens vs
+    953 routed; the IPv4 regex alone: 759 rambling vs 92 under a specialist's
+    output contract). Equal quality, cheaper wiring.
+  - **Wiring loom** (toy): identical noisy workers and judges rewired four
+    ways (solo / pipeline / best-of-3 / review loop); quality, calls, and
+    depth readouts; crank judge noise and watch best-of-3 collapse
+    (`lib/graphsim.ts`, seeded + unit-tested).
+  - **Checkpoint lab** (toy): one human, four possible gates on a
+    defect-prone pipeline — escaped defects vs rework cost; placement beats
+    intention.
+  - O1 gains a Track II bridge tile to O2 (`nextOperatorStation`); glossary
+    grows node, edge, shared state, router, checkpoint.
+  - **Nav**: the full rail now waits for 2xl — "O2 Loom" would re-clip it at
+    xl (~20px headroom measured); the pop-out journey map serves everything
+    below, which is exactly what it was built for.
+
 ## 2026-08-10
 
 ### Added (later in the day)

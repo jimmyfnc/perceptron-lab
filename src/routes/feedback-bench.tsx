@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { stationByPath, stationStyle } from "@/lib/journey";
+import { nextOperatorStation, stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
@@ -21,6 +21,7 @@ export const Route = createFileRoute("/feedback-bench")({
 
 const station = stationByPath("/feedback-bench")!;
 const descent = stationByPath("/neural-networks")!;
+const nextOp = nextOperatorStation("/feedback-bench");
 
 function FeedbackBenchPage() {
   return (
@@ -151,7 +152,43 @@ function FeedbackBenchPage() {
           </p>
         </Section>
 
-        {/* Track II closes by pointing back at the mechanics that explain it */}
+        {/* the track continues */}
+        {nextOp && (
+          <section className="mx-auto w-full max-w-3xl px-6">
+            <div className="border-t border-border pt-10">
+              <p className="label-tech">Bridge</p>
+              <div className="prose-lab mt-4">
+                <p>
+                  One agent closing one loop is where this station stops — and where the next one
+                  starts. When a single loop isn&rsquo;t enough, you wire loops into a system, and
+                  the wiring itself becomes the thing you engineer: every edge in that graph is
+                  someone closing a loop for someone else.
+                </p>
+              </div>
+              <Link
+                to={nextOp.path}
+                style={stationStyle(nextOp.hue)}
+                className="panel panel-ticks group mt-8 flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:border-station-dim"
+              >
+                <div>
+                  <p className="label-tech">Next station · {nextOp.num}</p>
+                  <p className="mt-1 font-display text-lg font-semibold">
+                    {nextOp.title} — <span className="text-station">{nextOp.codename}</span>
+                  </p>
+                  <p className="mt-1 font-body text-sm text-muted-foreground">{nextOp.tagline}</p>
+                </div>
+                <span
+                  aria-hidden
+                  className="readout text-xl text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-station"
+                >
+                  -&gt;
+                </span>
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {/* and points back at the mechanics that explain it */}
         <section className="mx-auto w-full max-w-3xl px-6">
           <div className="border-t border-border pt-10">
             <p className="label-tech">Return</p>

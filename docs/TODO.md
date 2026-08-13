@@ -37,8 +37,17 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
       `docs/plans/2026-08-10-feedback-bench-plan.md`. To regenerate
       transcripts: `python scripts/generate_feedback_transcripts.py --seed N`
       (needs `ollama serve` + qwen3.6:27b pulled).
-- [ ] **O2 (future, if the register validates)** — tools/MCP/multi-agent
-      depth, context windows & RAG, evals, or ComfyUI workflow design.
+- [x] **O2 — Graph Engineering, "The Wiring Loom"** (`/wiring-loom`) — live
+      2026-08-13. Real router-vs-generalist runs on qwen3.6:27b
+      (`scripts/generate_graph_trace.py --seed 2145`; honest result: both
+      orgs 6/6, the difference was the bill — 1448 vs 953 tokens), plus toy
+      wiring + checkpoint labs on `lib/graphsim.ts`. Plan:
+      `docs/plans/2026-08-13-wiring-loom-plan.md`.
+- [ ] **O3 candidates** — context windows & RAG, evals ("The Proving
+      Ground"?), or ComfyUI workflow design (bridges Track II back to the
+      diffusion station). NOTE: a third operator station will re-clip the
+      2xl nav rail (~1040px budget, see `__root.tsx`) — retire the rail and
+      go drawer-everywhere when O3 lands.
 
 ## Content ideas (parked)
 
