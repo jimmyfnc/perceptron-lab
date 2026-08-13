@@ -18,8 +18,8 @@ export function svd(A: number[][]): SVD {
   const m = A.length;
   const n = A[0].length;
   const W = A.map((row) => [...row]);
-  const V = Array.from({ length: n }, (_, i) =>
-    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0)),
+  const V: number[][] = Array.from({ length: n }, (_, i) =>
+    Array.from({ length: n }, (_, j): number => (i === j ? 1 : 0)),
   );
 
   const col = (M: number[][], j: number) => M.map((r) => r[j]);
