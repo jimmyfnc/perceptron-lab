@@ -21,6 +21,7 @@ export const Route = createFileRoute("/diffusion")({
 });
 
 const station = stationByPath("/diffusion")!;
+const bench = stationByPath("/feedback-bench")!;
 
 function DiffusionPage() {
   return (
@@ -185,6 +186,40 @@ function DiffusionPage() {
                 start over at station 01
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* the mechanics arc is complete — hand the reader to Track II */}
+        <section className="mx-auto w-full max-w-3xl px-6">
+          <div className="border-t border-border pt-10">
+            <p className="label-tech">Track II · The Operator&rsquo;s Manual</p>
+            <div className="prose-lab mt-4">
+              <p>
+                Everything above opened the machines. There&rsquo;s a second track for what comes
+                after: <em>driving</em> them — prompting, sampling, feedback loops, and wiring
+                agents into systems. It starts with one question the whole discipline hangs on: who
+                closes the loop?
+              </p>
+            </div>
+            <Link
+              to={bench.path}
+              style={stationStyle(bench.hue)}
+              className="panel panel-ticks group mt-8 flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:border-station-dim"
+            >
+              <div>
+                <p className="label-tech">Next track · {bench.num}</p>
+                <p className="mt-1 font-display text-lg font-semibold">
+                  {bench.title} — <span className="text-station">{bench.codename}</span>
+                </p>
+                <p className="mt-1 font-body text-sm text-muted-foreground">{bench.tagline}</p>
+              </div>
+              <span
+                aria-hidden
+                className="readout text-xl text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-station"
+              >
+                -&gt;
+              </span>
+            </Link>
           </div>
         </section>
       </div>
