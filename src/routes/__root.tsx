@@ -139,6 +139,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      /* fallback title/description for pages with no pageHead (404s).
+         route-level heads override these by key, so real pages emit
+         exactly one of each — re-adding them does NOT reintroduce the
+         duplication Lovable's bot was hunting */
+      { title: "Perceptron Lab — an interactive ML field manual" },
+      {
+        name: "description",
+        content:
+          "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
+      },
       { name: "author", content: "James Caldwell" },
       { name: "theme-color", content: "#15161c" },
       { property: "og:type", content: "website" },
