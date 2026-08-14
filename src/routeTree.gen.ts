@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WiringLoomRouteImport } from './routes/wiring-loom'
 import { Route as TransformersRouteImport } from './routes/transformers'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as NeuralNetworksRouteImport } from './routes/neural-networks'
 import { Route as InterludeRouteImport } from './routes/interlude'
 import { Route as FoundationsRouteImport } from './routes/foundations'
@@ -28,11 +27,6 @@ const WiringLoomRoute = WiringLoomRouteImport.update({
 const TransformersRoute = TransformersRouteImport.update({
   id: '/transformers',
   path: '/transformers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NeuralNetworksRoute = NeuralNetworksRouteImport.update({
@@ -79,7 +73,6 @@ export interface FileRoutesByFullPath {
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
   '/wiring-loom': typeof WiringLoomRoute
 }
@@ -91,7 +84,6 @@ export interface FileRoutesByTo {
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
   '/wiring-loom': typeof WiringLoomRoute
 }
@@ -104,7 +96,6 @@ export interface FileRoutesById {
   '/foundations': typeof FoundationsRoute
   '/interlude': typeof InterludeRoute
   '/neural-networks': typeof NeuralNetworksRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/transformers': typeof TransformersRoute
   '/wiring-loom': typeof WiringLoomRoute
 }
@@ -118,7 +109,6 @@ export interface FileRouteTypes {
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
-    | '/sitemap.xml'
     | '/transformers'
     | '/wiring-loom'
   fileRoutesByTo: FileRoutesByTo
@@ -130,7 +120,6 @@ export interface FileRouteTypes {
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
-    | '/sitemap.xml'
     | '/transformers'
     | '/wiring-loom'
   id:
@@ -142,7 +131,6 @@ export interface FileRouteTypes {
     | '/foundations'
     | '/interlude'
     | '/neural-networks'
-    | '/sitemap.xml'
     | '/transformers'
     | '/wiring-loom'
   fileRoutesById: FileRoutesById
@@ -155,7 +143,6 @@ export interface RootRouteChildren {
   FoundationsRoute: typeof FoundationsRoute
   InterludeRoute: typeof InterludeRoute
   NeuralNetworksRoute: typeof NeuralNetworksRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TransformersRoute: typeof TransformersRoute
   WiringLoomRoute: typeof WiringLoomRoute
 }
@@ -174,13 +161,6 @@ declare module '@tanstack/react-router' {
       path: '/transformers'
       fullPath: '/transformers'
       preLoaderRoute: typeof TransformersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/neural-networks': {
@@ -243,7 +223,6 @@ const rootRouteChildren: RootRouteChildren = {
   FoundationsRoute: FoundationsRoute,
   InterludeRoute: InterludeRoute,
   NeuralNetworksRoute: NeuralNetworksRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TransformersRoute: TransformersRoute,
   WiringLoomRoute: WiringLoomRoute,
 }
