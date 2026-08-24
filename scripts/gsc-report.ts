@@ -12,13 +12,17 @@
  *   bun scripts/gsc-report.ts --sites          # list properties the account can see
  *   bun scripts/gsc-report.ts --site sc-domain:example.com --days 90 --limit 50
  *   bun scripts/gsc-report.ts --dim page,device
+ *   bun scripts/gsc-report.ts --sitemaps       # sitemap processing status
+ *   bun scripts/gsc-report.ts --inspect https://a.com/x,https://a.com/y
+ *   bun scripts/gsc-report.ts --submit-sitemap https://a.com/sitemap.xml
  */
 import { readFileSync } from "node:fs";
 import { createSign } from "node:crypto";
 
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const API = "https://searchconsole.googleapis.com/webmasters/v3";
-const SCOPE = "https://www.googleapis.com/auth/webmasters.readonly";
+// full (not readonly) scope so --submit-sitemap works; reads are unaffected
+const SCOPE = "https://www.googleapis.com/auth/webmasters";
 
 // ---- args -------------------------------------------------------------------
 const args = process.argv.slice(2);
@@ -119,7 +123,30 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
     );
   }
   if (!res.ok) throw new Error(`${path} -> ${res.status}: ${await res.text()}`);
-  return res.json() as Promise<T>;
+  const text = await res.text();
+  return (text ? JSON.parse(text) : {}) as T;
+}
+
+/** URL Inspection API — authoritative per-URL index status. */
+async function inspect(site: string, url: string) {
+  const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
+    method: "POST",
+    headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+    body: JSON.stringify({ inspectionUrl: url, siteUrl: site }),
+  });
+  if (!res.ok) throw new Error(`inspect ${url} -> ${res.status}: ${await res.text()}`);
+  const j = (await res.json()) as {
+    inspectionResult?: {
+      indexStatusResult?: {
+        verdict?: string;
+        coverageState?: string;
+        lastCrawlTime?: string;
+        robotsTxtState?: string;
+        googleCanonical?: string;
+      };
+    };
+  };
+  return j.inspectionResult?.indexStatusResult ?? {};
 }
 
 interface Row {
@@ -190,6 +217,53 @@ try {
       for (const s of siteEntry) console.log(`  ${s.siteUrl}`);
       process.exit(1);
     }
+  }
+
+  if (has("sitemaps")) {
+    const { sitemap = [] } = await api<{
+      sitemap?: {
+        path: string;
+        lastSubmitted?: string;
+        lastDownloaded?: string;
+        isPending?: boolean;
+        errors?: string;
+        warnings?: string;
+        contents?: { type: string; submitted: string; indexed: string }[];
+      }[];
+    }>(`/sites/${encodeURIComponent(site)}/sitemaps`);
+    if (!sitemap.length) console.log(`no sitemaps submitted for ${site}`);
+    for (const s of sitemap) {
+      console.log(`${s.path}`);
+      console.log(
+        `  submitted ${s.lastSubmitted ?? "—"} · last downloaded ${s.lastDownloaded ?? "never"}` +
+          ` · pending ${s.isPending ?? false} · errors ${s.errors ?? 0} · warnings ${s.warnings ?? 0}`,
+      );
+      for (const c of s.contents ?? []) console.log(`  ${c.type}: ${c.submitted} URLs submitted`);
+    }
+    process.exit(0);
+  }
+
+  const sitemapToSubmit = flag("submit-sitemap");
+  if (sitemapToSubmit) {
+    await api(
+      `/sites/${encodeURIComponent(site)}/sitemaps/${encodeURIComponent(sitemapToSubmit)}`,
+      { method: "PUT" },
+    );
+    console.log(`resubmitted ${sitemapToSubmit} for ${site}`);
+    process.exit(0);
+  }
+
+  const inspectUrls = flag("inspect");
+  if (inspectUrls) {
+    for (const u of inspectUrls.split(",")) {
+      const r = await inspect(site, u.trim());
+      const crawl = r.lastCrawlTime ? r.lastCrawlTime.slice(0, 16).replace("T", " ") : "never";
+      console.log(`${u.trim()}`);
+      console.log(`  ${r.verdict ?? "?"} · ${r.coverageState ?? "?"} · last crawl ${crawl}`);
+      if (r.googleCanonical && r.googleCanonical !== u.trim())
+        console.log(`  google canonical: ${r.googleCanonical}`);
+    }
+    process.exit(0);
   }
 
   console.log(`\n${site} — last ${days} days\n`);
