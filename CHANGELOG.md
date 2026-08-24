@@ -4,6 +4,29 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-08-24
+
+### Changed
+
+- **SEO retitle pass across all nine routes.** First GSC data (40 impressions
+  in 10 days, zero with learning intent — every query a collision with
+  TransformerLens or Perceptron Inc.) showed the codename-first titles ranking
+  for nothing the site is about. Title tags and meta descriptions now lead
+  with the queries people actually search ("How Convolutional Neural Networks
+  Work", "How Attention Works in Transformers", "How Stable Diffusion Works");
+  codenames stay everywhere on-page. Section headings gained keyword-bearing
+  prefixes ("CFG scale:", "Backpropagation", "Multi-head attention:",
+  "Receptive fields:") and ledes now name their topic in plain terms.
+
+### Added
+
+- `.env` / `.env.example` scaffolding (gitignored) for Google Search API
+  credentials.
+- `scripts/gsc-report.ts` — zero-dependency Search Console reporter (service
+  account JWT auth, no packages added): totals, top queries, top pages, or any
+  `--dim` combination, for any GSC property the account is added to — reusable
+  across future sites, not just this one.
+
 ## 2026-08-13
 
 ### Added

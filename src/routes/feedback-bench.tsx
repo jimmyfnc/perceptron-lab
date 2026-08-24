@@ -13,8 +13,8 @@ export const Route = createFileRoute("/feedback-bench")({
   head: () =>
     pageHead(
       "/feedback-bench",
-      "Prompt · Loop · Agent — The Feedback Bench | Perceptron Lab",
-      "Prompt, loop, and agentic engineering are one question: who closes the loop? Scrub real local-LLM transcripts of the same task solved three ways.",
+      "Prompt Engineering vs. AI Agents: Who Closes the Loop? | Perceptron Lab",
+      "Prompt engineering, feedback loops, and AI agents are rungs of one ladder — who closes the loop? Scrub real local-LLM transcripts of the same task solved three ways.",
     ),
   component: FeedbackBenchPage,
 });
@@ -49,7 +49,7 @@ function FeedbackBenchPage() {
       <div className="flex flex-col gap-20 pb-24">
         <Section
           index="§1"
-          title="The prompt is the whole program"
+          title="Prompt engineering: the prompt is the whole program"
           figure={<PromptAnatomyGrid />}
           figureLabel="fig. 02 — role, context, constraints, example: 16 real outputs, one question"
         >
@@ -73,7 +73,7 @@ function FeedbackBenchPage() {
 
         <Section
           index="§2"
-          title="Where the words come from"
+          title="Sampling and temperature: where the words come from"
           figure={<TokenSampler />}
           figureLabel="fig. 03 — real GPT-2 logits; temperature, top-k, and top-p computed live"
         >
@@ -126,7 +126,7 @@ function FeedbackBenchPage() {
           </p>
         </Section>
 
-        <Section index="§4" title="When the model closes the loop">
+        <Section index="§4" title="AI agents: when the model closes the loop">
           <p>
             The third rung hands the model the loop itself: a goal, a tool, and the right to decide
             its own next step. That&rsquo;s all an <Term k="agent">agent</Term> is.{" "}

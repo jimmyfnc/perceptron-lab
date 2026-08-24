@@ -12,8 +12,8 @@ export const Route = createFileRoute("/wiring-loom")({
   head: () =>
     pageHead(
       "/wiring-loom",
-      "Graph Engineering — The Wiring Loom | Perceptron Lab",
-      "Agent systems as graphs: state, nodes, edges, and topology as a hyperparameter. Real router-vs-generalist runs on a local model, plus toy wiring labs.",
+      "Multi-Agent Systems as Graphs — Interactive | Perceptron Lab",
+      "Multi-agent architecture as graph engineering: state, nodes, edges, and topology as a hyperparameter — with real router-vs-generalist runs on a local model, plus toy wiring labs.",
     ),
   component: WiringLoomPage,
 });
@@ -122,7 +122,7 @@ function WiringLoomPage() {
 
         <Section
           index="§4"
-          title="The human is a node now"
+          title="Human-in-the-loop: the human is a node now"
           figure={<CheckpointLab />}
           figureLabel="fig. 03 — one human, four gates: placement beats intention"
         >

@@ -12,8 +12,8 @@ export const Route = createFileRoute("/transformers")({
   head: () =>
     pageHead(
       "/transformers",
-      "Transformers — The Attention Lens | Perceptron Lab",
-      "Explore real GPT-2 attention heads: hover-token arcs, a head switcher, and a draggable Q·K·V sandbox that makes softmax attention tangible.",
+      "How Attention Works in Transformers (Real GPT-2) | Perceptron Lab",
+      "The attention mechanism, explained interactively: queries, keys, values, softmax, and multi-head attention — through 144 real GPT-2 heads you can hover, switch, and probe.",
     ),
   component: TransformersPage,
 });
@@ -31,7 +31,7 @@ function TransformersPage() {
             The Attention <span className="text-station">Lens</span>
           </>
         }
-        lede="A convolution gathers context a neighborhood at a time. Attention skips the wait: every token gets to ask one question of every token before it, and decide for itself what matters. The weights below aren't a diagram of that idea — they're pulled from a real GPT-2, head by head."
+        lede="A convolution gathers context a neighborhood at a time. A transformer's attention skips the wait: every token gets to ask one question of every token before it, and decide for itself what matters. The weights below aren't a diagram of that idea — they're pulled from a real GPT-2, head by head."
         status="instrument live — hover the tokens · switch heads · try the finders"
       />
 
@@ -46,7 +46,7 @@ function TransformersPage() {
       <div className="flex flex-col gap-20 pb-24">
         <Section
           index="§1"
-          title="One formula runs the whole show"
+          title="Queries, keys, values: one formula runs the whole show"
           figure={<QKVSandbox />}
           figureLabel="fig. 02 — softmax(q·k / √d) · v, with your hands on all three"
         >
@@ -72,7 +72,7 @@ function TransformersPage() {
           </p>
         </Section>
 
-        <Section index="§2" title="Heads are specialists, and you just met three">
+        <Section index="§2" title="Multi-head attention: specialists, and you just met three">
           <p>
             Why twelve heads per layer instead of one? Because one softmax is one spotlight — it
             can&rsquo;t look two places with full strength at once.{" "}

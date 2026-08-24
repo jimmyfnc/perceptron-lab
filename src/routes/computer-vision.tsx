@@ -14,8 +14,8 @@ export const Route = createFileRoute("/computer-vision")({
   head: () =>
     pageHead(
       "/computer-vision",
-      "CNNs & Vision — The Convolution Bench | Perceptron Lab",
-      "Paint pixels, slide kernels, and watch feature maps build cell by cell. An interactive walkthrough of convolution, pooling, and feature hierarchies.",
+      "How Convolutional Neural Networks Work — Interactive | Perceptron Lab",
+      "Learn how CNNs work: convolution, kernels, feature maps, max pooling, and receptive fields — paint pixels, slide kernels, and watch features emerge cell by cell.",
     ),
   component: ComputerVisionPage,
 });
@@ -33,7 +33,7 @@ function ComputerVisionPage() {
             The Convolution <span className="text-station">Bench</span>
           </>
         }
-        lede="A convolutional network is built on one small idea: slide a tiny grid of weights across an image and write down how strongly each spot answers. Everything else — pooling, depth, feature hierarchies — is that idea, repeated. Paint something below and watch it happen."
+        lede="A convolutional neural network is built on one small idea: slide a tiny grid of weights across an image and write down how strongly each spot answers. Everything else — pooling, depth, feature hierarchies — is that idea, repeated. Paint something below and watch it happen."
         status="instrument live — drag to paint · hover the map · press sweep"
       />
 
@@ -46,7 +46,7 @@ function ComputerVisionPage() {
       </section>
 
       <div className="flex flex-col gap-20 pb-24">
-        <Section index="§1" title="One small window, slid everywhere">
+        <Section index="§1" title="Convolution: one small window, slid everywhere">
           <p>
             A fully-connected network treats every pixel as its own independent input — move the
             subject two pixels left and, as far as the math is concerned, it&rsquo;s a brand-new
@@ -94,7 +94,7 @@ function ComputerVisionPage() {
 
         <Section
           index="§3"
-          title="Pooling: keep the what, loosen the where"
+          title="Max pooling: keep the what, loosen the where"
           figure={<PoolingInspector />}
           figureLabel="fig. 03 — a real feature map (bolt × sobel-x), pooled"
         >
@@ -118,7 +118,7 @@ function ComputerVisionPage() {
 
         <Section
           index="§4"
-          title="Depth buys context"
+          title="Receptive fields: depth buys context"
           figure={<ReceptiveFieldTracer />}
           figureLabel="fig. 04 — receptive field growth across two stacked convolutions"
         >

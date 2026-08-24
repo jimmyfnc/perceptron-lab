@@ -10,8 +10,8 @@ export const Route = createFileRoute("/interlude")({
   head: () =>
     pageHead(
       "/interlude",
-      "Two Kinds of Nearest — Interlude | Perceptron Lab",
-      "Nearest-neighbor interpolation is not K-nearest-neighbors. A short detour through pixel-art scaling to tell them apart for good.",
+      "Nearest-Neighbor Interpolation vs. K-Nearest Neighbors | Perceptron Lab",
+      "Nearest-neighbor interpolation is not K-nearest-neighbors: one resamples pixels, the other classifies data. A ten-minute interactive detour to tell them apart for good.",
     ),
   component: InterludePage,
 });

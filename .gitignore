@@ -20,6 +20,12 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Local env files (API keys) — .env.example is the tracked template
+.env
+.env.*
+!.env.example
+service-account*.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

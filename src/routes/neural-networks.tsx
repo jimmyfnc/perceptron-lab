@@ -13,8 +13,8 @@ export const Route = createFileRoute("/neural-networks")({
   head: () =>
     pageHead(
       "/neural-networks",
-      "Neural Networks — The Descent | Perceptron Lab",
-      "Perceptron to MLP, activations, backprop, and loss landscapes — with SGD, momentum, and Adam racing down a 3D loss surface you can steer.",
+      "How Neural Networks Learn — Interactive Guide | Perceptron Lab",
+      "Backpropagation, activation functions, and gradient descent made tangible: watch SGD, momentum, and Adam race down a 3D loss surface, then train an MLP live in your browser.",
     ),
   component: NeuralNetworksPage,
 });
@@ -32,7 +32,7 @@ function NeuralNetworksPage() {
             The <span className="text-station">Descent</span>
           </>
         }
-        lede="Training a network is not a search for the right answer — it's a walk downhill. The loss is a landscape, the weights are your position, and every optimizer ever invented is just a different way of taking the next step. Below, three of them race down the same hill."
+        lede="Training a neural network is not a search for the right answer — it's a walk downhill. The loss is a landscape, the weights are your position, and every optimizer ever invented is just a different way of taking the next step. Below, three of them race down the same hill."
         status="instrument live — drag to orbit · click the surface to re-drop"
       />
 
@@ -68,7 +68,7 @@ function NeuralNetworksPage() {
 
         <Section
           index="§2"
-          title="The activation is where the bend comes from"
+          title="Activation functions: where the bend comes from"
           figure={<ActivationGallery />}
           figureLabel="fig. 02 — four bends, and how much gradient each lets back through"
         >
@@ -94,7 +94,7 @@ function NeuralNetworksPage() {
 
         <Section
           index="§3"
-          title="Backprop is the chain rule, run backwards"
+          title="Backpropagation is the chain rule, run backwards"
           figure={<MLPTrainer />}
           figureLabel="fig. 03 — a 2→H→1 network learning live, full-batch, in your browser"
         >
@@ -119,7 +119,7 @@ function NeuralNetworksPage() {
           </p>
         </Section>
 
-        <Section index="§4" title="Why everyone uses Adam">
+        <Section index="§4" title="Optimizers: why everyone uses Adam">
           <p>
             Plain SGD has one move — step straight downhill — and the race above shows both ways it
             goes wrong. On the ravine it zigzags: the walls are steep, the floor is shallow, and one{" "}

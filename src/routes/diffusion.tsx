@@ -14,8 +14,8 @@ export const Route = createFileRoute("/diffusion")({
   head: () =>
     pageHead(
       "/diffusion",
-      "Diffusion — The Denoising Deck | Perceptron Lab",
-      "Scrub a real Stable Diffusion run state by state — noise schedules, CFG, latent walks, and LoRA's low-rank trick, all hands-on.",
+      "How Stable Diffusion Works, Step by Step | Perceptron Lab",
+      "How diffusion models work, hands-on: scrub a real Stable Diffusion run state by state — noise schedules, DDIM sampling, CFG scale, latent space, and LoRA fine-tuning.",
     ),
   component: DiffusionPage,
 });
@@ -49,7 +49,7 @@ function DiffusionPage() {
       <div className="flex flex-col gap-20 pb-24">
         <Section
           index="§1"
-          title="Noise is the curriculum"
+          title="Forward diffusion: noise is the curriculum"
           figure={<NoiseSchedule />}
           figureLabel="fig. 02 — the forward process, computed live on a 48×48 scene"
         >
@@ -69,7 +69,7 @@ function DiffusionPage() {
           </p>
         </Section>
 
-        <Section index="§2" title="Sampling runs the film backwards">
+        <Section index="§2" title="Reverse diffusion: sampling runs the film backwards">
           <p>
             Generation is the inverse loop: start from pure noise, and twenty-odd times in a row,
             predict the noise and remove a scheduled slice of it. That&rsquo;s the loop your ComfyUI{" "}
@@ -92,7 +92,7 @@ function DiffusionPage() {
 
         <Section
           index="§3"
-          title="The prompt's volume knob"
+          title="CFG scale: the prompt's volume knob"
           figure={<CFGStrip />}
           figureLabel="fig. 03 — same starting noise, four guidance scales"
         >

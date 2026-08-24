@@ -14,8 +14,8 @@ export const Route = createFileRoute("/foundations")({
   head: () =>
     pageHead(
       "/foundations",
-      "Classical ML — The Boundary Lab | Perceptron Lab",
-      "Bias, variance, overfitting, KNN, k-means, and gradient descent — taught through a draggable decision-boundary playground with live error curves.",
+      "Bias, Variance & Overfitting — Interactive | Perceptron Lab",
+      "Learn the bias–variance tradeoff, overfitting, regularization, KNN, k-means, and gradient descent in a draggable decision-boundary playground with live error curves.",
     ),
   component: FoundationsPage,
 });
@@ -33,7 +33,7 @@ function FoundationsPage() {
             The Boundary <span className="text-station">Lab</span>
           </>
         }
-        lede="Every classifier draws a line between classes — the whole game is how wiggly to let that line get. Below, the line belongs to k-nearest-neighbors and the wiggle dial is k. Drag points, add your own, and watch the bias–variance tradeoff stop being an equation and start being a feeling."
+        lede="Every machine-learning classifier draws a line between classes — the whole game is how wiggly to let that line get. Below, the line belongs to k-nearest-neighbors and the wiggle dial is k. Drag points, add your own, and watch the bias–variance tradeoff stop being an equation and start being a feeling."
         status="instrument live — drag points · sweep k · click the error chart"
       />
 
@@ -46,7 +46,7 @@ function FoundationsPage() {
       </section>
 
       <div className="flex flex-col gap-20 pb-24">
-        <Section index="§1" title="The dial every model has">
+        <Section index="§1" title="Bias and variance: the dial every model has">
           <p>
             Set k to 1 in the lab and the boundary traces every single point — including the noisy
             ones sitting in enemy territory. Train error: zero, always, because each point&rsquo;s
@@ -67,7 +67,7 @@ function FoundationsPage() {
 
         <Section
           index="§2"
-          title="The same disease in regression"
+          title="The same disease in regression — regularization is the cure"
           figure={<PolyFit />}
           figureLabel="fig. 02 — polynomial capacity vs ridge restraint"
         >
@@ -91,7 +91,7 @@ function FoundationsPage() {
 
         <Section
           index="§3"
-          title="Learning without labels"
+          title="K-means: learning without labels"
           figure={<KMeansStepper />}
           figureLabel="fig. 03 — k-means converging, two moves at a time"
         >
@@ -113,7 +113,7 @@ function FoundationsPage() {
 
         <Section
           index="§4"
-          title="How models actually learn"
+          title="Gradient descent: how models actually learn"
           figure={<DescentContours />}
           figureLabel="fig. 04 — gradient descent: the learning-rate dilemma, live"
         >

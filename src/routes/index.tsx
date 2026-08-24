@@ -8,8 +8,8 @@ export const Route = createFileRoute("/")({
   head: () =>
     pageHead(
       "/",
-      "Perceptron Lab — an interactive ML field manual",
-      "Learn machine learning by playing with it: hand-built interactive visualizations from classical ML to diffusion models.",
+      "Learn Machine Learning Interactively — Perceptron Lab",
+      "Interactive machine learning tutorials from classical ML to Stable Diffusion: neural networks, CNNs, transformers, and diffusion models as hand-built visualizations you operate.",
     ),
   component: Index,
 });
