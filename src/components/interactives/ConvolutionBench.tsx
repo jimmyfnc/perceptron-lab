@@ -318,6 +318,7 @@ export function ConvolutionBench() {
                 <input
                   key={`${y}-${x}`}
                   value={val}
+                  aria-label={`kernel weight row ${y + 1}, column ${x + 1}`}
                   inputMode="decimal"
                   onChange={(e) => {
                     const n = kernelText.map((r) => [...r]);
@@ -354,7 +355,7 @@ export function ConvolutionBench() {
                   key={i}
                   className={
                     t == null || t.w * t.x === 0
-                      ? "text-muted-foreground/50"
+                      ? "text-muted-foreground"
                       : t.w * t.x > 0
                         ? "text-station"
                         : "text-[oklch(0.78_0.13_205)]"

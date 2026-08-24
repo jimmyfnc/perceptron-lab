@@ -138,9 +138,40 @@ export function LoopPlayer() {
     );
   }
   if (!data) {
+    // skeleton mirrors the loaded layout (task panel + three h-64 rungs +
+    // scrubber) so the data swap doesn't shift the page — CLS was 0.255
     return (
       <InstrumentPanel label="loop player — warming up">
-        <p className="label-tech py-10 text-center">loading real transcripts…</p>
+        <div className="panel mb-4 px-4 py-3">
+          <p className="label-tech">the task (and everything the spec doesn&rsquo;t say)</p>
+          <p className="readout mt-2 text-[12px] leading-relaxed text-muted-foreground">
+            loading real transcripts…
+          </p>
+          <p className="readout mt-2 text-[11px] text-muted-foreground">
+            hidden acceptance tests: · · · · · ·
+          </p>
+        </div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {["rung 1", "rung 2", "rung 3"].map((k) => (
+            <div key={k} className="panel flex flex-col px-3 py-3 opacity-60">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="font-display text-sm font-semibold uppercase tracking-wide">{k}</p>
+                <span className="readout text-[11px] text-muted-foreground">— tok</span>
+              </div>
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <span className="readout text-[11px] text-muted-foreground">· · · · · ·</span>
+                <span className="readout text-[11px] text-muted-foreground">step —</span>
+              </div>
+              <div className="mt-3 flex h-64 flex-col">
+                <p className="label-tech m-auto text-center">warming up</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div aria-hidden className="mt-4 h-8" />
+        <p className="label-tech mt-3 text-center normal-case tracking-normal">
+          scrub the shared timeline — the meters show what each approach actually knew, and shipped
+        </p>
       </InstrumentPanel>
     );
   }

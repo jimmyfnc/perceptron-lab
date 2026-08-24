@@ -5,6 +5,7 @@ import { StationHero } from "@/components/site/StationHero";
 import { Section } from "@/components/site/Section";
 import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
+import { DeeperCut, MatrixCard } from "@/components/site/DeeperCut";
 import { ConvolutionBench } from "@/components/interactives/ConvolutionBench";
 import { KernelGallery } from "@/components/interactives/KernelGallery";
 import { PoolingInspector } from "@/components/interactives/PoolingInspector";
@@ -69,6 +70,29 @@ function ComputerVisionPage() {
             bench&rsquo;s 16×16 input would need 256 weights per neuron in an MLP; the kernel gets
             by with nine, total.
           </p>
+          <DeeperCut title="the arithmetic">
+            <p>
+              One stop of the kernel is a dot product:{" "}
+              <code>S(i,j) = Σₘ Σₙ I(i+m, j+n) · K(m,n)</code> — nine multiplies and eight adds
+              writing one cell of the feature map. (Pedants&rsquo; corner: that&rsquo;s technically{" "}
+              <em>cross-correlation</em>; a true convolution flips the kernel 180° first.
+              Deep-learning frameworks skip the flip, because a learned kernel simply learns itself
+              pre-flipped.)
+            </p>
+            <p>
+              Output size is one formula: <code>out = ⌊(n + 2p − k)/s⌋ + 1</code> for input width n,
+              padding p, kernel k, stride s. The bench: n=16, k=3, p=0, s=1 → 14 — which is exactly
+              why the map you painted came out 14×14. Add a one-pixel border of zeros (p=1,
+              &ldquo;same&rdquo; padding) and the map returns to 16×16.
+            </p>
+            <p>
+              And the cheapness claim in real numbers:{" "}
+              <strong>a layer of 32 such kernels costs 32 · (9 + 1) = 320 weights</strong> (the +1
+              is each kernel&rsquo;s bias); one fully-connected layer from these 256 pixels to 256
+              hidden units costs 65,792. That ratio, not any cleverness, is why vision went
+              convolutional.
+            </p>
+          </DeeperCut>
         </Section>
 
         <Section
@@ -90,6 +114,31 @@ function ComputerVisionPage() {
             oriented edges, color contrasts, little gradients. The difference is it learned the
             questions <em>worth asking</em> for its task, and it asks hundreds of them at once.
           </p>
+          <DeeperCut title="reading a kernel like a derivative">
+            <MatrixCard
+              values={[
+                ["−1", "0", "1"],
+                ["−2", "0", "2"],
+                ["−1", "0", "1"],
+              ]}
+              label="sobel-x, weight by weight"
+            />
+            <p>
+              Read Sobel-x by columns: left negative, right positive — it computes{" "}
+              <em>right minus left</em>, a finite difference approximating ∂I/∂x — while the 1-2-1
+              down each column averages vertically so a single noisy pixel can&rsquo;t fake an edge.
+              The weights sum to zero, and that&rsquo;s the deeper pattern:{" "}
+              <strong>a zero-sum kernel stays silent on flat patches</strong> — it only speaks when
+              its pattern actually shows up.
+            </p>
+            <p>
+              The Gaussian is the opposite species: all-positive, summing to one, so flat stays
+              flat. It hides one more trick — it&rsquo;s <em>separable</em>: the 3×3 is the outer
+              product of <code>[1 2 1]/4</code> with itself, so you can blur rows then columns and
+              pay 2k multiplies per pixel instead of k². The Laplacian is the second derivative:
+              blind to steady ramps, loud at changes of slope — which is why it traces outlines.
+            </p>
+          </DeeperCut>
         </Section>
 
         <Section
@@ -114,6 +163,23 @@ function ComputerVisionPage() {
             keeps the mean instead — gentler, but it waters down strong detections. Toggle between
             the two and notice which one lets the bright responses survive.
           </p>
+          <DeeperCut title="gradients through a switch">
+            <p>
+              Pooling owns no weights, but it still must pass gradients backwards, and the two
+              variants do it in character. Max pooling routes like a switch:{" "}
+              <strong>
+                the winning cell receives the entire gradient; the other three get exactly zero
+              </strong>{" "}
+              — so only the detector that actually fired gets trained harder. Average pooling splits
+              the gradient into four equal quarters, diluting credit exactly the way it diluted the
+              signal.
+            </p>
+            <p>
+              The bookkeeping: a 2×2, stride-2 pool halves each side, so after L pools a map&rsquo;s
+              side is n/2ᴸ. The classic ImageNet pipeline pools 224 → 112 → 56 → 28 → 14 → 7 — five
+              halvings before the classifier reads the 7×7 summary.
+            </p>
+          </DeeperCut>
         </Section>
 
         <Section
@@ -135,6 +201,25 @@ function ComputerVisionPage() {
             composes them into corners and fur, the last layers respond to whole faces. Each layer
             asks its questions about the answers of the layer before.
           </p>
+          <DeeperCut title="the growth formula">
+            <p>
+              Receptive-field growth is a one-line recurrence: <code>r ← r + (k − 1) · j</code>,
+              where j is the product of all strides so far (start at r=1, j=1). Two 3×3 convs: 1 → 3
+              → 5, exactly as the tracer shows. Insert a 2×2 stride-2 pool (r=6, j doubles to 2) and
+              the next 3×3 jumps straight to r=10 —{" "}
+              <strong>
+                pooling is a receptive-field accelerator: every later kernel step covers twice the
+                original pixels
+              </strong>
+              .
+            </p>
+            <p>
+              The stacking economics, per channel: two 3×3 layers see 5×5 using 18 weights and two
+              nonlinearities; one 5×5 layer needs 25 weights and bends once. Three 3×3s match a 7×7:
+              27 weights against 49. Same context, fewer weights, more bends — that arithmetic is
+              VGG&rsquo;s whole thesis, and it&rsquo;s why 3×3 became the default everywhere.
+            </p>
+          </DeeperCut>
         </Section>
 
         <Bridge from="/computer-vision">

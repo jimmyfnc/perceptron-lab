@@ -47,7 +47,9 @@ export function PoolingInspector() {
   const cellBg = (v: number) =>
     v <= 0
       ? "var(--color-secondary)"
-      : `oklch(${0.22 + 0.4 * (v / maxV)} ${0.03 + 0.12 * (v / maxV)} 305)`;
+      : // lightness caps at 0.54 — any brighter and the ivory cell text drops
+        // below the 4.5:1 contrast floor (Lighthouse a11y, 2026-08-24)
+        `oklch(${0.22 + 0.32 * (v / maxV)} ${0.03 + 0.12 * (v / maxV)} 305)`;
 
   const inWindow = (y: number, x: number) =>
     hover != null && Math.floor(y / 2) === hover.y && Math.floor(x / 2) === hover.x;

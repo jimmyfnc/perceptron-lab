@@ -134,9 +134,41 @@ export function GraphTrace() {
     );
   }
   if (!data) {
+    // skeleton mirrors the loaded layout (scoreboard + task rail + prompt +
+    // two org columns) so the data swap doesn't shift the page below
     return (
       <InstrumentPanel label="graph trace — warming up">
-        <p className="label-tech py-10 text-center">loading real org runs…</p>
+        <div className="mb-4 grid gap-3 sm:grid-cols-2">
+          {["org a", "org b"].map((k) => (
+            <div key={k} className="panel flex items-center justify-between px-4 py-2.5 opacity-60">
+              <span className="label-tech">{k}</span>
+              <span className="readout text-[12px] text-muted-foreground">—/6 · — tok</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap justify-center gap-1.5 opacity-60">
+          {Array.from({ length: 6 }, (_, i) => (
+            <span key={i} className="btn-tech">
+              t{i + 1}
+            </span>
+          ))}
+        </div>
+        <p className="readout mt-4 border border-border bg-secondary/40 p-2.5 text-center text-[12px] leading-relaxed text-muted-foreground">
+          loading real org runs…
+        </p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {["lone generalist", "router → specialists"].map((k) => (
+            <div key={k} className="panel flex flex-col px-3 py-3 opacity-60">
+              <p className="label-tech">{k}</p>
+              <div className="mt-1 flex h-44 flex-col border border-border bg-secondary/40">
+                <p className="label-tech m-auto text-center">warming up</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="label-tech mt-4 text-center normal-case tracking-normal">
+          same model, same tasks, same scoring — the org chart is the only thing that changed
+        </p>
       </InstrumentPanel>
     );
   }

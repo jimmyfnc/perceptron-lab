@@ -26,6 +26,28 @@ does not version-number releases — entries are dated.
   account JWT auth, no packages added): totals, top queries, top pages, or any
   `--dim` combination, for any GSC property the account is added to — reusable
   across future sites, not just this one.
+- **DeeperCut fold-out math drawers** (`site/DeeperCut.tsx` + `MatrixCard`) —
+  plain `<details>`, no JS, fully indexable. Piloted on the CNN page: worked
+  convolution arithmetic + output-size formula, Sobel-as-derivative reading,
+  pooling gradient routing, and the receptive-field recurrence. Rolls out to
+  the other stations once the pattern is approved.
+- `docs/distribution/2026-08-24-launch-kit.md` — Show HN / Reddit / X /
+  LinkedIn drafts, newsletter list, and a pre-flight checklist (analytics
+  before posting).
+
+### Fixed
+
+- **First full Lighthouse pass, all nine routes (mobile).** Now 100s across
+  accessibility / best practices / SEO everywhere, with two real bugs found:
+  kernel-weight inputs in the Convolution Bench had no accessible labels
+  (added `aria-label`s), and bright pooling-inspector cells failed the 4.5:1
+  contrast floor (colormap lightness now caps at 0.54; MAC readout dim state
+  un-dimmed). The Track II data-fetch interactives (LoopPlayer, GraphTrace)
+  jumped from a short "loading" strip to a tall player when transcripts
+  arrived — CLS 0.255 on mobile; both now render structural skeletons that
+  mirror the loaded layout. Accepted: diffusion frames flagged as low-res on
+  high-DPI screens — they're genuine 512px SD1.5 outputs, upscaling them would
+  misrepresent the model.
 
 ## 2026-08-13
 
