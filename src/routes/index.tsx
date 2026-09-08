@@ -133,9 +133,8 @@ function Index() {
             Pick a question. Open an experiment.
           </h2>
           <p className="prose-lab mt-4 max-w-2xl">
-            The guided image experiment is our easiest starting point. These labs go further: try
-            the controls, read the explanations, and explore the technical details when you’re
-            ready.
+            New to AI? Diffusion and computer vision both include a guided introduction. Try the
+            controls, read the explanations, and explore the technical details when you’re ready.
           </p>
           <div className="mt-8 grid gap-x-12 gap-y-10 md:grid-cols-2">
             <div>

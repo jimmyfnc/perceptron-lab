@@ -62,7 +62,10 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 - [x] Newcomer entry path — guided diffusion replay, explained knowledge check,
       question-led homepage, optional full lab, larger buttons, and keyboard focus
-      (2026-09-08). Other lessons still use the original technical format.
+      (2026-09-08).
+- [x] Guided computer-vision introduction — edge directions, moving the input,
+      a solid-image counterexample, and an explained knowledge check (2026-09-08).
+      The full lab remains optional. Other lessons still use the original technical format.
 - [ ] Observe beginners using the guided diffusion experiment; use their feedback
       before extending the format to other lessons.
 - [ ] Add lesson interaction measurement through a chosen analytics provider.

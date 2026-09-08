@@ -8,6 +8,10 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- Guided computer-vision introduction: compare edge directions, move a square,
+  test a solid image, and check understanding using real Sobel calculations.
+  Includes keyboard controls and text descriptions of each result. The original
+  Convolution Bench remains in an optional full-lab section with a direct link.
 - Guided first diffusion experiment: replay a real image-generation run with a
   slider or stage buttons, compare starting noise, and check understanding with
   explained answers. Includes frame descriptions, keyboard controls, and image
