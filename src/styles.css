@@ -99,6 +99,7 @@
   html {
     background-color: var(--color-background);
     scrollbar-color: oklch(0.35 0.01 265) transparent;
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -120,6 +121,11 @@
   ::selection {
     background-color: var(--station-dim);
     color: var(--color-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--station);
+    outline-offset: 4px;
   }
 }
 
@@ -293,6 +299,26 @@
       color 120ms ease;
     cursor: pointer;
     user-select: none;
+    min-height: 44px;
+  }
+
+  .btn-primary {
+    background-color: var(--station);
+    color: var(--color-background);
+    border-color: var(--station);
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+  }
+
+  .btn-tech.btn-primary:hover {
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
+
+  .term:focus-visible {
+    outline: 2px solid var(--station);
+    outline-offset: 3px;
   }
 
   .btn-tech:hover {

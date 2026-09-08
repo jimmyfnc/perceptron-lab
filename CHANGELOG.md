@@ -4,6 +4,25 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-09-08
+
+### Added
+
+- Guided first diffusion experiment: replay a real image-generation run with a
+  slider or stage buttons, compare starting noise, and check understanding with
+  explained answers. Includes frame descriptions, keyboard controls, and image
+  failure recovery. No account or mathematical background required.
+
+### Changed
+
+- Homepage now leads with a beginner starting point, a noise-to-image preview,
+  question-led lesson links, and a builder note below the learning paths.
+- Diffusion opens with the guided experiment and a plain-language explanation.
+  The original lab and technical prose remain in an optional, crawlable section;
+  advanced interactives mount only when that section is opened.
+- Navigation uses “Explore”; buttons have a 44px minimum height. Added visible
+  keyboard focus and a skip-to-content link.
+
 ## 2026-08-24
 
 ### Changed

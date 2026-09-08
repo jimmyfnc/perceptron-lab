@@ -71,7 +71,7 @@ export function NavDrawer() {
         aria-controls="journey-map-drawer"
         onClick={() => setOpen((o) => !o)}
       >
-        {open ? "× close" : "≡ map"}
+        {open ? "× close" : "≡ Explore"}
       </button>
 
       {open && (
@@ -88,15 +88,13 @@ export function NavDrawer() {
             className="grid-paper animate-rise fixed inset-x-0 top-14 z-50 max-h-[calc(100dvh-3.5rem)] overflow-y-auto border-b border-border bg-background"
           >
             <nav className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6" aria-label="All stations">
-              <p className="label-tech px-3">Track I · the journey</p>
+              <p className="label-tech px-3">How AI works</p>
               <ol className="mt-2">
                 {STATIONS.map((s) => (
                   <DrawerRow key={s.path} s={s} onPick={close} />
                 ))}
               </ol>
-              <p className="label-tech mt-5 border-t border-border px-3 pt-5">
-                Track II · the operator&rsquo;s manual
-              </p>
+              <p className="label-tech mt-5 border-t border-border px-3 pt-5">Using AI tools</p>
               <ol className="mt-2">
                 {OPERATOR_STATIONS.map((s) => (
                   <DrawerRow key={s.path} s={s} onPick={close} />

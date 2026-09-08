@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { OPERATOR_STATIONS, STATIONS, stationStyle } from "@/lib/journey";
+import { OPERATOR_STATIONS, STATIONS, stationStyle, type Station } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { ReactiveGrid } from "@/components/site/ReactiveGrid";
 
@@ -8,180 +7,194 @@ export const Route = createFileRoute("/")({
   head: () =>
     pageHead(
       "/",
-      "Learn Machine Learning Interactively — Perceptron Lab",
-      "Interactive machine learning tutorials from classical ML to Stable Diffusion: neural networks, CNNs, transformers, and diffusion models as hand-built visualizations you operate.",
+      "Learn AI & Machine Learning Interactively — Perceptron Lab",
+      "Understand AI through hands-on visual experiments. Start with a beginner guide to AI images, then explore machine learning, neural networks, and language models at your own pace.",
     ),
   component: Index,
 });
 
-/** The journey spine's gradient: every station hue, cool → warm, in order. */
-const SPINE_GRADIENT = `linear-gradient(to bottom, ${STATIONS.map(
-  (s, i) => `oklch(0.74 0.165 ${s.hue}) ${(i / (STATIONS.length - 1)) * 100}%`,
-).join(", ")})`;
+function LessonLink({ station }: { station: Station }) {
+  return (
+    <li>
+      <Link
+        to={station.path}
+        style={stationStyle(station.hue)}
+        className="group flex items-center justify-between gap-4 border-b border-border py-5 transition-colors hover:bg-card"
+      >
+        <div>
+          <p className="label-tech text-station">{station.title}</p>
+          <h4 className="mt-2 font-display text-lg font-semibold md:text-xl">{station.question}</h4>
+          <p className="mt-1 text-base text-muted-foreground">{station.codename}</p>
+        </div>
+        <span aria-hidden="true" className="shrink-0 font-mono text-xl text-station">
+          →
+        </span>
+      </Link>
+    </li>
+  );
+}
 
 function Index() {
-  // the interlude is a stop on the journey, not an instrument station
-  const instruments = STATIONS.filter((s) => !s.interlude);
-  const liveCount = instruments.filter((s) => s.status === "live").length;
-
-  /* scroll-reactive journey map: the spine draws itself in as you travel
-     down the list, and each station's LED lights up as the line reaches it */
-  const listRef = useRef<HTMLOListElement>(null);
-  const spineRef = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const list = listRef.current;
-    const spine = spineRef.current;
-    if (!list || !spine) return;
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let raf = 0;
-    const update = () => {
-      const r = list.getBoundingClientRect();
-      const target = window.innerHeight * 0.62; // the "you are here" line
-      const p = still ? 1 : Math.max(0, Math.min(1, (target - r.top) / r.height));
-      spine.style.height = `${p * 100}%`;
-      for (const li of list.children) {
-        const reached = still || li.getBoundingClientRect().top + 30 < target;
-        (li as HTMLElement).dataset.reached = reached ? "true" : "false";
-      }
-    };
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
   return (
     <div className="grid-paper">
       <ReactiveGrid />
-      <div className="mx-auto w-full max-w-3xl px-6 pb-24 pt-16 md:pt-24">
-        <p className="label-tech animate-rise">An interactive ML field manual</p>
-        <h1 className="animate-rise mt-4 font-display text-4xl font-bold tracking-tight [animation-delay:80ms] md:text-6xl">
-          Learn it by{" "}
-          <span className="text-station" style={stationStyle(305)}>
-            touching
-          </span>{" "}
-          it.
-        </h1>
-        <p className="prose-lab animate-rise mt-6 max-w-2xl text-lg [animation-delay:160ms]">
-          Five stations from classical machine learning to diffusion models — the same road I took,
-          rebuilt as instruments you can operate. Every page has one signature interactive: drag the
-          points, slide the kernels, scrub the noise. The math sticks when your hands are on it.
-        </p>
-
-        {/* the founding anecdote — the interlude tells it in full */}
-        <div
-          className="panel animate-rise mt-8 max-w-2xl px-5 py-4 [animation-delay:200ms]"
-          style={stationStyle(160)}
-        >
-          <p className="label-tech">lab note · why this site exists</p>
-          <p className="prose-lab mt-2 text-sm">
-            It started with one confusing afternoon: a pixel-art workflow said{" "}
-            <em>nearest-neighbor</em>, an ML course said <em>nearest neighbors</em>, and they turned
-            out to be completely different ideas wearing the same name. Untangling that collision is
-            the site&rsquo;s founding story — it&rsquo;s told in full at{" "}
-            <Link to="/interlude" className="text-station underline decoration-dotted">
-              the interlude
+      <div className="mx-auto w-full max-w-6xl px-6 pb-20 pt-10 md:pt-16">
+        <div className="max-w-3xl">
+          <p className="label-tech animate-rise">AI, explained through experiments</p>
+          <h1 className="animate-rise mt-4 font-display text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+            Understand AI.
+            <br />
+            <span className="text-station">Try it with your own hands.</span>
+          </h1>
+          <p className="prose-lab animate-rise mt-5 max-w-2xl text-lg">
+            Explore artificial intelligence through visual experiments you control. See how it
+            learns, works with words, and makes pictures. Start with a guided experiment—no math or
+            coding needed.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link
+              to="/diffusion"
+              className="btn-tech btn-primary inline-flex items-center justify-center gap-3"
+            >
+              Try your first experiment <span aria-hidden="true">→</span>
             </Link>
-            , in its rightful place on the journey. No experience required anywhere here: jargon
-            wears a dotted underline you can hover for a plain-words translation.
+            <a
+              href="#explore"
+              className="inline-flex min-h-11 items-center text-base text-foreground underline decoration-border underline-offset-4"
+            >
+              Explore all lessons ↓
+            </a>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Free to explore · no account needed · learn at your own pace
           </p>
         </div>
 
-        {/* journey map: one continuous spine through every stop, drawn in
-            by scroll; the faint rail shows the road ahead */}
-        <div className="animate-rise relative mt-14 [animation-delay:240ms]">
-          <span aria-hidden className="absolute bottom-7 left-[5px] top-7 w-px bg-border" />
-          <span
-            ref={spineRef}
-            aria-hidden
-            className="absolute left-1 top-7 w-[2px] max-h-[calc(100%-3.5rem)]"
-            style={{ height: 0, background: SPINE_GRADIENT }}
-          />
-          <ol ref={listRef}>
-            {STATIONS.map((s) => (
-              <li key={s.path} className="journey-stop relative pl-8">
-                <span
-                  aria-hidden
-                  className="led absolute left-0 top-[26px]"
-                  style={{
-                    ...stationStyle(s.hue),
-                    opacity: s.status === "live" ? 1 : 0.3,
-                  }}
-                />
-                <Link
-                  to={s.path}
-                  style={stationStyle(s.hue)}
-                  className="group mb-3 block border border-transparent px-4 py-4 transition-colors hover:border-border hover:bg-card"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="font-display text-lg font-semibold tracking-tight">
-                      <span className="readout mr-3 text-sm text-station">{s.num}</span>
-                      {s.title}
-                      <span className="ml-2 text-station transition-colors">— {s.codename}</span>
-                    </p>
-                    <span className="label-tech">
-                      {s.status === "live" ? (
-                        <span className="text-station">● live</span>
-                      ) : (
-                        "○ in fabrication"
-                      )}
-                    </span>
-                  </div>
-                  <p className="mt-1 font-body text-sm text-muted-foreground">{s.tagline}</p>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <section
+          aria-labelledby="start-here-title"
+          className="panel panel-ticks mt-10 grid overflow-hidden md:grid-cols-[1.1fr_1fr]"
+          style={stationStyle(75)}
+        >
+          <div className="p-6 md:p-8">
+            <p className="label-tech text-station">Start here · about 5 minutes</p>
+            <h2
+              id="start-here-title"
+              className="mt-3 font-display text-2xl font-semibold md:text-3xl"
+            >
+              From a little noise
+              <br />
+              to a lighthouse.
+            </h2>
+            <p className="prose-lab mt-4">
+              Move a slider and watch an AI-generated picture take shape. Then change the starting
+              noise and see why the same words can lead to a different image.
+            </p>
+            <p className="prose-lab mt-3">
+              We’ll guide you through what to try, what to notice, and what it means.
+            </p>
+            <Link
+              to="/diffusion"
+              className="mt-5 inline-flex min-h-11 items-center gap-2 font-display font-semibold text-station underline underline-offset-4"
+            >
+              Open the guided experiment <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 items-center gap-3 border-t border-border bg-background/50 p-6 md:border-l md:border-t-0 md:p-8">
+            <figure>
+              <img
+                src="/data/diffusion/seed0/step0.webp"
+                alt="Colored static at the start of a Stable Diffusion run"
+                width={256}
+                height={256}
+                className="aspect-square w-full border border-border"
+              />
+              <figcaption className="mt-3 font-mono text-xs text-muted-foreground">
+                01 / Starting noise
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="/data/diffusion/seed0/step20.webp"
+                alt="The finished painting of a lighthouse on a rocky coast at sunset"
+                width={256}
+                height={256}
+                className="aspect-square w-full border border-border"
+              />
+              <figcaption className="mt-3 font-mono text-xs text-station">
+                02 / Finished image
+              </figcaption>
+            </figure>
+          </div>
+        </section>
 
-        <p className="label-tech animate-rise mt-12 [animation-delay:320ms]">
-          start anywhere — {liveCount} of {instruments.length} instruments are fully powered
-        </p>
-
-        {/* Track II — same site, different question: not how models work,
-            but how to operate them */}
-        <div className="animate-rise mt-20 [animation-delay:360ms]">
-          <p className="label-tech">Track II · The Operator&rsquo;s Manual</p>
-          <p className="prose-lab mt-3 max-w-2xl text-sm">
-            The journey above opens the machines. This track is about <em>driving</em> them —
-            prompting, sampling, and the feedback loops that turn a language model into a coworker.
-            New instruments land here as they leave fabrication.
+        <section id="explore" aria-labelledby="explore-title" className="scroll-mt-20 pt-16">
+          <p className="label-tech">Follow your curiosity</p>
+          <h2 id="explore-title" className="mt-3 font-display text-3xl font-semibold">
+            Pick a question. Open an experiment.
+          </h2>
+          <p className="prose-lab mt-4 max-w-2xl">
+            The guided image experiment is our easiest starting point. These labs go further: try
+            the controls, read the explanations, and explore the technical details when you’re
+            ready.
           </p>
-          <ol className="mt-6">
-            {OPERATOR_STATIONS.map((s) => (
-              <li key={s.path} className="relative">
-                <Link
-                  to={s.path}
-                  style={stationStyle(s.hue)}
-                  className="group mb-3 block border border-transparent px-4 py-4 transition-colors hover:border-border hover:bg-card"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="font-display text-lg font-semibold tracking-tight">
-                      <span className="readout mr-3 text-sm text-station">{s.num}</span>
-                      {s.title}
-                      <span className="ml-2 text-station transition-colors">— {s.codename}</span>
-                    </p>
-                    <span className="label-tech">
-                      {s.status === "live" ? (
-                        <span className="text-station">● live</span>
-                      ) : (
-                        "○ in fabrication"
-                      )}
-                    </span>
-                  </div>
-                  <p className="mt-1 font-body text-sm text-muted-foreground">{s.tagline}</p>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </div>
+          <div className="mt-8 grid gap-x-12 gap-y-10 md:grid-cols-2">
+            <div>
+              <h3 className="font-display text-xl font-semibold">How AI works</h3>
+              <p className="mt-2 text-base text-muted-foreground">
+                For a course-like path, follow these in order.
+              </p>
+              <ol className="mt-3">
+                {STATIONS.map((station) => (
+                  <LessonLink key={station.path} station={station} />
+                ))}
+              </ol>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-semibold">Using AI tools</h3>
+              <p className="mt-2 text-base text-muted-foreground">
+                Go further with prompts, feedback, and agents.
+              </p>
+              <ul className="mt-3">
+                {OPERATOR_STATIONS.map((station) => (
+                  <LessonLink key={station.path} station={station} />
+                ))}
+              </ul>
+              <div className="mt-8 border-l-2 border-station-dim pl-5">
+                <h3 className="font-display text-lg font-semibold">
+                  Already comfortable with the basics?
+                </h3>
+                <p className="prose-lab mt-2">
+                  The full labs are here too: real model recordings, adjustable controls, and
+                  explanations of the math behind them.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="about-this-lab"
+          className="mt-16 max-w-3xl border-t border-border pt-8"
+        >
+          <p className="label-tech">A note from the builder</p>
+          <h2 id="about-this-lab" className="mt-3 font-display text-2xl font-semibold">
+            Built to make the ideas stick.
+          </h2>
+          <div className="prose-lab mt-4">
+            <p>
+              I’m James Caldwell. I built Perceptron Lab while revisiting machine learning and
+              exploring AI image tools. The ideas made more sense when I could change something and
+              see what happened.
+            </p>
+            <p>
+              It began with two confusingly similar names: “nearest-neighbor” image scaling and
+              “nearest neighbors” in machine learning.{" "}
+              <Link to="/interlude">That story became a lesson of its own.</Link> This site is my
+              growing collection of experiments for fellow learners—whether you’re meeting these
+              ideas for the first time or coming back to them.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );

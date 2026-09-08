@@ -60,6 +60,14 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Site-wide polish (later)
 
+- [x] Newcomer entry path — guided diffusion replay, explained knowledge check,
+      question-led homepage, optional full lab, larger buttons, and keyboard focus
+      (2026-09-08). Other lessons still use the original technical format.
+- [ ] Observe beginners using the guided diffusion experiment; use their feedback
+      before extending the format to other lessons.
+- [ ] Add lesson interaction measurement through a chosen analytics provider.
+      Lovable visitor/page analytics are available, but do not measure experiment use.
+
 - [x] Home page journey map — continuous station-hue gradient spine, drawn in by
       scroll, LEDs ignite as reached (reduced-motion: fully drawn) 2026-06-12.
 - [ ] Bolt/heart sprite pixel art could be cleaner (hand-tune `SPRITES` in conv.ts).

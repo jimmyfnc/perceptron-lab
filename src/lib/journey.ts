@@ -13,6 +13,8 @@ export interface Station {
   /** The signature interactive's name */
   codename: string;
   tagline: string;
+  /** Plain-language question used to introduce the lesson to newcomers. */
+  question: string;
   /** oklch hue for this station's accent */
   hue: number;
   status: "live" | "soon";
@@ -26,6 +28,7 @@ export const STATIONS: Station[] = [
     num: "01",
     path: "/foundations",
     title: "Classical ML",
+    question: "How do computers learn from examples?",
     codename: "The Boundary Lab",
     tagline: "Bias, variance, and why k changes everything.",
     hue: 195,
@@ -35,6 +38,7 @@ export const STATIONS: Station[] = [
     num: "02",
     path: "/neural-networks",
     title: "Neural Networks",
+    question: "How does a model get better with practice?",
     codename: "The Descent",
     tagline: "Watch optimizers race down a loss surface.",
     hue: 240,
@@ -44,6 +48,7 @@ export const STATIONS: Station[] = [
     num: "··",
     path: "/interlude",
     title: "Two Kinds of Nearest",
+    question: "Why does enlarging a picture make it blurry?",
     codename: "Interlude",
     tagline: "Nearest-neighbor scaling is not K-nearest-neighbors.",
     hue: 160,
@@ -55,6 +60,7 @@ export const STATIONS: Station[] = [
     num: "03",
     path: "/computer-vision",
     title: "CNNs & Vision",
+    question: "How do computers find patterns in pictures?",
     codename: "The Convolution Bench",
     tagline: "Paint pixels, slide kernels, watch features emerge.",
     hue: 305,
@@ -64,6 +70,7 @@ export const STATIONS: Station[] = [
     num: "04",
     path: "/transformers",
     title: "Transformers",
+    question: "How does AI connect words in a sentence?",
     codename: "The Attention Lens",
     tagline: "Every token looks at every other token.",
     hue: 340,
@@ -73,6 +80,7 @@ export const STATIONS: Station[] = [
     num: "05",
     path: "/diffusion",
     title: "Diffusion",
+    question: "How does AI turn noise into an image?",
     codename: "The Denoising Deck",
     tagline: "From pure noise to an image, one step at a time.",
     hue: 75,
@@ -91,6 +99,7 @@ export const OPERATOR_STATIONS: Station[] = [
     num: "O1",
     path: "/feedback-bench",
     title: "Prompt · Loop · Agent",
+    question: "What makes an AI assistant an agent?",
     codename: "The Feedback Bench",
     tagline: "One question separates them: who closes the loop?",
     hue: 145,
@@ -102,6 +111,7 @@ export const OPERATOR_STATIONS: Station[] = [
     num: "O2",
     path: "/wiring-loom",
     title: "Graph Engineering",
+    question: "How can AI agents work together?",
     codename: "The Wiring Loom",
     tagline: "Loops compose into systems — topology is the new hyperparameter.",
     hue: 115,

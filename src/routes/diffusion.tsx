@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { stationByPath, stationStyle } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { StationHero } from "@/components/site/StationHero";
@@ -9,13 +10,14 @@ import { NoiseSchedule } from "@/components/interactives/NoiseSchedule";
 import { CFGStrip } from "@/components/interactives/CFGStrip";
 import { LatentWalk } from "@/components/interactives/LatentWalk";
 import { LoraRankLab } from "@/components/interactives/LoraRankLab";
+import { FirstDiffusionExperiment } from "@/components/interactives/FirstDiffusionExperiment";
 
 export const Route = createFileRoute("/diffusion")({
   head: () =>
     pageHead(
       "/diffusion",
       "How Stable Diffusion Works, Step by Step | Perceptron Lab",
-      "How diffusion models work, hands-on: scrub a real Stable Diffusion run state by state — noise schedules, DDIM sampling, CFG scale, latent space, and LoRA fine-tuning.",
+      "How does AI make an image? Try a guided diffusion experiment with no math or coding, then explore real Stable Diffusion runs, guidance, latent space, and LoRA.",
     ),
   component: DiffusionPage,
 });
@@ -24,205 +26,281 @@ const station = stationByPath("/diffusion")!;
 const bench = stationByPath("/feedback-bench")!;
 
 function DiffusionPage() {
+  const [labOpen, setLabOpen] = useState(false);
+  const labRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const openFromHash = () => {
+      if (window.location.hash === "#full-lab" && labRef.current) labRef.current.open = true;
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
   return (
     <div style={stationStyle(station.hue)}>
       <StationHero
         station={station}
+        compact
+        eyebrow="Start here · a guided experiment · about 5 minutes"
         kicker="diffusion"
         title={
           <>
-            The Denoising <span className="text-station">Deck</span>
+            How does AI <span className="text-station">make an image?</span>
           </>
         }
-        lede="Every image a diffusion model has ever made started as pure static. The deck below is a real Stable Diffusion 1.5 run — sampled on this site's own GPU, every intermediate state kept — so you can scrub the moment an image condenses out of noise, and catch the model guessing the ending long before it gets there."
-        status="instrument live — scrub the run · switch views · compare seeds"
+        lede="Watch random noise become a lighthouse. Then discover why the same words can produce different pictures. All you need is a slider and your curiosity—no background in AI required."
+        status="Learn three ideas: prompts, noise, and denoising"
       />
 
-      {/* signature interactive */}
-      <section className="mx-auto w-full max-w-6xl px-6 pb-20">
-        <DenoisingDeck />
-        <p className="label-tech mt-4 text-center">
-          fig. 01 — one ddim run, 21 states, three ways to look at each
-        </p>
-      </section>
-
-      <div className="flex flex-col gap-20 pb-24">
-        <Section
-          index="§1"
-          title="Forward diffusion: noise is the curriculum"
-          figure={<NoiseSchedule />}
-          figureLabel="fig. 02 — the forward process, computed live on a 48×48 scene"
+      <div className="mx-auto max-w-6xl px-6 pb-6">
+        <a
+          href="#full-lab"
+          onClick={() => {
+            if (labRef.current) labRef.current.open = true;
+          }}
+          className="inline-flex min-h-11 items-center text-base text-station underline underline-offset-4"
         >
-          <p>
-            Diffusion training never shows the model how to paint — it shows it ruined paintings.
-            Take an image, mix in gaussian noise at a randomly chosen severity t, and ask one
-            question: <strong>&ldquo;what noise was added?&rdquo;</strong> The schedule ᾱ controls
-            severity: near t=0 the image is barely touched, near t=1000 nothing of it survives. One
-            network learns the whole range — denoising a nearly-clean image teaches texture,
-            denoising near-static teaches composition.
-          </p>
-          <p>
-            The figure runs the real corruption formula on a toy scene. Notice the curve:{" "}
-            <strong>destruction is scheduled, not linear</strong> — ᾱ falls slowly at first, then
-            dives. And because the closed form jumps straight to any t, training never has to walk
-            there step by step. That convenience is the whole reason the math works at scale.
-          </p>
-        </Section>
-
-        <Section index="§2" title="Reverse diffusion: sampling runs the film backwards">
-          <p>
-            Generation is the inverse loop: start from pure noise, and twenty-odd times in a row,
-            predict the noise and remove a scheduled slice of it. That&rsquo;s the loop your ComfyUI{" "}
-            <Term k="sampler">KSampler</Term> runs, and it&rsquo;s what the deck&rsquo;s{" "}
-            <em>canvas</em> view shows: the actual state, still snowy until surprisingly late.
-          </p>
-          <p>
-            The deck&rsquo;s <em>guess</em> view is the revealing one. Because the model predicts
-            the noise, you can algebraically peek at what it currently believes the finished image
-            is —{" "}
-            <strong>
-              by state 5 of 20 it has already committed to a lighthouse, a cliff, and a dusk sky
-            </strong>
-            , and the remaining steps only sharpen the verdict. Composition is decided early at high
-            noise; detail is negotiated late at low noise. That&rsquo;s also why so many ComfyUI
-            tricks — refiners, hi-res passes, prompt scheduling — split the run into an early
-            &ldquo;layout&rdquo; phase and a late &ldquo;rendering&rdquo; phase.
-          </p>
-        </Section>
-
-        <Section
-          index="§3"
-          title="CFG scale: the prompt's volume knob"
-          figure={<CFGStrip />}
-          figureLabel="fig. 03 — same starting noise, four guidance scales"
-        >
-          <p>
-            Station 04 showed where the prompt enters: cross-attention, the denoiser reading your
-            words through CLIP. <Term k="CFG">Classifier-free guidance</Term> decides how loudly.
-            Each step the model predicts twice — once with your prompt, once with an empty one — and{" "}
-            <strong>
-              CFG extrapolates past the unconditioned guess in the direction your prompt pulls
-            </strong>
-            : output = uncond + cfg·(cond − uncond).
-          </p>
-          <p>
-            The strip is the same starting noise at four volumes. At 1 the prompt is a whisper and
-            the model paints whatever the noise suggested. At 12 every step is yanked so hard toward
-            &ldquo;lighthouse, dramatic, golden&rdquo; that contrast clips and sameness sets in.{" "}
-            <strong>The 7&ndash;8 default is a truce, not a law</strong> — knowing what the knob
-            actually does is what lets you break it on purpose.
-          </p>
-        </Section>
-
-        <Section
-          index="§4"
-          title="Latent space is a place"
-          figure={<LatentWalk />}
-          figureLabel="fig. 04 — nine full runs, starting noises slerped between two seeds"
-        >
-          <p>
-            None of this happens on pixels. A <Term k="VAE">VAE</Term> compresses each 512×512 image
-            into the 64×64×4 <Term k="tensor">tensor</Term> you saw in the deck&rsquo;s{" "}
-            <em>raw latent</em> view — 48× smaller — and the <Term k="U-Net">U-Net</Term> denoises
-            there; only the final <Term k="latent">latent</Term> gets decoded back to pixels.{" "}
-            <strong>That compression is why this runs on a desktop GPU at all</strong>, and
-            it&rsquo;s the &ldquo;latent&rdquo; in latent diffusion.
-          </p>
-          <p>
-            The walk shows the deeper property: interpolate between two{" "}
-            <Term k="seed">seeds&rsquo;</Term> starting noise and sample each point fully, and{" "}
-            <strong>every stop along the path is a coherent scene</strong> — the lighthouse
-            relocates, the clouds renegotiate, nothing ever tears. Generative latent spaces
-            aren&rsquo;t lookup tables of memorized images; they&rsquo;re smooth maps where
-            neighborhoods mean something. Station 01&rsquo;s nearest-neighbor lab had no such
-            geometry — this is what eighty pages of gradient descent buys.
-          </p>
-        </Section>
-
-        <Section
-          index="§5"
-          title="LoRA: fine-tuning on a budget"
-          figure={<LoraRankLab />}
-          figureLabel="fig. 05 — a weight update rebuilt from its top-r singular directions"
-        >
-          <p>
-            Teaching a checkpoint a new style shouldn&rsquo;t require rewriting all 860 million
-            weights, and <Term k="LoRA">LoRA</Term>&rsquo;s bet is that it doesn&rsquo;t:{" "}
-            <strong>
-              the change a fine-tune needs is <Term k="rank">low-rank</Term>
-            </strong>{" "}
-            — a coordinated nudge along a few directions, not 860M independent edits. So instead of
-            learning ΔW directly, a LoRA learns two skinny matrices A and B whose product{" "}
-            <em>is</em> the update, at a tiny fraction of the parameters.
-          </p>
-          <p>
-            The lab makes that bet visceral with a 16×16 &ldquo;update&rdquo;: slide the rank and
-            watch the bolt survive at r=3 — 96 numbers doing the work of 256. Scale the same ratio
-            to a U-Net&rsquo;s attention layers and you get the 10&ndash;200&nbsp;MB LoRA files in
-            your ComfyUI folder standing in for multi-gigabyte checkpoints. Every slider
-            you&rsquo;ve dragged on this site — k, learning rate, heads, rank — has been the same
-            lesson: <strong>capacity is a dial, and knowing where it lives is the skill</strong>.
-          </p>
-        </Section>
-
-        {/* end of the journey — no bridge, the rack is complete */}
-        <section className="mx-auto w-full max-w-3xl px-6">
-          <div className="panel panel-ticks px-6 py-8 text-center">
-            <p className="label-tech">
-              <span className="led mr-2 inline-block align-middle" />
-              all five instruments live
-            </p>
-            <p className="prose-lab mx-auto mt-4 max-w-xl">
-              That&rsquo;s the journey: a line through a cloud of points, bent by activations,
-              composed into vision, bound by attention, and finally run in reverse until static
-              becomes a lighthouse. The best next instrument is a real one — open ComfyUI and watch
-              these ideas operate at full scale.
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <Link to="/" className="btn-tech">
-                back to the journey map
-              </Link>
-              <Link to="/foundations" className="btn-tech">
-                start over at station 01
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* the mechanics arc is complete — hand the reader to Track II */}
-        <section className="mx-auto w-full max-w-3xl px-6">
-          <div className="border-t border-border pt-10">
-            <p className="label-tech">Track II · The Operator&rsquo;s Manual</p>
-            <div className="prose-lab mt-4">
-              <p>
-                Everything above opened the machines. There&rsquo;s a second track for what comes
-                after: <em>driving</em> them — prompting, sampling, feedback loops, and wiring
-                agents into systems. It starts with one question the whole discipline hangs on: who
-                closes the loop?
-              </p>
-            </div>
-            <Link
-              to={bench.path}
-              style={stationStyle(bench.hue)}
-              className="panel panel-ticks group mt-8 flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:border-station-dim"
-            >
-              <div>
-                <p className="label-tech">Next track · {bench.num}</p>
-                <p className="mt-1 font-display text-lg font-semibold">
-                  {bench.title} — <span className="text-station">{bench.codename}</span>
-                </p>
-                <p className="mt-1 font-body text-sm text-muted-foreground">{bench.tagline}</p>
-              </div>
-              <span
-                aria-hidden
-                className="readout text-xl text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-station"
-              >
-                -&gt;
-              </span>
-            </Link>
-          </div>
-        </section>
+          Already know the basics? Jump to the full lab ↓
+        </a>
       </div>
+      <section
+        aria-labelledby="first-experiment-title"
+        className="mx-auto w-full max-w-6xl px-6 pb-12"
+      >
+        <FirstDiffusionExperiment />
+      </section>
+      <section aria-labelledby="learning-to-denoise" className="mx-auto max-w-3xl px-6 pb-12">
+        <h2 id="learning-to-denoise" className="font-display text-2xl font-semibold">
+          How did it learn to remove noise?
+        </h2>
+        <div className="prose-lab mt-4">
+          <p>
+            During training, an image model practices on examples: add noise to an image, then learn
+            to estimate the noise that was added. Across many examples, it learns patterns that help
+            it do this for new inputs.
+          </p>
+          <p>
+            When making a new picture, it starts with random noise and uses those learned patterns,
+            guided by your words, to remove noise step by step.{" "}
+            <strong>There is no finished lighthouse hidden in the starting static.</strong>
+          </p>
+          <p>
+            This demonstration uses a model called Stable Diffusion 1.5. Other image models can use
+            different methods; the experiment shows this particular process.
+          </p>
+        </div>
+      </section>
+      <details
+        ref={labRef}
+        id="full-lab"
+        className="mx-auto mb-16 w-full max-w-6xl scroll-mt-20 border-y border-border"
+        onToggle={(event) => setLabOpen(event.currentTarget.open)}
+      >
+        <summary className="cursor-pointer px-6 py-6 font-display text-xl font-semibold marker:text-station">
+          Open the full lab and technical explanations
+          <span className="mt-2 block font-body text-base font-normal text-muted-foreground">
+            The Denoising Deck · compare model views, explore the math, and try more experiments
+          </span>
+        </summary>
+        <div className="pt-6">
+          <p className="prose-lab mx-auto mb-8 max-w-3xl px-6">
+            Research behind this lesson:{" "}
+            <a href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Models</a>{" "}
+            (Ho et al., 2020) and{" "}
+            <a href="https://arxiv.org/abs/2112.10752">Latent Diffusion Models</a> (Rombach et al.,
+            2022). These papers are technical; the guided experiment above is the starting point.
+          </p>
+          {/* signature interactive */}
+          <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+            {labOpen && <DenoisingDeck />}
+            <p className="label-tech mt-4 text-center">
+              fig. 01 — one ddim run, 21 states, three ways to look at each
+            </p>
+          </section>
+
+          <div className="flex flex-col gap-20 pb-24">
+            <Section
+              index="§1"
+              title="Forward diffusion: noise is the curriculum"
+              figure={labOpen ? <NoiseSchedule /> : undefined}
+              figureLabel="fig. 02 — the forward process, computed live on a 48×48 scene"
+            >
+              <p>
+                Diffusion training never shows the model how to paint — it shows it ruined
+                paintings. Take an image, mix in gaussian noise at a randomly chosen severity t, and
+                ask one question: <strong>&ldquo;what noise was added?&rdquo;</strong> The schedule
+                ᾱ controls severity: near t=0 the image is barely touched, near t=1000 nothing of it
+                survives. One network learns the whole range — denoising a nearly-clean image
+                teaches texture, denoising near-static teaches composition.
+              </p>
+              <p>
+                The figure runs the real corruption formula on a toy scene. Notice the curve:{" "}
+                <strong>destruction is scheduled, not linear</strong> — ᾱ falls slowly at first,
+                then dives. And because the closed form jumps straight to any t, training never has
+                to walk there step by step. That convenience is the whole reason the math works at
+                scale.
+              </p>
+            </Section>
+
+            <Section index="§2" title="Reverse diffusion: sampling runs the film backwards">
+              <p>
+                Generation is the inverse loop: start from pure noise, and twenty-odd times in a
+                row, predict the noise and remove a scheduled slice of it. That&rsquo;s the loop
+                your ComfyUI <Term k="sampler">KSampler</Term> runs, and it&rsquo;s what the
+                deck&rsquo;s <em>canvas</em> view shows: the actual state, still snowy until
+                surprisingly late.
+              </p>
+              <p>
+                The deck&rsquo;s <em>guess</em> view is the revealing one. Because the model
+                predicts the noise, you can algebraically peek at what it currently believes the
+                finished image is —{" "}
+                <strong>
+                  by state 5 of 20 it has already committed to a lighthouse, a cliff, and a dusk sky
+                </strong>
+                , and the remaining steps only sharpen the verdict. Composition is decided early at
+                high noise; detail is negotiated late at low noise. That&rsquo;s also why so many
+                ComfyUI tricks — refiners, hi-res passes, prompt scheduling — split the run into an
+                early &ldquo;layout&rdquo; phase and a late &ldquo;rendering&rdquo; phase.
+              </p>
+            </Section>
+
+            <Section
+              index="§3"
+              title="CFG scale: the prompt's volume knob"
+              figure={labOpen ? <CFGStrip /> : undefined}
+              figureLabel="fig. 03 — same starting noise, four guidance scales"
+            >
+              <p>
+                Station 04 showed where the prompt enters: cross-attention, the denoiser reading
+                your words through CLIP. <Term k="CFG">Classifier-free guidance</Term> decides how
+                loudly. Each step the model predicts twice — once with your prompt, once with an
+                empty one — and{" "}
+                <strong>
+                  CFG extrapolates past the unconditioned guess in the direction your prompt pulls
+                </strong>
+                : output = uncond + cfg·(cond − uncond).
+              </p>
+              <p>
+                The strip is the same starting noise at four volumes. At 1 the prompt is a whisper
+                and the model paints whatever the noise suggested. At 12 every step is yanked so
+                hard toward &ldquo;lighthouse, dramatic, golden&rdquo; that contrast clips and
+                sameness sets in. <strong>The 7&ndash;8 default is a truce, not a law</strong> —
+                knowing what the knob actually does is what lets you break it on purpose.
+              </p>
+            </Section>
+
+            <Section
+              index="§4"
+              title="Latent space is a place"
+              figure={labOpen ? <LatentWalk /> : undefined}
+              figureLabel="fig. 04 — nine full runs, starting noises slerped between two seeds"
+            >
+              <p>
+                None of this happens on pixels. A <Term k="VAE">VAE</Term> compresses each 512×512
+                image into the 64×64×4 <Term k="tensor">tensor</Term> you saw in the deck&rsquo;s{" "}
+                <em>raw latent</em> view — 48× smaller — and the <Term k="U-Net">U-Net</Term>{" "}
+                denoises there; only the final <Term k="latent">latent</Term> gets decoded back to
+                pixels. <strong>That compression is why this runs on a desktop GPU at all</strong>,
+                and it&rsquo;s the &ldquo;latent&rdquo; in latent diffusion.
+              </p>
+              <p>
+                The walk shows the deeper property: interpolate between two{" "}
+                <Term k="seed">seeds&rsquo;</Term> starting noise and sample each point fully, and{" "}
+                <strong>every stop along the path is a coherent scene</strong> — the lighthouse
+                relocates, the clouds renegotiate, nothing ever tears. Generative latent spaces
+                aren&rsquo;t lookup tables of memorized images; they&rsquo;re smooth maps where
+                neighborhoods mean something. Station 01&rsquo;s nearest-neighbor lab had no such
+                geometry — this is what eighty pages of gradient descent buys.
+              </p>
+            </Section>
+
+            <Section
+              index="§5"
+              title="LoRA: fine-tuning on a budget"
+              figure={labOpen ? <LoraRankLab /> : undefined}
+              figureLabel="fig. 05 — a weight update rebuilt from its top-r singular directions"
+            >
+              <p>
+                Teaching a checkpoint a new style shouldn&rsquo;t require rewriting all 860 million
+                weights, and <Term k="LoRA">LoRA</Term>&rsquo;s bet is that it doesn&rsquo;t:{" "}
+                <strong>
+                  the change a fine-tune needs is <Term k="rank">low-rank</Term>
+                </strong>{" "}
+                — a coordinated nudge along a few directions, not 860M independent edits. So instead
+                of learning ΔW directly, a LoRA learns two skinny matrices A and B whose product{" "}
+                <em>is</em> the update, at a tiny fraction of the parameters.
+              </p>
+              <p>
+                The lab makes that bet visceral with a 16×16 &ldquo;update&rdquo;: slide the rank
+                and watch the bolt survive at r=3 — 96 numbers doing the work of 256. Scale the same
+                ratio to a U-Net&rsquo;s attention layers and you get the 10&ndash;200&nbsp;MB LoRA
+                files in your ComfyUI folder standing in for multi-gigabyte checkpoints. Every
+                slider you&rsquo;ve dragged on this site — k, learning rate, heads, rank — has been
+                the same lesson:{" "}
+                <strong>capacity is a dial, and knowing where it lives is the skill</strong>.
+              </p>
+            </Section>
+
+            {/* end of the journey — no bridge, the rack is complete */}
+            <section className="mx-auto w-full max-w-3xl px-6">
+              <div className="panel panel-ticks px-6 py-8 text-center">
+                <p className="label-tech">
+                  <span className="led mr-2 inline-block align-middle" />
+                  all five instruments live
+                </p>
+                <p className="prose-lab mx-auto mt-4 max-w-xl">
+                  That&rsquo;s the journey: a line through a cloud of points, bent by activations,
+                  composed into vision, bound by attention, and finally run in reverse until static
+                  becomes a lighthouse. The best next instrument is a real one — open ComfyUI and
+                  watch these ideas operate at full scale.
+                </p>
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  <Link to="/" className="btn-tech">
+                    back to the journey map
+                  </Link>
+                  <Link to="/foundations" className="btn-tech">
+                    start over at station 01
+                  </Link>
+                </div>
+              </div>
+            </section>
+
+            {/* the mechanics arc is complete — hand the reader to Track II */}
+            <section className="mx-auto w-full max-w-3xl px-6">
+              <div className="border-t border-border pt-10">
+                <p className="label-tech">Track II · The Operator&rsquo;s Manual</p>
+                <div className="prose-lab mt-4">
+                  <p>
+                    Everything above opened the machines. There&rsquo;s a second track for what
+                    comes after: <em>driving</em> them — prompting, sampling, feedback loops, and
+                    wiring agents into systems. It starts with one question the whole discipline
+                    hangs on: who closes the loop?
+                  </p>
+                </div>
+                <Link
+                  to={bench.path}
+                  style={stationStyle(bench.hue)}
+                  className="panel panel-ticks group mt-8 flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:border-station-dim"
+                >
+                  <div>
+                    <p className="label-tech">Next track · {bench.num}</p>
+                    <p className="mt-1 font-display text-lg font-semibold">
+                      {bench.title} — <span className="text-station">{bench.codename}</span>
+                    </p>
+                    <p className="mt-1 font-body text-sm text-muted-foreground">{bench.tagline}</p>
+                  </div>
+                  <span
+                    aria-hidden
+                    className="readout text-xl text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-station"
+                  >
+                    -&gt;
+                  </span>
+                </Link>
+              </div>
+            </section>
+          </div>
+        </div>
+      </details>
     </div>
   );
 }

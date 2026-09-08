@@ -74,7 +74,7 @@ function Footer() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6">
         <span className="label-tech">Perceptron Lab — an interactive ML field manual</span>
         <span className="readout text-[11px] text-muted-foreground">
-          built by hand · canvas + svg · no chart libraries
+          free to explore · no account needed
         </span>
       </div>
     </footer>
@@ -195,8 +195,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
+        <a
+          href="#main-content"
+          className="sr-only z-[100] bg-background p-4 font-display focus:not-sr-only focus:fixed focus:left-4 focus:top-2"
+        >
+          Skip to content
+        </a>
         <Header />
-        <main className="flex-1">
+        <main id="main-content" tabIndex={-1} className="flex-1">
           <Outlet />
         </main>
         <Footer />
