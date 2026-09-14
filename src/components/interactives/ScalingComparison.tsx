@@ -17,11 +17,11 @@ const METHODS: { key: ResampleMethod; name: string; note: string }[] = [
   {
     key: "bicubic",
     name: "bicubic",
-    note: "cubic fit over 16 pixels — smoother still, can overshoot at edges",
+    note: "cubic fit over 16 pixels — smooth transitions, possible halos at edges",
   },
 ];
 
-function Raster({ img, size }: { img: Rgba; size: number }) {
+function Raster({ img, size, label }: { img: Rgba; size: number; label: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = ref.current;
@@ -36,6 +36,8 @@ function Raster({ img, size }: { img: Rgba; size: number }) {
   return (
     <canvas
       ref={ref}
+      role="img"
+      aria-label={label}
       style={{ width: size, height: size, imageRendering: "pixelated" }}
       className="block border border-border"
     />
@@ -53,7 +55,11 @@ export function ScalingComparison() {
     >
       <div className="flex flex-wrap items-end justify-center gap-5">
         <figure className="text-center">
-          <Raster img={src} size={64} />
+          <Raster
+            img={src}
+            size={64}
+            label={`Original 16 by 16 ${source === "sprite" ? "pixel-art mushroom" : "smooth gradient"}`}
+          />
           <figcaption className="label-tech mt-2">source · 16×16</figcaption>
         </figure>
         <span aria-hidden className="readout pb-10 text-xl text-muted-foreground">
@@ -61,7 +67,11 @@ export function ScalingComparison() {
         </span>
         {METHODS.map((m) => (
           <figure key={m.key} className="text-center">
-            <Raster img={scale(src, OUT, OUT, m.key)} size={OUT} />
+            <Raster
+              img={scale(src, OUT, OUT, m.key)}
+              size={OUT}
+              label={`${source === "sprite" ? "Pixel-art mushroom" : "Smooth gradient"} enlarged with ${m.name}: ${m.note}`}
+            />
             <figcaption className="label-tech mt-2">{m.name}</figcaption>
           </figure>
         ))}
@@ -70,6 +80,7 @@ export function ScalingComparison() {
         <button
           className="btn-tech"
           data-active={source === "sprite"}
+          aria-pressed={source === "sprite"}
           onClick={() => setSource("sprite")}
         >
           pixel art
@@ -77,6 +88,7 @@ export function ScalingComparison() {
         <button
           className="btn-tech"
           data-active={source === "photo"}
+          aria-pressed={source === "photo"}
           onClick={() => setSource("photo")}
         >
           smooth gradient

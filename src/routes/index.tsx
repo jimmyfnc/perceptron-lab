@@ -188,9 +188,9 @@ function Index() {
             <p>
               It began with two confusingly similar names: “nearest-neighbor” image scaling and
               “nearest neighbors” in machine learning.{" "}
-              <Link to="/interlude">That story became a lesson of its own.</Link> This site is my
-              growing collection of experiments for fellow learners—whether you’re meeting these
-              ideas for the first time or coming back to them.
+              <Link to="/interlude">Compare nearest-neighbor, bilinear, and bicubic resizing.</Link>{" "}
+              This site is my growing collection of experiments for fellow learners—whether you’re
+              meeting these ideas for the first time or coming back to them.
             </p>
           </div>
         </section>

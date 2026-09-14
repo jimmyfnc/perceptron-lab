@@ -47,10 +47,10 @@ export const STATIONS: Station[] = [
   {
     num: "··",
     path: "/interlude",
-    title: "Two Kinds of Nearest",
+    title: "Image Interpolation",
     question: "Why does enlarging a picture make it blurry?",
     codename: "Interlude",
-    tagline: "Nearest-neighbor scaling is not K-nearest-neighbors.",
+    tagline: "Compare nearest-neighbor, bilinear, and bicubic resizing.",
     hue: 160,
     status: "live",
     interlude: true,
