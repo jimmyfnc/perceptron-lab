@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 // Standalone config: vitest must NOT inherit vite.config.ts, which loads the
-// TanStack Start + Lovable plugins (server build, route codegen).
+// TanStack Start + nitro plugins (server build, route codegen).
 export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {

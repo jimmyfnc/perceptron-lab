@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { OPERATOR_STATIONS, STATIONS, stationStyle } from "../lib/journey";
 import { NavDrawer } from "../components/site/NavDrawer";
 import { OG_IMAGE, SITE_NAME } from "../lib/site";
@@ -101,10 +100,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
   return (
     <div className="grid-paper flex min-h-[70vh] items-center justify-center px-4">
       <div className="max-w-md text-center">

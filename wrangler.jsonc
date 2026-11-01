@@ -1,0 +1,10 @@
+// Cloudflare Workers config. nitro merges this into the generated
+// .output/server/wrangler.json at build time; pinning `name` keeps the Worker
+// stable regardless of which GitHub account/org owns the repo.
+{
+  "name": "perceptron-lab",
+  "routes": [
+    { "pattern": "perceptronlab.com", "custom_domain": true },
+    { "pattern": "www.perceptronlab.com", "custom_domain": true },
+  ],
+}

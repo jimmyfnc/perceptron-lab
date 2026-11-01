@@ -4,6 +4,24 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-11-01
+
+### Changed
+
+- Hosting moves from Lovable to Cloudflare Workers. The Worker name is pinned to
+  `perceptron-lab` in `wrangler.jsonc` so it no longer depends on the GitHub
+  owner; `bun run deploy` builds and deploys. perceptronlab.com and www are
+  attached to the Worker as custom domains; DNS moved from Namecheap to Cloudflare.
+- Dropped Lovable from the build: `vite.config.ts` now wires TanStack Start,
+  nitro (`cloudflare-module` preset), React, Tailwind and lightningcss directly
+  instead of through `@lovable.dev/vite-tanstack-config`. Removed the no-op
+  Lovable error-reporting hook from the root error boundary.
+
+### Added
+
+- Parked plan for a reinforcement-learning lab ("Teaching Robots to Walk") in
+  `docs/plans/2026-11-01-rl-walking-lab-plan.md`, tracked in `docs/TODO.md`.
+
 ## 2026-09-08
 
 ### Added

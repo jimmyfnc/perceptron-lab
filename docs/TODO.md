@@ -51,6 +51,13 @@ Reference implementation for future modules: `src/routes/computer-vision.tsx`.
 
 ## Content ideas (parked)
 
+- [ ] **06 Reinforcement Learning — "Teaching Robots to Walk"** (idea 2026-11-01).
+      Off-site training lab first (CartPole → MuJoCo Ant/HalfCheetah → GPU-parallel
+      Go1 on the 4090 → ARC-RL Leaper → LSTM memory), modeled on Embark's ARC
+      Raiders locomotion. Site payoff: trained CartPole policy running live beside a
+      random one, a "watch it learn" checkpoint strip, memory-vs-no-memory chart.
+      Full plan: `docs/plans/2026-11-01-rl-walking-lab-plan.md`.
+
 - [ ] **Decision trees & random forests station** (Semrush/Lovable suggestion:
       tree-based-model explainers are high-volume search targets, and it's the
       one big classical-ML family the journey skips). Could slot beside station

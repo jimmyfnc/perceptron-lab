@@ -1,8 +1,10 @@
 # Perceptron Lab — Interactive ML Field Manual
 
 A portfolio-grade educational site teaching ML → deep learning → CNNs → transformers →
-diffusion through hand-built interactive visualizations. Hosted on **Lovable** (do not
-swap the framework). Design brief and IA: `docs/brainstorms/2026-06-11-ml-journey-site-brainstorm.md`.
+diffusion through hand-built interactive visualizations. Hosted on **Cloudflare
+Workers** (Worker `perceptron-lab` serving perceptronlab.com + www, config in
+`wrangler.jsonc`). Lovable is gone (dropped 2026-11-01) — no Lovable plugins, sync, or
+hosting. Design brief and IA: `docs/brainstorms/2026-06-11-ml-journey-site-brainstorm.md`.
 Remaining work: `docs/TODO.md`.
 
 ## Commands
@@ -10,9 +12,10 @@ Remaining work: `docs/TODO.md`.
 - `bun install` — install deps (this repo uses bun; do NOT use npm, it creates a stale package-lock)
 - `bun run dev` — dev server on http://localhost:8080
 - `bun run build` — production build (client + SSR); also regenerates `routeTree.gen.ts`
+- `bun run deploy` — build and deploy to Cloudflare Workers (wrangler must be logged in)
 - `bun run lint` / `bun run format` — eslint / prettier (prettier enforces LF; run format after writing files on Windows to fix CRLF)
 - `bun run test` — vitest (standalone `vitest.config.ts`; intentionally does NOT inherit
-  `vite.config.ts`, which loads the TanStack/Lovable plugins). Unit-test pure logic in
+  `vite.config.ts`, which loads the TanStack Start + nitro plugins). Unit-test pure logic in
   `src/lib/` (`*.test.ts` colocated); interactives are verified visually in the browser.
 - Update `CHANGELOG.md` (dated Keep-a-Changelog entries) with every meaningful change.
 
