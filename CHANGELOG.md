@@ -4,6 +4,13 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-11-11
+
+### Added
+
+- `README.md` with the live site link, module list, stack and local run steps,
+  ahead of making the repository public.
+
 ## 2026-11-01
 
 ### Changed
