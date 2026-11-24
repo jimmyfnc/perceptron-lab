@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { OPERATOR_STATIONS, STATIONS, stationStyle, type Station } from "@/lib/journey";
 import { pageHead } from "@/lib/site";
 import { ReactiveGrid } from "@/components/site/ReactiveGrid";
+import { HeroNetwork } from "@/components/interactives/HeroNetwork";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -39,35 +40,38 @@ function Index() {
     <div className="grid-paper">
       <ReactiveGrid />
       <div className="mx-auto w-full max-w-6xl px-6 pb-20 pt-10 md:pt-16">
-        <div className="max-w-3xl">
-          <p className="label-tech animate-rise">AI, explained through experiments</p>
-          <h1 className="animate-rise mt-4 font-display text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-            Understand AI.
-            <br />
-            <span className="text-station">Try it with your own hands.</span>
-          </h1>
-          <p className="prose-lab animate-rise mt-5 max-w-2xl text-lg">
-            Explore artificial intelligence through visual experiments you control. See how it
-            learns, works with words, and makes pictures. Start with a guided experiment—no math or
-            coding needed.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Link
-              to="/diffusion"
-              className="btn-tech btn-primary inline-flex items-center justify-center gap-3"
-            >
-              Try your first experiment <span aria-hidden="true">→</span>
-            </Link>
-            <a
-              href="#explore"
-              className="inline-flex min-h-11 items-center text-base text-foreground underline decoration-border underline-offset-4"
-            >
-              Explore all lessons ↓
-            </a>
+        <div className="grid items-center gap-x-10 gap-y-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+          <div className="max-w-3xl">
+            <p className="label-tech animate-rise">AI, explained through experiments</p>
+            <h1 className="animate-rise mt-4 font-display text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+              Understand AI.
+              <br />
+              <span className="text-station">Try it with your own hands.</span>
+            </h1>
+            <p className="prose-lab animate-rise mt-5 max-w-2xl text-lg">
+              Explore artificial intelligence through visual experiments you control. See how it
+              learns, works with words, and makes pictures. Start with a guided experiment—no math
+              or coding needed.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Link
+                to="/diffusion"
+                className="btn-tech btn-primary inline-flex items-center justify-center gap-3"
+              >
+                Try your first experiment <span aria-hidden="true">→</span>
+              </Link>
+              <a
+                href="#explore"
+                className="inline-flex min-h-11 items-center text-base text-foreground underline decoration-border underline-offset-4"
+              >
+                Explore all lessons ↓
+              </a>
+            </div>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Free to explore · no account needed · learn at your own pace
+            </p>
           </div>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Free to explore · no account needed · learn at your own pace
-          </p>
+          <HeroNetwork />
         </div>
 
         <section

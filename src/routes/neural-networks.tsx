@@ -6,6 +6,7 @@ import { Section } from "@/components/site/Section";
 import { Term } from "@/components/site/Term";
 import { Bridge } from "@/components/site/Bridge";
 import { DescentRace } from "@/components/interactives/DescentRace";
+import { ForwardPass } from "@/components/interactives/ForwardPass";
 import { ActivationGallery } from "@/components/interactives/ActivationGallery";
 import { MLPTrainer } from "@/components/interactives/MLPTrainer";
 
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/neural-networks")({
     pageHead(
       "/neural-networks",
       "How Neural Networks Learn — Interactive Guide | Perceptron Lab",
-      "Backpropagation, activation functions, and gradient descent made tangible: watch SGD, momentum, and Adam race down a 3D loss surface, then train an MLP live in your browser.",
+      "Backpropagation, activation functions, and gradient descent made tangible: watch SGD, momentum, and Adam race down a 3D loss surface, follow a signal through a 3D network, then train an MLP live in your browser.",
     ),
   component: NeuralNetworksPage,
 });
@@ -45,7 +46,16 @@ function NeuralNetworksPage() {
       </section>
 
       <div className="flex flex-col gap-20 pb-24">
-        <Section index="§1" title="A neuron is a line; a network is a bend">
+        <Section
+          index="§1"
+          title="A neuron is a line; a network is a bend"
+          figure={
+            <div id="forward-pass" className="scroll-mt-20">
+              <ForwardPass />
+            </div>
+          }
+          figureLabel="fig. 02 — a 2→4→4→1 network with the lid off: set the inputs, follow the signal, then train it"
+        >
           <p>
             Strip the mystique and a <Term k="neuron">neuron</Term> is the smallest{" "}
             <Term k="model">model</Term> from station 01: weigh each input, add a bias, output the
@@ -64,13 +74,23 @@ function NeuralNetworksPage() {
             with enough of them, an <Term k="MLP">MLP</Term> can approximate <em>any</em> reasonable
             function. Everything else in deep learning is making that possibility cheap to find.
           </p>
+          <p>
+            The figure below is that sentence with the lid off. Two numbers enter on the left; every
+            line is a weight, every sphere a weighted sum pushed through a bend.{" "}
+            <strong>
+              Nothing in it is smarter than multiply, add, squash — the intelligence is entirely in
+              which thirty-seven numbers the weights and biases happen to be
+            </strong>
+            . They start random, which is why its answers start wrong. Press train and watch them
+            find the XOR rule a single neuron never could.
+          </p>
         </Section>
 
         <Section
           index="§2"
           title="Activation functions: where the bend comes from"
           figure={<ActivationGallery />}
-          figureLabel="fig. 02 — four bends, and how much gradient each lets back through"
+          figureLabel="fig. 03 — four bends, and how much gradient each lets back through"
         >
           <p>
             The choice of bend matters less for what the network <em>can</em> express than for
@@ -96,7 +116,7 @@ function NeuralNetworksPage() {
           index="§3"
           title="Backpropagation is the chain rule, run backwards"
           figure={<MLPTrainer />}
-          figureLabel="fig. 03 — a 2→H→1 network learning live, full-batch, in your browser"
+          figureLabel="fig. 04 — a 2→H→1 network learning live, full-batch, in your browser"
         >
           <p>
             To walk downhill you need the slope — the <Term k="gradient">gradient</Term> of the{" "}
