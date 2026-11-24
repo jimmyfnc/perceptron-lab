@@ -4,6 +4,26 @@ All notable changes to Perceptron Lab are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the project
 does not version-number releases — entries are dated.
 
+## 2026-11-24
+
+### Added
+
+- **Forward-pass figure** (`ForwardPass`, fig. 02 on `/neural-networks`): a
+  2→4→4→1 network in 3D. Sliders (or a draggable answer map) set the two inputs,
+  pulses carry each signal down its weight, tapping a neuron prints its weighted
+  sum, a walk-through lights one layer at a time, and `train` runs Adam live on
+  the sign-agreement (XOR) task until all 64 examples are right. Later figures on
+  the page renumber to 03 and 04.
+- **Homepage hero network** (`HeroNetwork`): the same scene with the controls
+  removed, beside the headline. It trains itself on a loop, its inputs follow the
+  pointer, and it links to the full figure (`/neural-networks#forward-pass`).
+- `src/lib/forwardnet.ts` (+ tests): the network's math — forward pass with every
+  intermediate value exposed, backprop checked against finite differences, Adam,
+  and `trainableSeed` so a re-roll never lands on a start that cannot learn.
+- `useInView` hook: both figures stop rendering and training once scrolled off
+  screen. three + react-three-fiber stay in their lazy chunk; the homepage loads
+  it after first paint.
+
 ## 2026-11-11
 
 ### Added
