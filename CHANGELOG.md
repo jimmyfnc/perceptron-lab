@@ -8,6 +8,11 @@ does not version-number releases — entries are dated.
 
 ### Added
 
+- **Automatic deploys** (`.github/workflows/deploy.yml`): every push to `main` —
+  including PRs merged from cloud sessions — installs, runs the test suite, and
+  deploys to Cloudflare Workers. Can also be triggered by hand from the Actions
+  tab. Needs the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repo secrets.
+
 - **Forward-pass figure** (`ForwardPass`, fig. 02 on `/neural-networks`): a
   2→4→4→1 network in 3D. Sliders (or a draggable answer map) set the two inputs,
   pulses carry each signal down its weight, tapping a neuron prints its weighted

@@ -12,7 +12,8 @@ Remaining work: `docs/TODO.md`.
 - `bun install` — install deps (this repo uses bun; do NOT use npm, it creates a stale package-lock)
 - `bun run dev` — dev server on http://localhost:8080
 - `bun run build` — production build (client + SSR); also regenerates `routeTree.gen.ts`
-- `bun run deploy` — build and deploy to Cloudflare Workers (wrangler must be logged in)
+- `bun run deploy` — build and deploy to Cloudflare Workers (wrangler must be logged in).
+  Pushes to `main` also auto-deploy via `.github/workflows/deploy.yml`.
 - `bun run lint` / `bun run format` — eslint / prettier (prettier enforces LF; run format after writing files on Windows to fix CRLF)
 - `bun run test` — vitest (standalone `vitest.config.ts`; intentionally does NOT inherit
   `vite.config.ts`, which loads the TanStack Start + nitro plugins). Unit-test pure logic in
